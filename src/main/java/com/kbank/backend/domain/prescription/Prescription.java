@@ -1,13 +1,13 @@
 package com.kbank.backend.domain.prescription;
 
-import com.kbank.backend.domain.chemist.entity.chemist;
-import com.kbank.backend.domain.doctor.entity.doctor;
-import com.kbank.backend.domain.user.entity.user;
+import com.kbank.backend.domain.chemist.Chemist;
+import com.kbank.backend.domain.doctor.Doctor;
+import com.kbank.backend.domain.user.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 /*
@@ -31,15 +31,15 @@ public class Prescription {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pre_doctor_fk")
-    private doctor preDoctorFk;
+    private Doctor preDoctorFk;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pre_user_fk")
-    private user preUserFk;
+    private User preUserFk;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pre_chemist_fk")
-    private chemist preChemistFk;
+    private Chemist preChemistFk;
 
     @Column(name = "create_ymd")
     private LocalDateTime createYmd;
