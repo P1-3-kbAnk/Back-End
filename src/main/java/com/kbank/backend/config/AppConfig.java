@@ -99,19 +99,19 @@ public class AppConfig {
     }
 
     // MyBatis SqlSessionFactory 설정
-    @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource);
-        sessionFactory.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
-        return sessionFactory.getObject();
-    }
+//    @Bean
+//    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+//        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+//        sessionFactory.setDataSource(dataSource);
+//        sessionFactory.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
+//        return sessionFactory.getObject();
+//    }
 
     // MyBatis SqlSessionTemplate 설정
-    @Bean
-    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-        return new SqlSessionTemplate(sqlSessionFactory);
-    }
+//    @Bean
+//    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+//        return new SqlSessionTemplate(sqlSessionFactory);
+//    }
 
     //Hibernate 설정을 프로퍼티 형태로 반환
     //Hibernate의 SQL 방언, SQL 출력 여부, SQL 포맷팅, DDL 자동 생성 정책 등을 설정
