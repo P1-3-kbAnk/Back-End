@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kbank.backend.domain.address.si.repository.SiMapper">
+
+    <resultMap id="siResultMap" type="com.kbank.backend.domain.address.si.entity.Si">
+        <result property="siPk" column="si_pk"/>
+        <result property="siNm" column="si_nm"/>
+    </resultMap>
+
+    <insert id="save" parameterType="String">
+        INSERT INTO si_tb (si_nm) VALUES (#{name})
+    </insert>
+
+    <select id="findAll" resultMap="siResultMap">
+        SELECT * from si_tb
+    </select>
+
+    <select id="findByName" parameterType="string" resultMap="siResultMap">
+        SELECT si_pk, si_nm from si_tb where si_nm = #{name}
+    </select>
+
+    <select id="findById" resultMap="siResultMap">
+        SELECT si_pk, si_nm from si_tb where si_pk = #{pk}
+    </select>
+
+    <delete id="delete">
+        DELETE from si_tb where si_pk = #{pk}
+    </delete>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kbank.backend.domain.address.dong.repository.DongMapper">
+    <resultMap id="dongResultMap" type="com.kbank.backend.domain.address.dong.entity.Dong">
+        <result property="dongPk" column="dong_pk"/>
+        <result property="dongGuFk" column="dong_gu_fk"/>
+        <result property="dongNm" column="dong_nm"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="dongResultMap">
+        SELECT * from dong_tb
+    </select>
+
+    <select id="getFullAddressByName" resultType="string">
+        SELECT s.si_nm, g.gu_nm, d.dong_nm
+        FROM si_tb AS s
+                 INNER JOIN gu_tb AS g ON g.gu_si_fk = s.si_pk
+                 INNER JOIN dong_tb AS d ON d.dong_gu_fk = g.gu_pk
+        WHERE d.dong_nm = #{name}
+    </select>
+
+
+</mapper>

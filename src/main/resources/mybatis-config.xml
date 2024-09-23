@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    제목 : MyBatis 설정 파일
+    작성자 : 문환희
+    일시 : 2024.09.20
+-->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!--MyBatis 로깅 설정 : 쿼리문, 쿼리 결과 로깅-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <!--매퍼 파일 매핑-->
+    <mappers>
+        <mapper resource="mapper/siMapper.xml"/>
+        <mapper resource="mapper/guMapper.xml"/>
+        <mapper resource="mapper/dongMapper.xml"/>
+    </mappers>
+</configuration>
+
+
