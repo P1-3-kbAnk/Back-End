@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kbank.backend.domain.address.si.repository.SiMapper">
 
-    <resultMap id="siResultMap" type="com.kbank.backend.domain.address.si.entity.Si">
+    <resultMap id="siResultMap" type="com.kbank.backend.domain.address.si.Si">
         <result property="siPk" column="si_pk"/>
         <result property="siNm" column="si_nm"/>
     </resultMap>
