@@ -11,17 +11,17 @@ package com.kbank.backend.domain;
 import com.kbank.backend.enumerate.Gender;
 import com.kbank.backend.enumerate.Provider;
 import com.kbank.backend.enumerate.Role;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.time.LocalDateTime;
 
-@Entity
-@RequiredArgsConstructor
 @Getter
-@Setter
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicUpdate
 @Table(name = "chemist_tb")
 public class Chemist {
 
