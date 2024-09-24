@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.doctor;
+package com.kbank.backend.domain;
 
 
 /*
@@ -8,7 +8,6 @@ package com.kbank.backend.domain.doctor;
 담당자 : 한상민
 */
 
-import com.kbank.backend.domain.hospital.Hospital;
 import com.kbank.backend.enumerate.Gender;
 import com.kbank.backend.enumerate.Provider;
 import com.kbank.backend.enumerate.Role;

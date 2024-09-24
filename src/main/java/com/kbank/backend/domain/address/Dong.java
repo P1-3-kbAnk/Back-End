@@ -1,6 +1,5 @@
-package com.kbank.backend.domain.address.dong;
+package com.kbank.backend.domain.address;
 
-import com.kbank.backend.domain.address.gu.Gu;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

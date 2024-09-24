@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.prescriptionMedicine;
+package com.kbank.backend.domain;
 
 
 /*
@@ -7,8 +7,8 @@ package com.kbank.backend.domain.prescriptionMedicine;
 담당자 : 김성헌
 */
 
-import com.kbank.backend.domain.medicine.Medicine;
-import com.kbank.backend.domain.prescription.Prescription;
+import com.kbank.backend.domain.Medicine;
+import com.kbank.backend.domain.Prescription;
 import com.kbank.backend.enumerate.CopaymentRateCd;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

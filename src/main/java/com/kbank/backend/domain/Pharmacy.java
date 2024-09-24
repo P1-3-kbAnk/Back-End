@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.pharmacy;
+package com.kbank.backend.domain;
 
 
 /*
@@ -7,7 +7,7 @@ package com.kbank.backend.domain.pharmacy;
 담당자 : 최규찬
 */
 
-import com.kbank.backend.domain.address.dong.Dong;
+import com.kbank.backend.domain.address.Dong;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

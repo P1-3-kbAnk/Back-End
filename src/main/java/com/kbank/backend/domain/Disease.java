@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.disease;
+package com.kbank.backend.domain;
 
 
 /*
@@ -8,7 +8,6 @@ package com.kbank.backend.domain.disease;
 담당자 : 김도은
 */
 
-import com.kbank.backend.domain.prescription.Prescription;
 import jakarta.persistence.*;
 import lombok.*;
 

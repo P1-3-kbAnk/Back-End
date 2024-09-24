@@ -1,7 +1,7 @@
 package com.kbank.backend.repository;
 
-import com.kbank.backend.domain.address.dong.Dong;
-import com.kbank.backend.domain.hospital.Hospital;
+import com.kbank.backend.domain.address.Dong;
+import com.kbank.backend.domain.Hospital;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

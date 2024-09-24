@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.medicineIntake;
+package com.kbank.backend.domain;
 
 /*
 제목 : 복약 여부 엔티티 정의
@@ -7,8 +7,6 @@ package com.kbank.backend.domain.medicineIntake;
 담당자 : 김도은
 */
 
-import com.kbank.backend.domain.medicine.Medicine;
-import com.kbank.backend.domain.user.User;
 import com.kbank.backend.enumerate.Meal;
 import lombok.*;
 

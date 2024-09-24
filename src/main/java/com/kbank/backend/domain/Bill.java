@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.bill;
+package com.kbank.backend.domain;
 
 
 /*
@@ -8,7 +8,6 @@ package com.kbank.backend.domain.bill;
 */
 
 
-import com.kbank.backend.domain.prescription.Prescription;
 import jakarta.persistence.*;
 import lombok.*;
 

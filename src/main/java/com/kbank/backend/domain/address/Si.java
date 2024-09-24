@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.address.si;
+package com.kbank.backend.domain.address;
 
 
 /*

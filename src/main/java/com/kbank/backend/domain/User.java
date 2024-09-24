@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.user;
+package com.kbank.backend.domain;
 
 
 /*
