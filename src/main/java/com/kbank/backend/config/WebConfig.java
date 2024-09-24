@@ -8,8 +8,17 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import jakarta.servlet.Filter;
 import java.util.List;
+
+/*
+    제목 : 웹 초기 설정
+    작성자 : 김성헌
+    일시 : 2024.09.20
+ */
+
 
 @Configuration
 @EnableWebMvc
@@ -20,17 +29,13 @@ public class WebConfig implements WebMvcConfigurer {
         System.out.println("WebConfig created");
     }
 
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(new MappingJackson2HttpMessageConverter());
-    }
-
+    // JSP 뷰어 -> 관리자 페이지에 사용?
     @Bean
-    public CharacterEncodingFilter characterEncodingFilter() {
-        CharacterEncodingFilter filter = new CharacterEncodingFilter();
-        filter.setEncoding("UTF-8");
-        filter.setForceEncoding(true);
-        return filter;
+    public InternalResourceViewResolver viewResolver() {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/WEB-INF/views/");
+        resolver.setSuffix(".jsp");
+        return resolver;
     }
 
     // resource 파일 경로 지정

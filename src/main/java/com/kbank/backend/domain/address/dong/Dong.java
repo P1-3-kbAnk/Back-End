@@ -2,6 +2,9 @@ package com.kbank.backend.domain.address.dong;
 
 import com.kbank.backend.domain.address.gu.Gu;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 /*
 제목 : 주소 동 테이블 엔티티 정의
@@ -12,20 +15,23 @@ import jakarta.persistence.*;
 
 
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="dong_tb")
 public class Dong {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="dong_pk")
-    private long dongPk;
+    private long dong_pk;
 
     @ManyToOne
     @JoinColumn(name="dong_gu_fk")
-    private Gu dongGuFk;
+    private Gu dong_gu_fk;
 
     @Column(name="dong_nm")
-    private String dongNm;
+    private String dong_nm;
 
 }
 

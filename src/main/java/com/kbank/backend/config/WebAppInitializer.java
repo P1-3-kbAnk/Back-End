@@ -18,7 +18,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     // 기본 설정 파일 지정
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { AppConfig.class };
+        return new Class[] { AppConfig.class, MyBatisConfig.class };
     }
 
     // Servlet 설정 파일 지정
