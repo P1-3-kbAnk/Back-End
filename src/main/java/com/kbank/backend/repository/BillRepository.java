@@ -2,6 +2,7 @@ package com.kbank.backend.repository;
 
 
 import com.kbank.backend.domain.bill.Bill;
+import com.kbank.backend.domain.prescription.Prescription;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,5 +19,5 @@ public interface BillRepository extends JpaRepository<Bill, Long> {
     List<Bill> findByBillYmd(LocalDateTime billYmd);
 
     // 특정 Prescription에 대한 Bill 조회
-    List<Bill> findByBillPrescriptionFk(long billPrescriptionFk);
+    List<Bill> findByBillPrescriptionFk(Prescription billPrescriptionFk);
 }
