@@ -1,8 +1,8 @@
 package com.kbank.backend.repository;
 
-import com.kbank.backend.domain.medicine.Medicine;
-import com.kbank.backend.domain.medicineIntake.MedicineIntake;
-import com.kbank.backend.domain.user.User;
+import com.kbank.backend.domain.Medicine;
+import com.kbank.backend.domain.MedicineIntake;
+import com.kbank.backend.domain.User;
 import com.kbank.backend.enumerate.Meal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
