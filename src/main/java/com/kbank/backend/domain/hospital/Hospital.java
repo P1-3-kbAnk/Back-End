@@ -9,13 +9,12 @@ package com.kbank.backend.domain.hospital;
 
 
 import com.kbank.backend.domain.address.dong.Dong;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import jakarta.persistence.*;
-
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -27,7 +26,7 @@ public class Hospital {
     @Column(name="hospital_pk")
     private long hospitalPk;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="hospital_dong_fk")
     private Dong hospitalDongFk;
 

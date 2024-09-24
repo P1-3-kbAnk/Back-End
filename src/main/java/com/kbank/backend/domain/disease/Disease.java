@@ -10,6 +10,13 @@ package com.kbank.backend.domain.disease;
 
 import com.kbank.backend.domain.prescription.Prescription;
 import jakarta.persistence.*;
+import lombok.*;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name="disease_tb")
 public class Disease {
@@ -19,7 +26,7 @@ public class Disease {
     @Column(name="disease_pk")
     private long diseasePk;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="disease_prescription_fk")
     private Prescription diseasePrescriptionFk;
 

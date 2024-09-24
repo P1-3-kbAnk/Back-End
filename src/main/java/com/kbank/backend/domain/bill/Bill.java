@@ -8,10 +8,17 @@ package com.kbank.backend.domain.bill;
 */
 
 
+import com.kbank.backend.domain.prescription.Prescription;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name="bill_tb")
 public class Bill {
@@ -21,8 +28,9 @@ public class Bill {
     @Column(name="bill_pk")
     private long billPk;
 
-    @Column(name="bill_prescription_fk")
-    private long billPrescriptionFk;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="bill_prescription_fk")
+    private Prescription billPrescriptionFk;
 
     @Column(name="total_price")
     private long totalPrice;
