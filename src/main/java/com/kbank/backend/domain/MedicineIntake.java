@@ -11,14 +11,12 @@ import com.kbank.backend.enumerate.Meal;
 import lombok.*;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
 
-@RequiredArgsConstructor
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
-@Setter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicUpdate
 @Table(name="medicine_intake_tb")
 public class MedicineIntake {
 
