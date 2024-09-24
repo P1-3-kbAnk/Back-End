@@ -7,15 +7,17 @@ package com.kbank.backend.domain.medicineIntake;
 담당자 : 김도은
 */
 
+import com.kbank.backend.domain.medicine.Medicine;
 import com.kbank.backend.domain.user.User;
 import com.kbank.backend.enumerate.Meal;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import jakarta.persistence.*;
 
 @RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -27,17 +29,18 @@ public class MedicineIntake {
     @Column(name="med_ink_pk")
     private long medInkPk;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="med_ink_user_fk")
     private User medInkUserFk;
 
-    @Column(name="med_ink_medicine_fk")
-    private long medInkMedicineFk;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="med_ink_medicine_fk")
+    private Medicine medInkMedicineFk;
 
     @Column(name="meal")
     private Meal meal;
 
     @Column(name="eat_st")
-    private int eatSt;
+    private boolean eatSt;
 
 }
