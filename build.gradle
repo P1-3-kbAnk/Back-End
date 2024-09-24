@@ -20,11 +20,6 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
-configurations {
-    all {
-        exclude group: 'commons-logging', module: 'commons-logging'
-    }
-}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -57,6 +52,7 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:2.15.0"
     implementation "com.fasterxml.jackson.core:jackson-databind:2.15.0"
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0"
+    implementation "net.minidev:json-smart:2.4.10"
 
     /*** JSP, SERVLET, JSTL ***/
     implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
