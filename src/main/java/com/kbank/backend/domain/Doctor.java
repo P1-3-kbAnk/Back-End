@@ -13,10 +13,17 @@ import com.kbank.backend.enumerate.Provider;
 import com.kbank.backend.enumerate.Role;
 import com.kbank.backend.enumerate.Tp;
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.time.LocalDate;
 
+@Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicUpdate
 @Table(name="doctor_tb")
+
 public class Doctor {
 
     @Id
@@ -60,4 +67,6 @@ public class Doctor {
 
     @Column(name="create_time")
     private LocalDate createTime;
+
+
 }

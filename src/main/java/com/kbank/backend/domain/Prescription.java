@@ -1,10 +1,10 @@
 package com.kbank.backend.domain;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.time.LocalDateTime;
 
 /*
@@ -14,11 +14,15 @@ import java.time.LocalDateTime;
 담당자 : 문환희
 */
 
-@Entity
-@Table(name="prescription_tb")
+@Builder
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Setter
-@RequiredArgsConstructor
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicUpdate
+@Table(name="prescription_tb")
+
+
 public class Prescription {
 
     @Id
@@ -55,4 +59,6 @@ public class Prescription {
 
     @Column(name = "insurance_st")
     private boolean insuranceSt;
+
+
 }
