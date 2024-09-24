@@ -1,9 +1,5 @@
 package com.kbank.backend.domain.address.gu;
 
-
-
-
-
 /*
 제목 : 주소 구 테이블 엔티티 정의
 설명 : 시, 구, 동 중 구 정보를 담은 엔티티.
@@ -13,6 +9,7 @@ package com.kbank.backend.domain.address.gu;
 
 import com.kbank.backend.domain.address.si.Si;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name="gu_tb")
 public class Gu {
@@ -29,18 +27,13 @@ public class Gu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="gu_pk")
-    private long guPk;
+    private long gu_pk;
 
     @ManyToOne
     @JoinColumn(name="gu_si_fk")
-    private Si guSiFk;
+    private Si gu_si_fk;
 
     @Column(name="gu_nm")
-    private String guNm;
-
-    public Gu(Long pk ,Si guSiFk, String guNm) {
-        this.guSiFk = guSiFk;
-        this.guNm = guNm;
-    }
-
+    private String gu_nm;
+ 
 }

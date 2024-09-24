@@ -8,14 +8,13 @@ package com.kbank.backend.domain.address.si;
 */
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 
 
 @Entity
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Table(name="si_tb")
@@ -24,13 +23,9 @@ public class Si {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="si_pk") // 마이바티스에선 이게 불필요
-    private long siPk; // si_pk 이런식으로 정의 해야함 (마이바티스)
+    private long si_pk; // si_pk 이런식으로 정의 해야함 (마이바티스)
 
     @Column(name="si_nm")
-    private String siNm;
-
-    public Si(String siNm) {
-        this.siNm = siNm;
-    }
+    private String si_nm;
 
 }
