@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.prescriptionInjection;
+package com.kbank.backend.domain;
 
 
 /*
@@ -7,8 +7,8 @@ package com.kbank.backend.domain.prescriptionInjection;
 담당자 : 문환희
 */
 
-import com.kbank.backend.domain.injection.Injection;
-import com.kbank.backend.domain.prescription.Prescription;
+import com.kbank.backend.domain.Injection;
+import com.kbank.backend.domain.Prescription;
 import com.kbank.backend.enumerate.Rate;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

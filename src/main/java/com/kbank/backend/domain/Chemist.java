@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.chemist;
+package com.kbank.backend.domain;
 
 
 /*
@@ -8,7 +8,6 @@ package com.kbank.backend.domain.chemist;
 담당자 : 한상민
 */
 
-import com.kbank.backend.domain.pharmacy.Pharmacy;
 import com.kbank.backend.enumerate.Gender;
 import com.kbank.backend.enumerate.Provider;
 import com.kbank.backend.enumerate.Role;

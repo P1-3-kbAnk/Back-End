@@ -1,12 +1,22 @@
 package com.kbank.backend.enumerate;
 
+import lombok.RequiredArgsConstructor;
 
-/*
-제목 : 역할 enum
-설명 : 주석 참고
-담당자 : 김성헌
-*/
+@RequiredArgsConstructor
 public enum Role {
-    ADMIN,
-    USER
+    USER("USER", "ROLE_USER"),
+    ADMIN("ADMIN", "ROLE_ADMIN"),
+    GUEST("GUEST", "ROLE_GUEST");
+
+    private final String name;
+    private final String securityName;
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
+    public String toSecurityString() {
+        return this.securityName;
+    }
 }

@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.injectionIntake;
+package com.kbank.backend.domain;
 
 
 /*
@@ -9,8 +9,6 @@ package com.kbank.backend.domain.injectionIntake;
 */
 
 
-import com.kbank.backend.domain.injection.Injection;
-import com.kbank.backend.domain.user.User;
 import com.kbank.backend.enumerate.Meal;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

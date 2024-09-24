@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.injection;
+package com.kbank.backend.domain;
 
 
 /*

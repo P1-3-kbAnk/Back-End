@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.address.gu;
+package com.kbank.backend.domain.address;
 
 /*
 제목 : 주소 구 테이블 엔티티 정의
@@ -7,7 +7,7 @@ package com.kbank.backend.domain.address.gu;
 담당자 : 문환희
 */
 
-import com.kbank.backend.domain.address.si.Si;
+import com.kbank.backend.domain.address.Si;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

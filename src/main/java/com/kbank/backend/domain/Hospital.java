@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.hospital;
+package com.kbank.backend.domain;
 
 /*
 제목 : 병원 테이블 엔티티 정의
@@ -8,7 +8,7 @@ package com.kbank.backend.domain.hospital;
 */
 
 
-import com.kbank.backend.domain.address.dong.Dong;
+import com.kbank.backend.domain.address.Dong;
 import lombok.*;
 
 import jakarta.persistence.*;

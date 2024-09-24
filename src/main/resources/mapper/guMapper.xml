@@ -4,19 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kbank.backend.mapper.GuMapper">
 
-    <select id="findAll" resultType="com.kbank.backend.domain.address.gu.Gu">
+    <select id="findAll" resultType="com.kbank.backend.domain.address.Gu">
         SELECT * from gu_tb
     </select>
 
-    <select id="findById" resultType="com.kbank.backend.domain.address.gu.Gu">
+    <select id="findById" resultType="com.kbank.backend.domain.address.Gu">
         SELECT gu_pk, gu_si_fk, gu_nm from gu_tb where gu_pk = #{pk}
     </select>
 
-    <select id="findByName" resultType="com.kbank.backend.domain.address.gu.Gu">
+    <select id="findByName" resultType="com.kbank.backend.domain.address.Gu">
         SELECT gu_pk, gu_si_fk, gu_nm from gu_tb where gu_nm = #{name}
     </select>
 
-    <insert id="save" parameterType="com.kbank.backend.domain.address.gu.Gu">
+    <insert id="save" parameterType="com.kbank.backend.domain.address.Gu">
         INSERT INTO gu_tb (gu_si_fk, gu_nm) VALUES (#{si}, #{name})
     </insert>
 

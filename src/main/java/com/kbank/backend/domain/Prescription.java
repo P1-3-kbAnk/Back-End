@@ -1,8 +1,5 @@
-package com.kbank.backend.domain.prescription;
+package com.kbank.backend.domain;
 
-import com.kbank.backend.domain.chemist.Chemist;
-import com.kbank.backend.domain.doctor.Doctor;
-import com.kbank.backend.domain.user.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

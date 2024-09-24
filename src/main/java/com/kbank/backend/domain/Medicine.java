@@ -1,4 +1,4 @@
-package com.kbank.backend.domain.medicine;
+package com.kbank.backend.domain;
 
 
 /*

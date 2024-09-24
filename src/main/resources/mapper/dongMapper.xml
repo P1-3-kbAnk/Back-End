@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kbank.backend.mapper.DongMapper">
-    <select id="findAll" resultType="com.kbank.backend.domain.address.dong.Dong">
+    <select id="findAll" resultType="com.kbank.backend.domain.address.Dong">
         SELECT * from dong_tb
     </select>
 
