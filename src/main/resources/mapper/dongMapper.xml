@@ -2,14 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kbank.backend.domain.address.dong.repository.DongMapper">
-    <resultMap id="dongResultMap" type="com.kbank.backend.domain.address.dong.entity.Dong">
-        <result property="dongPk" column="dong_pk"/>
-        <result property="dongGuFk" column="dong_gu_fk"/>
-        <result property="dongNm" column="dong_nm"/>
-    </resultMap>
-
-    <select id="findAll" resultMap="dongResultMap">
+<mapper namespace="com.kbank.backend.mapper.DongMapper">
+    <select id="findAll" resultType="com.kbank.backend.domain.address.dong.Dong">
         SELECT * from dong_tb
     </select>
 

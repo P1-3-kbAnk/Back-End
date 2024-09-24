@@ -2,32 +2,23 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kbank.backend.domain.address.gu.repository.GuMapper">
-    <resultMap id="GuResultMap" type="com.kbank.backend.domain.address.gu.entity.Gu">
-        <result property="guPk" column="gu_pk"/>
-        <result property="guSiFk" column="gu_si_fk"/>
-        <result property="guNm" column="gu_nm"/>
-    </resultMap>
+<mapper namespace="com.kbank.backend.mapper.GuMapper">
 
-    <select id="findAll" resultMap="GuResultMap">
+    <select id="findAll" resultType="com.kbank.backend.domain.address.gu.Gu">
         SELECT * from gu_tb
     </select>
 
-    <select id="findById" resultMap="GuResultMap">
+    <select id="findById" resultType="com.kbank.backend.domain.address.gu.Gu">
         SELECT gu_pk, gu_si_fk, gu_nm from gu_tb where gu_pk = #{pk}
     </select>
 
-    <select id="findByName" resultMap="GuResultMap">
+    <select id="findByName" resultType="com.kbank.backend.domain.address.gu.Gu">
         SELECT gu_pk, gu_si_fk, gu_nm from gu_tb where gu_nm = #{name}
     </select>
 
-    <insert id="save" parameterType="com.kbank.backend.domain.address.gu.entity.Gu">
-        INSERT INTO gu_tb (gu_si_fk, gu_nm) VALUES (#{Si}, #{name})
+    <insert id="save" parameterType="com.kbank.backend.domain.address.gu.Gu">
+        INSERT INTO gu_tb (gu_si_fk, gu_nm) VALUES (#{si}, #{name})
     </insert>
-
-    <delete id="delete" >
-        DELETE from gu_tb where gu_pk = #{pk}
-    </delete>
 
 
 </mapper>
