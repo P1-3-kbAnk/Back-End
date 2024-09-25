@@ -15,6 +15,9 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 import java.time.LocalDateTime;
 
+
+@Builder
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,6 +36,7 @@ public class User {
     @Column(name="social_id", nullable = false)
     private String socialId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="role", nullable = false)
     private Role role;
 

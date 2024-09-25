@@ -18,6 +18,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 
+@Builder
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -38,6 +40,8 @@ public class Doctor {
     @Column(name="doctor_nm")
     private String doctorNm;
 
+
+    @Enumerated(EnumType.STRING)
     @Column(name="doctor_tp")
     private Tp tp;
 
@@ -47,6 +51,7 @@ public class Doctor {
     @Column(name="phone_no")
     private String phoneNo;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="gender")
     private Gender gender;
 
@@ -56,12 +61,14 @@ public class Doctor {
     @Column(name="last_no")
     private String lastNo;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="provider")
     private Provider provider;
 
     @Column(name="social_id")
     private String socialId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="role")
     private Role role;
 

@@ -1,5 +1,7 @@
 package com.kbank.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -42,6 +44,7 @@ public class Prescription {
     @JoinColumn(name = "pre_chemist_fk")
     private Chemist preChemistFk;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
     private LocalDateTime createYmd;
 

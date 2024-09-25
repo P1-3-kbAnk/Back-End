@@ -7,7 +7,7 @@ package com.kbank.backend.domain.report;
 담당자 : 김성헌
 */
 
-import com.kbank.backend.domain.prescription.Prescription;
+import com.kbank.backend.domain.Prescription;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
