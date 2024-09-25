@@ -7,15 +7,13 @@ import com.kbank.backend.domain.Prescription;
 import com.kbank.backend.domain.User;
 
 import com.kbank.backend.dto.request.PrescriptionRequest;
-import com.kbank.backend.exception.CommonException;
-import com.kbank.backend.exception.ErrorCode;
+import com.kbank.backend.dto.response.PrescriptionResponse;
 import com.kbank.backend.repository.ChemistRepository;
 import com.kbank.backend.repository.DoctorRepository;
 import com.kbank.backend.repository.PrescriptionRepository;
 import com.kbank.backend.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,9 +49,23 @@ public class PrescriptionServiceImpl implements PrescriptionService{
         return repository.findByPrescriptionStFalse();
     }
 
+    //
     @Override
-    public Prescription createPrescription(PrescriptionRequest dto) {
-        return null;
+    public PrescriptionResponse createPrescription(PrescriptionRequest prescriptionRequest) {
+        Doctor doctor = doctorRepository.findById(prescriptionRequest.getDoctorId())
+                .orElseThrow(() -> new EntityNotFoundException("Doctor not found with id: " + prescriptionRequest.getDoctorId()));
+        User user = userRepository.findById(prescriptionRequest.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + prescriptionRequest.getUserId()));
+        Chemist chemist = chemistRepository.findById(prescriptionRequest.getChemistId())
+                .orElseThrow(() -> new EntityNotFoundException("Chemist not found with id: " + prescriptionRequest.getChemistId()));
+        // PrescriptionRequest에서 엔티티로 변환
+        Prescription prescription = prescriptionRequest.toEntity(doctor, user, chemist);
+
+        // DB에 저장
+        Prescription savedPrescription = repository.save(prescription);
+
+        // 저장된 엔티티를 DTO로 변환하여 반환
+        return new PrescriptionResponse(savedPrescription);
     }
 
 

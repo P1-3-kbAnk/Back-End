@@ -4,10 +4,7 @@ package com.kbank.backend.service.prescription;
 import com.kbank.backend.domain.Prescription;
 
 import com.kbank.backend.dto.request.PrescriptionRequest;
-import com.kbank.backend.repository.PrescriptionRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.kbank.backend.dto.response.PrescriptionResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,5 +18,5 @@ public interface PrescriptionService {
     //조제 여부가 false인 처방전 목록 조회
     List<Prescription> findNotRecived();
 
-    Prescription createPrescription(PrescriptionRequest dto);
+    PrescriptionResponse createPrescription(PrescriptionRequest dto);
 }
