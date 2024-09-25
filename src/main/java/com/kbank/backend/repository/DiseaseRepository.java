@@ -2,8 +2,8 @@ package com.kbank.backend.repository;
 
 
 
-import com.kbank.backend.domain.disease.Disease;
-import com.kbank.backend.domain.prescription.Prescription;
+import com.kbank.backend.domain.Disease;
+import com.kbank.backend.domain.Prescription;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -29,7 +29,7 @@ public class Disease {
     @JoinColumn(name="disease_prescription_fk")
     private Prescription diseasePrescriptionFk;
 
-    @Column(name="disease_cd")
+    @Column(name="disease_cd", nullable = false)
     private String diseaseCd;
 
 }
