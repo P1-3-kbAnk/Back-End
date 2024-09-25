@@ -12,11 +12,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum CopaymentRateCd {
 
-    A("A","100분의 50 본인부담"),
-    B("B","100분의 80본인부담" ),
-    C("C","100분의 30본인부담"),
-    D("D","건강보험(의료급여) 100분의 100본인부담"),
-    V("V","보훈 등 100분의 100부담"),
+    A("A","0.5"),
+    B("B","0.8" ),
+    C("C","0.3"),
+    D("D","건강보험(의료급여) 1.0"),
+    V("V","보훈 등 1.0"),
     W("W","보훈 비급여");
 
     private final String name;
