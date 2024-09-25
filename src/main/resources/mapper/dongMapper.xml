@@ -7,13 +7,51 @@
         SELECT * from dong_tb
     </select>
 
-    <select id="getFullAddressByName" resultType="string">
-        SELECT s.si_nm, g.gu_nm, d.dong_nm
-        FROM si_tb AS s
-                 INNER JOIN gu_tb AS g ON g.gu_si_fk = s.si_pk
-                 INNER JOIN dong_tb AS d ON d.dong_gu_fk = g.gu_pk
+    <insert id="save">
+        INSERT INTO dong_tb (dong_gu_fk, dong_nm)
+        VALUES (#{gu}, #{name})
+    </insert>
+
+    <select id="findSiById" parameterType="long" resultType="com.kbank.backend.domain.address.Si">
+        SELECT s.si_pk, s.si_nm
+        FROM dong_tb as d
+        INNER JOIN gu_tb as g on g.gu_pk = d.dong_gu_fk
+        INNER JOIN si_tb as s on s.si_pk = g.gu_si_fk
+        WHERE d.dong_pk = #{id}
+    </select>
+
+    <select id="findSiByName" parameterType="string" resultType="com.kbank.backend.domain.address.Si">
+        SELECT s.si_pk, s.si_nm
+        FROM dong_tb as d
+        INNER JOIN gu_tb as g on g.gu_pk = d.dong_gu_fk
+        INNER JOIN si_tb as s on s.si_pk = g.gu_si_fk
         WHERE d.dong_nm = #{name}
     </select>
 
+    <select id="findGuById" parameterType="long" resultType="com.kbank.backend.domain.address.Gu">
+        SELECT g.gu_pk, g.gu_si_fk, gu_nm
+        FROM dong_tb as d
+        INNER JOIN gu_tb as g on g.gu_pk = d.dong_gu_fk
+        WHERE d.dong_pk = #{id}
+    </select>
+
+    <select id="findGuByName" parameterType="string" resultType="com.kbank.backend.domain.address.Gu">
+        SELECT g.gu_pk, g.gu_si_fk, g.gu_nm
+        FROM dong_tb as d
+        INNER JOIN gu_tb as g on g.gu_pk = d.dong_gu_fk
+        WHERE d.dong_nm = #{name}
+    </select>
+
+    <select id="findById" resultType="com.kbank.backend.domain.address.Dong">
+        SELECT *
+        FROM dong_tb
+        WHERE dong_pk = #{id}
+    </select>
+
+    <select id="findByName" resultType="com.kbank.backend.domain.address.Dong">
+        SELECT *
+        FROM dong_tb
+        WHERE dong_nm = #{name}
+    </select>
 
 </mapper>

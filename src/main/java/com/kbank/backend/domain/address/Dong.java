@@ -1,9 +1,8 @@
 package com.kbank.backend.domain.address;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 /*
 제목 : 주소 동 테이블 엔티티 정의
@@ -14,9 +13,9 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@DynamicUpdate
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="dong_tb")
 public class Dong {
 
@@ -25,12 +24,18 @@ public class Dong {
     @Column(name="dong_pk")
     private long dong_pk;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="dong_gu_fk")
     private Gu dong_gu_fk;
 
-    @Column(name="dong_nm")
+    @Column(name="dong_nm", nullable=false, unique = true)
     private String dong_nm;
+
+    @Builder
+    public Dong(Gu dong_gu_fk, String dong_nm) {
+        this.dong_gu_fk = dong_gu_fk;
+        this.dong_nm = dong_nm;
+    }
 
 }
 
