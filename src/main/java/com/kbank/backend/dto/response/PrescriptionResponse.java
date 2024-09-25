@@ -1,5 +1,6 @@
 package com.kbank.backend.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.domain.Prescription;
 import lombok.*;
 
@@ -12,7 +13,10 @@ public class PrescriptionResponse {
     private long preDoctorFk;
     private long preUserFk;
     private long preChemistFk;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createYmd;
+
     private int prescriptionNo;
     private int duration;
     private String description;

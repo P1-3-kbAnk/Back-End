@@ -48,6 +48,7 @@ public class PrescriptionInjection {
     @Column(name="total_days")
     private int totalDays;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="copayment_rate_cd")
     private Rate rate;
 

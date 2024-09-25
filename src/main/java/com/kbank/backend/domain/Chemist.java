@@ -18,6 +18,10 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 
+
+
+@Builder
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

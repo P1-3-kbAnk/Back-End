@@ -35,6 +35,7 @@ public class InjectionIntake {
     @JoinColumn(name="inj_ink_injection_fk")
     private Injection injInkInjectionFk;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="meal")
     private Meal meal;
 
