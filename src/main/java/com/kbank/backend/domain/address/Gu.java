@@ -9,18 +9,14 @@ package com.kbank.backend.domain.address;
 
 import com.kbank.backend.domain.address.Si;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 
 @Entity
-@Builder
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicUpdate
 @Table(name="gu_tb")
 public class Gu {
 
@@ -29,11 +25,16 @@ public class Gu {
     @Column(name="gu_pk")
     private long gu_pk;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="gu_si_fk")
     private Si gu_si_fk;
 
-    @Column(name="gu_nm")
+    @Column(name="gu_nm", unique=true, nullable=false)
     private String gu_nm;
- 
+
+    @Builder
+    public Gu(Si gu_si_fk, String gu_nm) {
+        this.gu_si_fk = gu_si_fk;
+        this.gu_nm = gu_nm;
+    }
 }

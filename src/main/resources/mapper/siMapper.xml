@@ -4,28 +4,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kbank.backend.mapper.SiMapper">
 
-    <resultMap id="siResultMap" type="com.kbank.backend.domain.address.Si">
-        <result property="siPk" column="si_pk"/>
-        <result property="siNm" column="si_nm"/>
-    </resultMap>
+    <select id="findAllGuBySi" resultType="com.kbank.backend.domain.address.Gu">
+        SELECT g.gu_pk, g.gu_si_fk, g.gu_nm
+        FROM si_tb as s INNER JOIN gu_tb as g ON s.si_pk = g.gu_si_fk
+        WHERE si_pk = #{id}
+    </select>
 
-    <insert id="save" parameterType="String">
-        INSERT INTO si_tb (si_nm) VALUES (#{name})
-    </insert>
+    <select id="findAllGuBySiName" resultType="com.kbank.backend.domain.address.Gu">
+        SELECT g.gu_pk, g.gu_si_fk, g.gu_nm
+        FROM si_tb as s INNER JOIN gu_tb as g ON s.si_pk = g.gu_si_fk
+        WHERE si_nm = #{name}
+    </select>
 
-    <select id="findAll" resultMap="siResultMap">
+    <select id="findAll" resultType="com.kbank.backend.domain.address.Si">
         SELECT * from si_tb
     </select>
 
-    <select id="findByName" parameterType="string" resultMap="siResultMap">
+    <select id="findByName" parameterType="string" resultType="com.kbank.backend.domain.address.Si">
         SELECT si_pk, si_nm from si_tb where si_nm = #{name}
     </select>
 
-    <select id="findById" resultMap="siResultMap">
-        SELECT si_pk, si_nm from si_tb where si_pk = #{pk}
+    <select id="findById" resultType="com.kbank.backend.domain.address.Si">
+        SELECT si_pk, si_nm from si_tb where si_pk = #{id}
     </select>
 
-    <delete id="delete">
-        DELETE from si_tb where si_pk = #{pk}
-    </delete>
+
 </mapper>

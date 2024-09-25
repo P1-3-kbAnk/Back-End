@@ -16,9 +16,30 @@
         SELECT gu_pk, gu_si_fk, gu_nm from gu_tb where gu_nm = #{name}
     </select>
 
-    <insert id="save" parameterType="com.kbank.backend.domain.address.Gu">
-        INSERT INTO gu_tb (gu_si_fk, gu_nm) VALUES (#{si}, #{name})
-    </insert>
+
+    <select id="findSiById" parameterType="long" resultType="com.kbank.backend.domain.address.Si">
+        SELECT s.si_pk, s.si_nm
+        FROM gu_tb as g LEFT JOIN si_tb as s ON g.gu_si_fk = s.si_pk
+        WHERE g.gu_pk = #{id}
+    </select>
+
+    <select id="findSiByName" parameterType="string" resultType="com.kbank.backend.domain.address.Si">
+        SELECT s.si_pk, s.si_nm
+        FROM gu_tb as g LEFT JOIN si_tb as s ON g.gu_si_fk = s.si_pk
+        WHERE g.gu_nm = #{name}
+    </select>
+
+    <select id="findAllDongByGu" parameterType="long" resultType="com.kbank.backend.domain.address.Dong">
+        SELECT d.dong_pk, d.dong_gu_fk, d.dong_nm
+        FROM gu_tb as g INNER JOIN dong_tb as d ON g.gu_pk = d.dong_gu_fk
+        WHERE gu_pk = #{id}
+    </select>
+
+    <select id="findAllDongByGuName" parameterType="string" resultType="com.kbank.backend.domain.address.Dong">
+        SELECT d.dong_pk, d.dong_gu_fk, d.dong_nm
+        FROM gu_tb as g INNER JOIN dong_tb as d ON g.gu_pk = d.dong_gu_fk
+        WHERE gu_nm = #{name}
+    </select>
 
 
 </mapper>
