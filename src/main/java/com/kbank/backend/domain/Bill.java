@@ -27,14 +27,14 @@ public class Bill {
     @Column(name="bill_pk")
     private long billPk;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="bill_prescription_fk")
     private Prescription billPrescriptionFk;
 
-    @Column(name="total_price")
+    @Column(name="total_price", nullable = false)
     private long totalPrice;
 
     //DATE 타입 LocalDate로 처리하는게 맞나?
-    @Column(name="bill_ymd")
+    @Column(name="bill_ymd",nullable = false)
     private LocalDateTime billYmd;
 }
