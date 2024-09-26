@@ -30,16 +30,16 @@ public class Hospital {
     @JoinColumn(name="hospital_dong_fk")
     private Dong hospitalDongFk;
 
-    @Column(name="hospital_nm")
+    @Column(name="hospital_nm", nullable=false)
     private String hospitalNm;
 
-    @Column(name="phone_no")
+    @Column(name="phone_no", nullable=false)
     private String phoneNo;
 
-    @Column(name = "hospital_no")
+    @Column(name = "hospital_no", nullable=false)
     private long hospitalNo;
 
-    @Column(name="fax_no")
+    @Column(name="fax_no", nullable=false)
     private String faxNo;
 
 }

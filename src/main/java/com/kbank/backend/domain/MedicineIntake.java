@@ -7,16 +7,19 @@ package com.kbank.backend.domain;
 담당자 : 김도은
 */
 
+import com.kbank.backend.domain.Medicine;
+import com.kbank.backend.domain.User;
 import com.kbank.backend.enumerate.Meal;
 import lombok.*;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.DynamicUpdate;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Setter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@DynamicUpdate
 @Table(name="medicine_intake_tb")
 public class MedicineIntake {
 
@@ -33,10 +36,11 @@ public class MedicineIntake {
     @JoinColumn(name="med_ink_medicine_fk")
     private Medicine medInkMedicineFk;
 
-    @Column(name="meal")
+    @Enumerated(EnumType.STRING)
+    @Column(name="meal", nullable=false)
     private Meal meal;
 
-    @Column(name="eat_st")
+    @Column(name="eat_st", nullable=false)
     private boolean eatSt;
 
 }

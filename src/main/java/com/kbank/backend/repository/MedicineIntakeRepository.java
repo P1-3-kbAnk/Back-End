@@ -8,9 +8,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MedicineIntakeRepository extends JpaRepository<MedicineIntake, Long> {
+
+    Optional<MedicineIntake> findById(long id);
+
+    List<MedicineIntake> findAll();
 
     // 특정 사용자에 대한 복약 정보 조회
     List<MedicineIntake> findByMedInkUserFk(User user);
