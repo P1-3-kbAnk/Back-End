@@ -4,7 +4,7 @@ package com.kbank.backend.controller;
 import com.kbank.backend.domain.Prescription;
 import com.kbank.backend.dto.request.PrescriptionRequest;
 import com.kbank.backend.dto.response.PrescriptionResponse;
-import com.kbank.backend.service.prescription.PrescriptionService;
+import com.kbank.backend.service.prescription.PrescriptionServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
 @RequestMapping("api/patient/prescription")
 @RequiredArgsConstructor
 public class PrescriptionController {
-    private final PrescriptionService prescriptionService;
-
+    private final PrescriptionServiceImpl prescriptionService;
 
 
     //전체 리스트 조회
