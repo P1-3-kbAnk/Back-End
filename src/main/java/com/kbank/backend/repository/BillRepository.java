@@ -7,9 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BillRepository extends JpaRepository<Bill, Long> {
+
+    Optional<Bill> findById(long id);
+
+    List<Bill> findAll();
 
     // 특정 totalPrice로 Bill 조회
     List<Bill> findByTotalPrice(long totalPrice);
