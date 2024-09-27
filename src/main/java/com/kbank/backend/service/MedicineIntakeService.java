@@ -3,6 +3,8 @@ package com.kbank.backend.service;
 import com.kbank.backend.domain.Medicine;
 import com.kbank.backend.domain.MedicineIntake;
 import com.kbank.backend.domain.User;
+import com.kbank.backend.dto.response.HospitalBillResponse;
+import com.kbank.backend.dto.response.MedicineIntakeResponse;
 import com.kbank.backend.enumerate.Meal;
 import com.kbank.backend.repository.MedicineIntakeRepository;
 import lombok.AccessLevel;
@@ -10,38 +12,66 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class MedicineIntakeService {
 
     private final MedicineIntakeRepository medicineIntakeRepository;
 
-    // 복약 여부 생성
-    public MedicineIntake createMedicineIntake(MedicineIntake medicineIntake) {
-        return medicineIntakeRepository.save(medicineIntake);
+
+    //복약 여부 id로 조회
+    public MedicineIntakeResponse getMedicineIntake(Long id) {
+
+        Optional<MedicineIntake> medicineIntake = medicineIntakeRepository.findById(id);
+
+        return new MedicineIntakeResponse(medicineIntake);
     }
 
-    // 모든 복약 여부 조회
-    public List<MedicineIntake> getAllMedicineIntakes() {
+    // 모든 복약 여부 정보 조회
+    public List<MedicineIntakeResponse> getAllMedicineIntakes() {
 
-        return medicineIntakeRepository.findAll();
+        List<MedicineIntake> medicineIntakes = medicineIntakeRepository.findAll();
+
+        List<MedicineIntakeResponse> MedicineIntakeResponses = medicineIntakes.stream()
+                .map(MedicineIntakeResponse::new)  // HospitalBillResponse 생성자로 변환
+                .collect(Collectors.toList());
+
+        return MedicineIntakeResponses;
     }
 
     // 특정 사용자에 대한 복약 여부 조회
-    public List<MedicineIntake> getMedicineIntakeByUser(User user) {
-        return medicineIntakeRepository.findByMedInkUserFk(user);
+    public List<MedicineIntakeResponse> getMedicineIntakeByUser(User user) {
+        List<MedicineIntake> medicineIntakes = medicineIntakeRepository.findByMedInkUserFk(user);
+
+        List<MedicineIntakeResponse> MedicineIntakeResponses = medicineIntakes.stream()
+                .map(MedicineIntakeResponse::new)  // HospitalBillResponse 생성자로 변환
+                .collect(Collectors.toList());
+
+        return MedicineIntakeResponses;
     }
 
     // 특정 약물에 대한 복약 여부 조회
-    public List<MedicineIntake> getMedicineIntakeByMedicine(Medicine medicine) {
-        return medicineIntakeRepository.findByMedInkMedicineFk(medicine);
+    public List<MedicineIntakeResponse> getMedicineIntakeByMedicine(Medicine medicine) {
+        List<MedicineIntake> medicineIntakes = medicineIntakeRepository.findByMedInkMedicineFk(medicine);
+
+        List<MedicineIntakeResponse> MedicineIntakeResponses = medicineIntakes.stream()
+                .map(MedicineIntakeResponse::new)  // HospitalBillResponse 생성자로 변환
+                .collect(Collectors.toList());
+
+        return MedicineIntakeResponses;
     }
 
     // 특정 식사 시간에 복약 여부 조회
-    public List<MedicineIntake> getMedicineIntakeByMeal(Meal meal) {
+    public List<MedicineIntakeResponse> getMedicineIntakeByMeal(Meal meal) {
+        List<MedicineIntake> medicineIntakes = medicineIntakeRepository.findByMeal(meal);
 
-        return medicineIntakeRepository.findByMeal(meal);
+        List<MedicineIntakeResponse> MedicineIntakeResponses = medicineIntakes.stream()
+                .map(MedicineIntakeResponse::new)  // HospitalBillResponse 생성자로 변환
+                .collect(Collectors.toList());
+        return MedicineIntakeResponses;
     }
 
 

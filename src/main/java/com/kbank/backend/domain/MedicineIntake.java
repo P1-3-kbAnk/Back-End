@@ -14,12 +14,9 @@ import lombok.*;
 
 import jakarta.persistence.*;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+
 @Entity
+@Getter
 @Table(name="medicine_intake_tb")
 public class MedicineIntake {
 
@@ -40,7 +37,18 @@ public class MedicineIntake {
     @Column(name="meal", nullable=false)
     private Meal meal;
 
+    @Setter
     @Column(name="eat_st", nullable=false)
     private boolean eatSt;
 
+    @Builder
+    public MedicineIntake(User medInkUserFk, Meal meal, Medicine medInkMedicineFk, boolean eatSt) {
+        this.medInkUserFk = medInkUserFk;
+        this.meal = meal;
+        this.medInkMedicineFk = medInkMedicineFk;
+        this.eatSt = eatSt;
+    }
+
+    public MedicineIntake() {
+    }
 }
