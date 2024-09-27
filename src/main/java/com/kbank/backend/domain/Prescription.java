@@ -40,6 +40,7 @@ public class Prescription {
     @JoinColumn(name = "pre_user_fk")
     private User preUserFk;
 
+    @Getter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pre_chemist_fk")
     private Chemist preChemistFk;
