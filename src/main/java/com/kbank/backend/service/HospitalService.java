@@ -2,6 +2,8 @@ package com.kbank.backend.service;
 
 import com.kbank.backend.domain.address.Dong;
 import com.kbank.backend.domain.Hospital;
+import com.kbank.backend.dto.response.HospitalBillResponse;
+import com.kbank.backend.dto.response.HospitalResponse;
 import com.kbank.backend.repository.HospitalRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -10,46 +12,55 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class HospitalService {
 
     private final HospitalRepository hospitalRepository;
 
-    // 병원 생성
-    public Hospital createHospital(Hospital hospital) {
+    // 특정 ID로 병원 정보 조회
+    public HospitalResponse getHospitalById(Long id) {
 
-        return hospitalRepository.save(hospital);
+        Optional<Hospital> hospital = hospitalRepository.findById(id);
+
+        return new HospitalResponse(hospital);
     }
 
     // 모든 병원 정보 조회
-    public List<Hospital> getAllHospitals() {
+    public List<HospitalResponse> getAllHospitals() {
 
-        return hospitalRepository.findAll();
+        List<Hospital> hospitals = hospitalRepository.findAll();
+        List<HospitalResponse> hospitalResponses = hospitals.stream()
+                .map(HospitalResponse::new)
+                .collect(Collectors.toList());
+
+        return hospitalResponses;
     }
 
-    // 특정 ID로 병원 정보 조회
-    public Optional<Hospital> getHospitalById(Long hospitalPk) {
-
-        return hospitalRepository.findById(hospitalPk);
-    }
 
     // 특정 동(Dong)에 속한 병원 정보 조회
-    public List<Hospital> getHospitalsByDong(Dong dong) {
+    public List<HospitalResponse> getHospitalsByDong(Dong dong) {
 
-        return hospitalRepository.findByHospitalDongFk(dong);
+        List<Hospital> hospitals = hospitalRepository.findByHospitalDongFk(dong);
+
+        List<HospitalResponse> hospitalResponses = hospitals.stream()
+                .map(HospitalResponse::new)
+                .collect(Collectors.toList());
+
+        return hospitalResponses;
     }
 
     // 병원 이름으로 병원 정보 조회
-    public List<Hospital> getHospitalsByName(String hospitalNm) {
-        return hospitalRepository.findByHospitalNm(hospitalNm);
+    public List<HospitalResponse> getHospitalsByName(String hospitalNm) {
+        List<Hospital> hospitals = hospitalRepository.findByHospitalNm(hospitalNm);
+        List<HospitalResponse> hospitalResponses = hospitals.stream()
+                .map(HospitalResponse::new)
+                .collect(Collectors.toList());
+
+        return hospitalResponses;
     }
 
 
-    // 특정 ID로 병원 정보 삭제
-    public void deleteHospital(Long hospitalPk) {
-
-        hospitalRepository.deleteById(hospitalPk);
-    }
 }
