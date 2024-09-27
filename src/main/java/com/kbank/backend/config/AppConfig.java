@@ -1,19 +1,10 @@
 package com.kbank.backend.config;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -35,9 +26,14 @@ import java.util.Properties;
 @Configuration //spring 설정 파일 -> xml 사용 안해도 됨
 @EnableTransactionManagement // 트랜잭션 관리를 활성. (ex/오류 발생시 작업 취소 롤백)
 @EnableJpaRepositories(basePackages = "com.kbank.backend") //JPA리포지토리 찾도록 설정 (설정 안하면 JpaRepository 상속 못받음 중요함!)))
-@PropertySource("classpath:application.properties")//properties 파일에서 설정 불러옴
 @ComponentScan(basePackages = "com.kbank.backend") // 서비스,리포지,컨트롤러 스캔하여 빈 등록
 @MapperScan("com.kbank.backend.mapper")//mybatis 매퍼 스캔
+@PropertySources({
+        @PropertySource("classpath:application.properties"),
+//        @PropertySource("classpath:application-oauth.properties"),
+        @PropertySource("classpath:application-jpa.properties")
+
+})
 public class AppConfig {
 
     public AppConfig() {
