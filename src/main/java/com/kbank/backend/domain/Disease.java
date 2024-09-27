@@ -11,25 +11,33 @@ package com.kbank.backend.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+
 @Entity
 @Table(name="disease_tb")
 public class Disease {
 
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="disease_pk")
     private long diseasePk;
 
+    @Getter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="disease_prescription_fk")
     private Prescription diseasePrescriptionFk;
 
+    @Getter
+    @Setter
     @Column(name="disease_cd", nullable = false)
     private String diseaseCd;
 
+    @Builder
+    public Disease(Prescription diseasePrescriptionFk, String diseaseCd) {
+        this.diseasePrescriptionFk = diseasePrescriptionFk;
+        this.diseaseCd = diseaseCd;
+    }
+
+    public Disease() {
+    }
 }
