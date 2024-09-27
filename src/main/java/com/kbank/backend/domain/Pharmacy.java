@@ -36,4 +36,11 @@ public class Pharmacy {
 
     @Column(name = "fax_no")
     private String faxNo;  // 팩스번호
+
+    @Column(name = "pharmacy_no")
+    private String pharmacyNo;  // 팩스번호
+
+
+
+
 }
