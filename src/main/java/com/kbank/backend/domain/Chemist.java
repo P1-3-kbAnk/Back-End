@@ -30,12 +30,8 @@ public class Chemist {
     @Column(name = "chemist_pk")
     private Long chemistPk;
 
-    @ManyToOne
-    @JoinColumn(name = "chemist_pharmacy_fk")
-    private Pharmacy chemistPharmacyPk;
-
     @Column(name = "chemist_nm", nullable = false)
-    private String name;
+    private String chemistNm;
 
     // 면허 종별 구현 필
 //    @Enumerated(EnumType.STRING)
@@ -43,10 +39,10 @@ public class Chemist {
 //    private LicenseType licenseType;
 
     @Column(name = "chemist_no", nullable = false)
-    private String licenseNumber;
+    private String chemistNo;
 
     @Column(name = "phone_no")
-    private String phoneNumber;
+    private String phoneNo;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
@@ -80,15 +76,15 @@ public class Chemist {
     private Pharmacy chemistPharmacy;
 
     @Builder
-    public Chemist(Pharmacy chemistPharmacyPk, String name, String licenseNumber, String phoneNumber, Gender gender, Provider provider, String socialId, Role role, Pharmacy chemistPharmacy) {
-        this.chemistPharmacyPk = chemistPharmacyPk;
-        this.name = name;
-        this.licenseNumber = licenseNumber;
-        this.phoneNumber = phoneNumber;
+    public Chemist(String chemistNm, String chemistNo, String phoneNo, Gender gender, Pharmacy chemistPharmacy) {
+
+        this.chemistNm = chemistNm;
+        this.chemistNo = chemistNo;
+        this.phoneNo = phoneNo;
         this.gender = gender;
-        this.provider = provider;
-        this.socialId = socialId;
-        this.role = role;
+        this.role = Role.USER;
+        this.socialId = "none";
+        this.provider = Provider.KAKAO;
         this.chemistPharmacy = chemistPharmacy;
     }
 }
