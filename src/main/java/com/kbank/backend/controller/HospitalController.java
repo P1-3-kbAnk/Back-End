@@ -1,8 +1,8 @@
 package com.kbank.backend.controller;
 
 import com.kbank.backend.dto.ResponseDto;
-import com.kbank.backend.dto.request.UserRequestDto;
-import com.kbank.backend.service.UserService;
+import com.kbank.backend.dto.request.DoctorRequestDto;
+import com.kbank.backend.service.DoctorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/patient")
+@RequestMapping("/api/hospital")
 @RequiredArgsConstructor
-public class UserController {
+public class HospitalController {
 
-    private final UserService userService;
+    private final DoctorService doctorService;
 
     @PostMapping("/register")
-    public ResponseDto<Boolean> createUser(@RequestBody @Valid UserRequestDto userRequestDto) {
-        return ResponseDto.created(userService.createUser(userRequestDto));
+    public ResponseDto<Boolean> createDoctor(@RequestBody @Valid DoctorRequestDto doctorRequestDto) {
+        return ResponseDto.created(doctorService.createDoctor(doctorRequestDto));
     }
 }

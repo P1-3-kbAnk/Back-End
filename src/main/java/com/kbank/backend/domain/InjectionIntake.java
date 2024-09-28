@@ -44,11 +44,11 @@ public class InjectionIntake {
     private LocalDate createYmd;
 
     /* Relation */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="inj_ink_user_fk")
     private User injInkUser;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="inj_ink_injection_fk")
     private Injection injInkInjection;
 

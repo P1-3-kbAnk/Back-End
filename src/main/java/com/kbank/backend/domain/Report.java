@@ -8,7 +8,6 @@ package com.kbank.backend.domain;
 */
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.kbank.backend.domain.Prescription;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -41,7 +40,7 @@ public class Report {
     private LocalDate createYmd;
 
     /* Relation */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="report_prescription_fk")
     private Prescription reportPrescription;
 

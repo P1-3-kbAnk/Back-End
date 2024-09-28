@@ -47,11 +47,11 @@ public class PrescriptionInjection {
     private LocalDate createYmd;
 
     /* Relation */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="pre_inj_prescription_fk")
     private Prescription preInjPrescription;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="pre_inj_injection_fk")
     private Injection preInjInjection;
 
