@@ -9,16 +9,18 @@ package com.kbank.backend.domain;
 */
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.enumerate.Meal;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
 
-@RequiredArgsConstructor
+import java.time.LocalDate;
+
 @Getter
-@Setter
 @Entity
+@DynamicUpdate
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="injection_intake_tb")
 public class InjectionIntake {
 
@@ -27,14 +29,6 @@ public class InjectionIntake {
     @Column(name="inj_ink_pk")
     private long injInkPk;
 
-    @ManyToOne
-    @JoinColumn(name="inj_ink_user_fk")
-    private User injInkUserFk;
-
-    @ManyToOne
-    @JoinColumn(name="inj_ink_injection_fk")
-    private Injection injInkInjectionFk;
-
     @Enumerated(EnumType.STRING)
     @Column(name="meal")
     private Meal meal;
@@ -42,8 +36,28 @@ public class InjectionIntake {
     @Column(name="eat_st")
     private int eatSt;
 
+    @Column(name = "day", nullable = false)
+    private LocalDate day;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(name = "create_ymd")
+    private LocalDate createYmd;
 
+    /* Relation */
+    @ManyToOne
+    @JoinColumn(name="inj_ink_user_fk")
+    private User injInkUser;
 
+    @ManyToOne
+    @JoinColumn(name="inj_ink_injection_fk")
+    private Injection injInkInjection;
 
+    @Builder
+    public InjectionIntake(Meal meal, int eatSt, User injInkUser, Injection injInkInjection, LocalDate day) {
+        this.meal = meal;
+        this.eatSt = eatSt;
+        this.day = day;
+        this.injInkUser = injInkUser;
+        this.injInkInjection = injInkInjection;
+    }
 }

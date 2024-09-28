@@ -6,6 +6,7 @@ package com.kbank.backend.domain;
 담당자 : 한상민
 */
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.enumerate.Gender;
 import com.kbank.backend.enumerate.Provider;
 import com.kbank.backend.enumerate.Role;
@@ -13,15 +14,14 @@ import lombok.*;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
-import java.time.LocalDateTime;
 
+import java.time.LocalDate;
+import java.util.List;
 
-@Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="user_tb")
 public class User {
     @Id
@@ -40,11 +40,7 @@ public class User {
     @Column(name="role", nullable = false)
     private Role role;
 
-    @Column(name = "create_date", nullable = false)
-    private LocalDateTime createTime;
-
     /* User Info */
-
     @Column(name="user_nm")
     private String userNm;
 
@@ -72,20 +68,41 @@ public class User {
 
     @Column(name = "account_pw")
     private String accountPw;
+    
+    @Column(name = "create_ymd", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDate createYmd;
 
     /* Relation */
-    // one to many 와 같은 관계 설정
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<MedicineIntake> medicineIntakeList;
 
+//    @Builder
+//    public User(Provider provider, String socialId, Role role, LocalDate createYmd) {
+//        this.provider = provider;
+//        this.socialId = socialId;
+//        this.role = role;
+//        this.createYmd = createYmd;
+//    }
+
+    // 시큐리티 후 수정
     @Builder
-    public User(Provider provider, String socialId, Role role, LocalDateTime createTime) {
-        this.provider = provider;
-        this.socialId = socialId;
-        this.role = role;
-        this.createTime = createTime;
+    public User(String userNm, String phoneNo, Gender gender, String firstNo, String lastNo, String bankNm, String accountNo, String accountPw) {
+        this.userNm = userNm;
+        this.phoneNo = phoneNo;
+        this.gender = gender;
+        this.firstNo = firstNo;
+        this.lastNo = lastNo;
+        this.bankNm = bankNm;
+        this.account = 1000000000;
+        this.accountNo = accountNo;
+        this.accountPw = accountPw;
+        this.role = Role.USER;
+        this.socialId = "none";
+        this.provider = Provider.KAKAO;
     }
 
     /* Update */
-    
     public void setRole(Role role) {
         this.role = role;
     }

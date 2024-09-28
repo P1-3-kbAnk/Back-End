@@ -1,6 +1,5 @@
 package com.kbank.backend.domain;
 
-
 /*
 제목 : 의사 테이블 엔티티 정의
 설명 : 의사 회원의 정보를 담은 엔티티.
@@ -8,6 +7,7 @@ package com.kbank.backend.domain;
 담당자 : 한상민
 */
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.enumerate.Gender;
 import com.kbank.backend.enumerate.Provider;
 import com.kbank.backend.enumerate.Role;
@@ -18,14 +18,11 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 
-@Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="doctor_tb")
-
 public class Doctor {
 
     @Id
@@ -33,13 +30,8 @@ public class Doctor {
     @Column(name="doctor_pk")
     private long doctorPk;
 
-    @ManyToOne
-    @JoinColumn(name="doctor_hospital_fk")
-    private Hospital doctorHospitalFk;
-
     @Column(name="doctor_nm")
     private String doctorNm;
-
 
     @Enumerated(EnumType.STRING)
     @Column(name="doctor_tp")
@@ -55,11 +47,12 @@ public class Doctor {
     @Column(name="gender")
     private Gender gender;
 
-    @Column(name="first_no")
-    private String firstNo;
-
-    @Column(name="last_no")
-    private String lastNo;
+    // 없애야됨
+//    @Column(name="first_no")
+//    private String firstNo;
+//
+//    @Column(name="last_no")
+//    private String lastNo;
 
     @Enumerated(EnumType.STRING)
     @Column(name="provider")
@@ -72,8 +65,25 @@ public class Doctor {
     @Column(name="role")
     private Role role;
 
-    @Column(name="create_time")
-    private LocalDate createTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(name = "create_ymd")
+    private LocalDate createYmd;
 
+    /* Relation */
+    @ManyToOne
+    @JoinColumn(name="doctor_hospital_fk")
+    private Hospital doctorHospital;
 
+    @Builder
+    public Doctor(String doctorNm, Tp tp, String doctorNo, String phoneNo, Gender gender, Provider provider, String socialId, Role role, Hospital doctorHospital) {
+        this.doctorNm = doctorNm;
+        this.tp = tp;
+        this.doctorNo = doctorNo;
+        this.phoneNo = phoneNo;
+        this.gender = gender;
+        this.provider = provider;
+        this.socialId = socialId;
+        this.role = role;
+        this.doctorHospital = doctorHospital;
+    }
 }

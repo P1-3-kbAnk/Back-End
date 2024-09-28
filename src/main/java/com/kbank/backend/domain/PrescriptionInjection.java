@@ -7,49 +7,58 @@ package com.kbank.backend.domain;
 담당자 : 문환희
 */
 
-import com.kbank.backend.domain.Injection;
-import com.kbank.backend.domain.Prescription;
-import com.kbank.backend.enumerate.Rate;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
 
-@RequiredArgsConstructor
+import java.time.LocalDate;
+
 @Getter
-@Setter
 @Entity
+@DynamicUpdate
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="prescription_injection_tb")
 public class PrescriptionInjection {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="pre_inj_pk")
     private long preInjPk;
 
+    @Column(name="total_days")
+    private int totalDays;
+//
+//    @Column(name="usage")
+//    private String usage;
+//
+//    @Column(name="dose_per_time")
+//    private int dosePerTime;
+//
+//    @Column(name="dose_per_day")
+//    private int dosePerDay;
+//
+//    @Enumerated(EnumType.STRING)
+//    @Column(name="copayment_rate_cd")
+//    private Rate rate;
+
+    @Column(name = "create_ymd", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDate createYmd;
+
+    /* Relation */
     @ManyToOne
     @JoinColumn(name="pre_inj_prescription_fk")
-    private Prescription preInjPrescriptionFk;
+    private Prescription preInjPrescription;
 
     @ManyToOne
     @JoinColumn(name="pre_inj_injection_fk")
     private Injection preInjInjection;
 
-    @Column(name="usage")
-    private String usage;
-
-    @Column(name="dose_per_time")
-    private int dosePerTime;
-
-    @Column(name="dose_per_day")
-    private int dosePerDay;
-
-    @Column(name="total_days")
-    private int totalDays;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name="copayment_rate_cd")
-    private Rate rate;
-
+    @Builder
+    public PrescriptionInjection(int totalDays, Prescription preInjPrescription, Injection preInjInjection) {
+        this.totalDays = totalDays;
+        this.preInjPrescription = preInjPrescription;
+        this.preInjInjection = preInjInjection;
+    }
 }

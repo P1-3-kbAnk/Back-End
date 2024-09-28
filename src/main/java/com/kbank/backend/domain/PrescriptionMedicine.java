@@ -7,52 +7,57 @@ package com.kbank.backend.domain;
 담당자 : 김성헌
 */
 
-import com.kbank.backend.domain.Medicine;
-import com.kbank.backend.domain.Prescription;
-import com.kbank.backend.enumerate.CopaymentRateCd;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
 
-@Entity
-@Setter
+import java.time.LocalDate;
+
 @Getter
-@RequiredArgsConstructor
+@Entity
+@DynamicUpdate
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="prescription_medicine_tb")
 public class PrescriptionMedicine {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="pre_med_pk")
     private long preMedPk;
 
-    //추후에 fk 참조 필요
-    // ManyToOne: Prescription을 참조하는 외래 키
-
-    @ManyToOne
-    @JoinColumn(name="pre_med_prescription_fk") // prescription_pk를 참조
-    private Prescription preMedPrescriptionFk;
-
-    ////추후에 fk 참조 필요
-    @ManyToOne
-    @JoinColumn(name="pre_med_medicine_fk")
-    private Medicine preMedMedicineFk;
-
-    @Column(name="usage")
-    private String usage;
-
-    @Column(name="dose_per_time")
-    private int dosePerTime;
-
-    @Column(name="dose_per_day")
-    private int dosePerDay;
-
     @Column(name="total_days")
     private int totalDays;
 
-    @Enumerated(EnumType.STRING) // EnumType.STRING을 사용하면 문자열로 저장
-    private CopaymentRateCd copaymentRateCd;
+    @Column(name = "create_ymd", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDate createYmd;
 
+    //medicine 으로 이동
+//    @Column(name="usage")
+//    private String usage;
+//
+//    @Column(name="dose_per_time")
+//    private int dosePerTime;
+//
+//    @Column(name="dose_per_day")
+//    private int dosePerDay;
+//
+//    @Enumerated(EnumType.STRING) // EnumType.STRING을 사용하면 문자열로 저장
+//    private CopaymentRateCd copaymentRateCd;
 
+    /* Relation */
+    @ManyToOne
+    @JoinColumn(name="pre_med_prescription_fk") // prescription_pk를 참조
+    private Prescription preMedPrescription;
+
+    @ManyToOne
+    @JoinColumn(name="pre_med_medicine_fk")
+    private Medicine preMedMedicine;
+
+    @Builder
+    public PrescriptionMedicine(int totalDays, Prescription preMedPrescription, Medicine preMedMedicine) {
+        this.totalDays = totalDays;
+        this.preMedPrescription = preMedPrescription;
+        this.preMedMedicine = preMedMedicine;
+    }
 }

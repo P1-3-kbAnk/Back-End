@@ -1,56 +1,40 @@
 package com.kbank.backend.domain;
 
-
-/*
-제목 : 병원 영수증 테이블 엔티티 정의
-설명 : 처방전에 대한 영수증 처리 총 가격, 일시, 병원명, 병원사업자번호로 구성 됨
-담당자 : 김도은
-*/
-
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import jakarta.persistence.*;
+import java.time.LocalDate;
 
-import java.time.LocalDateTime;
-
-
+@Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="hospital_bill_tb")
 public class HospitalBill {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="bill_pk")
-    @Getter
-    private long billPk;
+    @Column(name="hospital_bill_pk")
+    private long hospitalBillPk;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @Getter
-    @JoinColumn(name="bill_prescription_fk")
-    private Prescription billPrescriptionFk;
-
-    @Setter
-    @Getter
     @Column(name="total_price", nullable = false)
     private long totalPrice;
 
-    @Getter
-    @Column(name="bill_ymd",nullable = false)
-    private LocalDateTime billYmd;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(name = "create_ymd")
+    private LocalDate createYmd;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Getter
-    @JoinColumn(name="hospital_bill_hospital_fk")
-    private Hospital hospitalBillHospitalFk;
+    /* Relation */
+    @ManyToOne
+    @JoinColumn(name="hospital_bill_prescription_fk", nullable = false)
+    private Prescription hospitalBillPrescription;
+
+    @ManyToOne
+    @JoinColumn(name="hospital_bill_hospital_fk", nullable = false)
+    private Hospital hospitalBillHospital;
 
     @Builder
-    public HospitalBill(Prescription billPrescriptionFk, long totalPrice, LocalDateTime billYmd, Hospital hospitalBillHospitalFk) {
-        this.billPrescriptionFk = billPrescriptionFk;
+    public HospitalBill(long totalPrice, Prescription hospitalBillPrescription, Hospital hospitalBillHospital) {
         this.totalPrice = totalPrice;
-        this.billYmd = billYmd;
-        this.hospitalBillHospitalFk = hospitalBillHospitalFk;
-    }
-
-
-    public HospitalBill() {
+        this.hospitalBillPrescription = hospitalBillPrescription;
+        this.hospitalBillHospital = hospitalBillHospital;
     }
 }
