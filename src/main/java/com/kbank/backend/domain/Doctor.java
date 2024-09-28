@@ -70,7 +70,7 @@ public class Doctor {
     private LocalDate createYmd;
 
     /* Relation */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="doctor_hospital_fk")
     private Hospital doctorHospital;
 

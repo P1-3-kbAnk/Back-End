@@ -23,11 +23,11 @@ public class HospitalBill {
     private LocalDate createYmd;
 
     /* Relation */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="hospital_bill_prescription_fk", nullable = false)
     private Prescription hospitalBillPrescription;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="hospital_bill_hospital_fk", nullable = false)
     private Hospital hospitalBillHospital;
 

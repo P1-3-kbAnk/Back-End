@@ -71,7 +71,7 @@ public class Chemist {
     private LocalDate createYmd;
 
     /* Relation */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="chemist_pharmacy_fk")
     private Pharmacy chemistPharmacy;
 

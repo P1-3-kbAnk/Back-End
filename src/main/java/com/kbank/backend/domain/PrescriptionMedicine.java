@@ -46,11 +46,11 @@ public class PrescriptionMedicine {
 //    private CopaymentRateCd copaymentRateCd;
 
     /* Relation */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="pre_med_prescription_fk") // prescription_pk를 참조
     private Prescription preMedPrescription;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="pre_med_medicine_fk")
     private Medicine preMedMedicine;
 

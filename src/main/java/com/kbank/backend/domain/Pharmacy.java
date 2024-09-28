@@ -43,7 +43,7 @@ public class Pharmacy {
     private LocalDate createYmd;
 
     /* Relation */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pharmacy_dong_fk", nullable = false)
     private Dong pharmacyDong;  // 동 필드에 대한 FK
 
