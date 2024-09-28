@@ -75,15 +75,15 @@ public class Doctor {
     private Hospital doctorHospital;
 
     @Builder
-    public Doctor(String doctorNm, Tp tp, String doctorNo, String phoneNo, Gender gender, Provider provider, String socialId, Role role, Hospital doctorHospital) {
+    public Doctor(String doctorNm, Tp tp, String doctorNo, String phoneNo, Gender gender, Hospital doctorHospital) {
         this.doctorNm = doctorNm;
         this.tp = tp;
         this.doctorNo = doctorNo;
         this.phoneNo = phoneNo;
         this.gender = gender;
-        this.provider = provider;
-        this.socialId = socialId;
-        this.role = role;
+        this.role = Role.USER;
+        this.socialId = "none";
+        this.provider = Provider.KAKAO;
         this.doctorHospital = doctorHospital;
     }
 }

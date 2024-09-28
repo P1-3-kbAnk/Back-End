@@ -23,7 +23,6 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="hospital_tb")
 public class Hospital {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="hospital_pk")
