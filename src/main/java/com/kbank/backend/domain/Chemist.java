@@ -1,6 +1,5 @@
 package com.kbank.backend.domain;
 
-
 /*
 제목 : 약사 테이블 엔티티 정의
 설명 : 약사 회원에 대한 정보를 담은 엔티티로 구성 됨.
@@ -8,6 +7,7 @@ package com.kbank.backend.domain;
 담당자 : 한상민
 */
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.enumerate.Gender;
 import com.kbank.backend.enumerate.Provider;
 import com.kbank.backend.enumerate.Role;
@@ -16,16 +16,12 @@ import lombok.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-
-
-@Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "chemist_tb")
 public class Chemist {
 
@@ -56,11 +52,12 @@ public class Chemist {
     @Column(name = "gender")
     private Gender gender;
 
-    @Column(name = "first_no", nullable = false)
-    private String firstNo;  // 주민등록번호 앞자리
-
-    @Column(name = "last_no", nullable = false)
-    private String lastNo;   // 주민등록번호 뒷자리
+    //없애야됨
+//    @Column(name = "first_no", nullable = false)
+//    private String firstNo;  // 주민등록번호 앞자리
+//
+//    @Column(name = "last_no", nullable = false)
+//    private String lastNo;   // 주민등록번호 뒷자리
 
     @Enumerated(EnumType.STRING)
     @Column(name = "provider", nullable = false)
@@ -73,6 +70,25 @@ public class Chemist {
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @Column(name = "create_time", nullable = false)
-    private LocalDateTime createTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(name = "create_ymd")
+    private LocalDate createYmd;
+
+    /* Relation */
+    @ManyToOne
+    @JoinColumn(name="chemist_pharmacy_fk")
+    private Pharmacy chemistPharmacy;
+
+    @Builder
+    public Chemist(Pharmacy chemistPharmacyPk, String name, String licenseNumber, String phoneNumber, Gender gender, Provider provider, String socialId, Role role, Pharmacy chemistPharmacy) {
+        this.chemistPharmacyPk = chemistPharmacyPk;
+        this.name = name;
+        this.licenseNumber = licenseNumber;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
+        this.provider = provider;
+        this.socialId = socialId;
+        this.role = role;
+        this.chemistPharmacy = chemistPharmacy;
+    }
 }

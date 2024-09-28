@@ -1,13 +1,12 @@
 package com.kbank.backend.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /*
 제목 : 주사제 복약 여부 엔티티 정의
@@ -16,38 +15,16 @@ import java.time.LocalDateTime;
 담당자 : 문환희
 */
 
-@Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="prescription_tb")
-
-
 public class Prescription {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prescription_pk")
     private long prescriptionPk;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pre_doctor_fk")
-    private Doctor preDoctorFk;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pre_user_fk")
-    private User preUserFk;
-
-    @Getter
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pre_chemist_fk")
-    private Chemist preChemistFk;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @Column(name = "create_ymd")
-    private LocalDateTime createYmd;
 
     @Column(name = "prescription_no")
     private int prescriptionNo;
@@ -63,6 +40,35 @@ public class Prescription {
 
     @Column(name = "insurance_st")
     private boolean insuranceSt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(name = "create_ymd")
+    private LocalDate createYmd;
+
+    /* Relation */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pre_doctor_fk")
+    private Doctor preDoctor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pre_user_fk")
+    private User preUser;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pre_chemist_fk")
+    private Chemist preChemist;
+
+    @Builder
+    public Prescription(Doctor preDoctorFk, User preUser, Chemist preChemist, int prescriptionNo, int duration, String description, boolean prescriptionSt, boolean insuranceSt) {
+        this.preDoctor = preDoctorFk;
+        this.preUser = preUser;
+        this.preChemist = preChemist;
+        this.prescriptionNo = prescriptionNo;
+        this.duration = duration;
+        this.description = description;
+        this.prescriptionSt = prescriptionSt;
+        this.insuranceSt = insuranceSt;
+    }
 
 
 }

@@ -36,6 +36,8 @@ public enum ErrorCode {
 
     // Not Found Error
     NOT_FOUND_USER(40401, HttpStatus.NOT_FOUND, "해당 사용자가 존재하지 않습니다."),
+    NOT_FOUND_MEDICINE(40402, HttpStatus.NOT_FOUND, "해당 약물이 존재하지 않습니다."),
+    NOT_FOUND_PRESCRIPTION_MEDICINE(40403, HttpStatus.NOT_FOUND, "처방전에 해당 약물이  존재하지 않습니다."),
 
     SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러 입니다."),
     AUTH_SERVER_USER_INFO_ERROR(50001, HttpStatus.INTERNAL_SERVER_ERROR, "인증 서버 사용자 정보 조회에 실패하였습니다."),

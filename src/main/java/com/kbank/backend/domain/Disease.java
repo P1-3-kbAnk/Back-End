@@ -8,36 +8,40 @@ package com.kbank.backend.domain;
 담당자 : 김도은
 */
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
+import java.time.LocalDate;
 
+@Getter
 @Entity
+@DynamicUpdate
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="disease_tb")
 public class Disease {
 
     @Id
-    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="disease_pk")
     private long diseasePk;
 
-    @Getter
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="disease_prescription_fk")
-    private Prescription diseasePrescriptionFk;
-
-    @Getter
-    @Setter
     @Column(name="disease_cd", nullable = false)
     private String diseaseCd;
 
-    @Builder
-    public Disease(Prescription diseasePrescriptionFk, String diseaseCd) {
-        this.diseasePrescriptionFk = diseasePrescriptionFk;
-        this.diseaseCd = diseaseCd;
-    }
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(name = "create_ymd")
+    private LocalDate createYmd;
 
-    public Disease() {
+    /* Relation */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="disease_prescription_fk")
+    private Prescription diseasePrescription;
+
+    @Builder
+    public Disease(String diseaseCd, Prescription diseasePrescription) {
+        this.diseaseCd = diseaseCd;
+        this.diseasePrescription = diseasePrescription;
     }
 }
