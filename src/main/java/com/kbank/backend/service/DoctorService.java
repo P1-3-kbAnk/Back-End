@@ -1,6 +1,5 @@
 package com.kbank.backend.service;
 
-import ch.qos.logback.core.spi.ErrorCodes;
 import com.kbank.backend.domain.Doctor;
 import com.kbank.backend.domain.Hospital;
 import com.kbank.backend.dto.request.DoctorRequestDto;
