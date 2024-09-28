@@ -21,6 +21,12 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+configurations {
+    configureEach {
+        exclude group: 'commons-logging', module: 'commons-logging'
+    }
+}
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
@@ -79,9 +85,8 @@ dependencies {
     implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 
     /*** Logging ***/
-    implementation 'org.apache.logging.log4j:log4j-core:2.19.0'
-    implementation 'org.apache.logging.log4j:log4j-api:2.19.0'
-    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.19.0'
+    implementation 'ch.qos.logback:logback-classic:1.4.12'
+    implementation 'org.slf4j:slf4j-api:2.0.3'
 
     /*** Lombok ***/
     compileOnly 'org.projectlombok:lombok:1.18.28'
