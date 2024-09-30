@@ -34,7 +34,6 @@ public class MedicineIntake {
     @Column(name = "day", nullable = false)
     private LocalDate day;
 
-    @Setter
     @Column(name="eat_st", nullable=false)
     private boolean eatSt;
 
