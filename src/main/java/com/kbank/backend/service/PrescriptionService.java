@@ -2,11 +2,16 @@ package com.kbank.backend.service;
 
 import com.kbank.backend.domain.*;
 //import com.kbank.backend.dto.DiseaseDto;
+import com.kbank.backend.dto.MedicineDto;
 import com.kbank.backend.dto.request.DiseaseRequestDto;
 import com.kbank.backend.dto.request.PrescriptionMedicineRequestDto;
 import com.kbank.backend.dto.request.PrescriptionRequestDto;
+import com.kbank.backend.dto.response.PrescriptionHtmlResponseDto;
 import com.kbank.backend.dto.response.PrescriptionMedicineResponseDto;
 import com.kbank.backend.dto.response.PrescriptionResponseDto;
+import com.kbank.backend.dto.response.QrResponse;
+import com.kbank.backend.exception.CommonException;
+import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -14,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +34,7 @@ public class PrescriptionService {
     private final ChemistRepository chemistRepository;
     private final DiseaseRepository diseaseRepository;
     private final PrescriptionMedicineRepository prescriptionMedicineRepository;
+    private final HospitalRepository hospitalRepository;
 
 
     @Transactional
@@ -107,6 +114,34 @@ public class PrescriptionService {
         return PrescriptionResponseDto.toEntity(prescription, diseaseDTOs);
     }
 
+
+    @Transactional
+    public PrescriptionHtmlResponseDto getPrescriptionHtml(Long id) {
+        Prescription prescription = prescriptionRepository
+                .findById(id)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+
+        User user = prescription.getPreUser();
+
+        Doctor doctor = prescription.getPreDoctor();
+
+        Hospital hospital = doctor.getDoctorHospital();
+
+        List<Disease> disease = diseaseRepository.findByDiseasePrescription(prescription);
+
+        List<Medicine> medicine = prescriptionMedicineRepository
+                .findMedicineByPrescription(prescription);
+
+        List<MedicineDto> medicineList = new ArrayList<>();
+        List<String> diseaseList = new ArrayList<>();
+
+        medicine.forEach(e -> medicineList.add(MedicineDto.toEntity(e)));
+        disease.forEach(e -> diseaseList.add(e.getDiseaseCd()));
+
+
+        return PrescriptionHtmlResponseDto.toEntity(prescription, user, doctor, hospital, diseaseList, medicineList);
+    }
+
     @Transactional
     public PrescriptionResponseDto createPrescriptionWithDiseases(PrescriptionRequestDto requestDto) {
         // 1. 필요한 객체를 조회
@@ -152,5 +187,15 @@ public class PrescriptionService {
 
         return PrescriptionResponseDto.toEntity(prescription, diseaseDTOs);
     }
+
+    // 처방전 교부번호를 기준으로 조회 -> 처방전의 주키를 반환 (근데 처방전 교부 번호를 기준으로 조회하는 API를 만들면 되지 않나?
+    public QrResponse getPreQRByPreNo(Long userPk, int prescriptionNo) {
+        Prescription prescription = prescriptionRepository
+                .findByPrescriptionNo(prescriptionNo)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+
+        return QrResponse.toEntity(prescription.getPrescriptionPk());
+    }
+
 
 }
