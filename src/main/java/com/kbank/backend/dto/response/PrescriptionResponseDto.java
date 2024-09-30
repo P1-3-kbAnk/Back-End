@@ -2,9 +2,7 @@ package com.kbank.backend.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.domain.Prescription;
-import com.kbank.backend.dto.*;
 import com.kbank.backend.dto.request.DiseaseRequestDto;
-import com.kbank.backend.dto.request.PrescriptionMedicineRequestDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -28,8 +26,6 @@ public class PrescriptionResponseDto {
     private boolean prescriptionSt;
     private boolean insuranceSt;
 
-    private List<DiseaseRequestDto> diseaseRequestDtos;  // 질병 목록 추가
-//    private List<PrescriptionMedicineRequestDto> preMedReqDtos;
 
 
 // Prescription 엔티티를 DTO로 변환하는 메서드
@@ -45,8 +41,6 @@ public class PrescriptionResponseDto {
                 .description(prescription.getDescription())  // description 필드 매핑
                 .prescriptionSt(prescription.isPrescriptionSt())  // prescriptionSt 필드 매핑
                 .insuranceSt(prescription.isInsuranceSt())  // insuranceSt 필드 매핑
-                .diseaseRequestDtos(diseaseDtos)
-//                .preMedReqDtos(preMedReqDtos)
                 .build();
     }
 

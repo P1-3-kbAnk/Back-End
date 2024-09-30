@@ -2,13 +2,16 @@ package com.kbank.backend.controller;
 
 import com.kbank.backend.dto.ResponseDto;
 import com.kbank.backend.dto.request.ChemistRequestDto;
+import com.kbank.backend.dto.response.PrescriptionHtmlResponseDto;
 import com.kbank.backend.service.ChemistService;
+import com.kbank.backend.service.PharmacyService;
+import com.kbank.backend.service.PrescriptionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/pharmacy")
@@ -16,9 +19,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class PharmacyController {
 
     private final ChemistService chemistService;
+    private final PharmacyService pharmacyService;
 
     @PostMapping("/register")
     public ResponseDto<Boolean> createDoctor(@RequestBody @Valid ChemistRequestDto chemistRequestDto) {
         return ResponseDto.created(chemistService.createChemist(chemistRequestDto));
     }
+
+    // 처방전 상태 토글
+    @PatchMapping("/prescription/{id}")
+    public ResponseDto<String> updatePrescriptionSt(@PathVariable("id") long id) {
+        pharmacyService.updatePrescriptionSt(id);
+        return ResponseDto.ok("success");
+    }
+    @GetMapping("/list/{id}")
+    public ResponseDto<List<PrescriptionHtmlResponseDto>> receivedPrescription(@PathVariable("id") long id){
+        List<PrescriptionHtmlResponseDto> prescriptionList = pharmacyService.receivedPrescription(id);
+        return ResponseDto.ok(prescriptionList);
+    }
+
+
+
 }
