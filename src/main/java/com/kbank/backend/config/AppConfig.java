@@ -1,16 +1,28 @@
 package com.kbank.backend.config;
 
 
+import com.kbank.backend.exception.CommonException;
+import com.kbank.backend.exception.ErrorCode;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.springframework.beans.factory.annotation.Value;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -68,24 +80,24 @@ public class AppConfig {
     // spring 3.1부터 persistence.xml 사용 안하고 @Entity를 이걸로 처리함
     // JPA에서 데이터베이스와 상호작용할 때 사용하는 주요 객체
     // 데이터베이스 테이블과 매핑된 엔티티 클래스들을 관리
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        log.info("Local factory");
-        //데이터 소스 설정
-        em.setDataSource(dataSource);
-        //JPA 엔티티가 위치한 패키지를 스캔하여 관리할 수 있도록 설정
-        em.setPackagesToScan("com.kbank.backend.domain");
-
-        //JPA 구현체 (Hibernate)를 설정합니다.
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
-
-        //Hibernate 관련 설정 적용
-        em.setJpaProperties(hibernateProperties());
-
-        return em;
-    }
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+//        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+//        log.info("Local factory");
+//        //데이터 소스 설정
+//        em.setDataSource(dataSource);
+//        //JPA 엔티티가 위치한 패키지를 스캔하여 관리할 수 있도록 설정
+//        em.setPackagesToScan("com.kbank.backend.domain");
+//
+//        //JPA 구현체 (Hibernate)를 설정합니다.
+//        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+//        em.setJpaVendorAdapter(vendorAdapter);
+//
+//        //Hibernate 관련 설정 적용
+//        em.setJpaProperties(hibernateProperties());
+//
+//        return em;
+//    }
 
     // 트랜잭션 관리를 설정, JPA에서 사용할 트랜잭션 매니저를 등록
     // 엔티티 매니저 팩토리와 연결
@@ -95,5 +107,20 @@ public class AppConfig {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory.getObject());
         return transactionManager;
+    }
+
+    // FAST API로 리포트 작성 요청을 보내는 빈 생성
+    // 타임 아웃 설정으로 무한 대기 방지.
+    @Bean
+    public RestTemplate restTemplate() {
+        HttpClient httpClient = HttpClients.createDefault();
+
+        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
+
+        factory.setConnectionRequestTimeout(200 * 1000); // 커넥션풀에서 사용 가능한 연결을 가져오기 위해 대기하는 최대 시간
+        factory.setConnectTimeout(5 * 1000); // 커넥션 최대 시간
+        factory.setConnectionRequestTimeout(60 * 1000);
+
+        return new RestTemplate(factory);
     }
 }
