@@ -24,64 +24,28 @@ public class HospitalBillService {
     //생성 생략 -> 처방전에서 생성
 
     // 모든 hospitalBill 조회
-    public List<HospitalBillResponse> getAllBills() {
+    public List<HospitalBillResponse> getAllBills(Long userid) {
 
         List<HospitalBill> hospitalBills = hospitalBillRepository.findAll();
-        List<HospitalBillResponse> BillResponses = hospitalBills.stream()
+        List<HospitalBillResponse> BillResponses = hospitalBills
+                .stream()
                 .map(HospitalBillResponse::new)  // HospitalBillResponse 생성자로 변환
                 .collect(Collectors.toList());
-
 
         return BillResponses;
     }
 
-    // 특정 ID로 hospitalBill 1개 조회
-    public HospitalBillResponse getBillById(Long id) {
+    // 처방전 ID로 hospitalBill 조회
+    public HospitalBillResponse getBillByPrescriptionFk(Long prescriptionId,Long userid) {
 
-        Optional<HospitalBill> hospitalBill = hospitalBillRepository.findById(id);
+        Optional<HospitalBill> hospitalBill = hospitalBillRepository.findByHospitalBillPrescription_PrescriptionPk(prescriptionId);
 
         return new HospitalBillResponse(hospitalBill);
     }
 
-    // 특정 totalPrice로 모든 hospitalBill 조회
-    public List<HospitalBillResponse> getBillsByTotalPrice(Long totalPrice) {
-
-        List<HospitalBill> hospitalBills = hospitalBillRepository.findByTotalPrice(totalPrice);
-
-        List<HospitalBillResponse> BillResponses = hospitalBills.stream()
-                .map(HospitalBillResponse::new)  // HospitalBillResponse 생성자로 변환
-                .collect(Collectors.toList());
-
-        return BillResponses;
-    }
-
-    // 특정 날짜에 생성된 모든 hospitalBill 조회
-    public List<HospitalBillResponse> getBillsByBillYmd(LocalDateTime billYmd) {
-
-        List<HospitalBill> hospitalBills = hospitalBillRepository.findByCreateYmd(billYmd);
-
-        List<HospitalBillResponse> BillResponses = hospitalBills.stream()
-                .map(HospitalBillResponse::new)  // HospitalBillResponse 생성자로 변환
-                .collect(Collectors.toList());
-
-        return BillResponses;
-    }
-
-    // 처방전 ID로 모든 hospitalBill 조회
-    public List<HospitalBillResponse> getBillsByPrescriptionFk(Prescription prescription) {
-
-        List<HospitalBill> hospitalBills = hospitalBillRepository.findByHospitalBillPrescription(prescription);
-
-        List<HospitalBillResponse> BillResponses = hospitalBills.stream()
-                .map(HospitalBillResponse::new)  // HospitalBillResponse 생성자로 변환
-                .collect(Collectors.toList());
-
-        return BillResponses;
-    }
-
 
     // hospitalBill 삭제
-    public void deleteBill(Long id) {
+    public void deleteBill(Long id,Long userid) {
 
         hospitalBillRepository.deleteById(id);
 

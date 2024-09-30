@@ -5,6 +5,7 @@ import com.kbank.backend.domain.HospitalBill;
 import com.kbank.backend.domain.PharmacyBill;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -23,10 +24,10 @@ public class HospitalBillResponse {
 
     @Builder
     public HospitalBillResponse(HospitalBill hospitalBill) {
-        this.PrescriptionFK = hospitalBill.getBillPrescriptionFk().getPrescriptionPk();
-        this.HospitalFK = hospitalBill.getHospitalBillHospitalFk().getHospitalPk();
+        this.PrescriptionFK = hospitalBill.getHospitalBillPrescription().getPrescriptionPk();
+        this.HospitalFK = hospitalBill.getHospitalBillHospital().getHospitalPk();
         this.totalPrice = hospitalBill.getTotalPrice();
-        this.billYmd = hospitalBill.getBillYmd();
+        this.billYmd = hospitalBill.getCreateYmd().atStartOfDay();
     }
 
 

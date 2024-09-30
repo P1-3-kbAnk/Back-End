@@ -23,5 +23,6 @@ public interface HospitalBillRepository extends JpaRepository<HospitalBill, Long
     List<HospitalBill> findByCreateYmd(LocalDateTime CreateYmd);
 
     // 특정 Prescription에 대한 Bill 조회
-    List<HospitalBill> findByHospitalBillPrescription(Prescription prescription);
+    Optional<HospitalBill> findByHospitalBillPrescription_PrescriptionPk(Long prescriptionId);
+
 }
