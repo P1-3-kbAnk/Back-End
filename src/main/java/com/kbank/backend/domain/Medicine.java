@@ -16,7 +16,6 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -50,8 +49,8 @@ public class Medicine {
     @Column(name="unit")
     private String unit;
 
-    @Column(name="usage")
-    private String usage;
+    @Column(name="method")
+    private String method;
 
     @Column(name="dose_per_time")
     private Integer dosePerTime;
@@ -60,9 +59,11 @@ public class Medicine {
     private Integer dosePerDay;
 
     @Enumerated(EnumType.STRING) // EnumType.STRING을 사용하면 문자열로 저장
+    @Column(name="copayment_rate_cd")
     private CopaymentRateCd copaymentRateCd;
 
     @Enumerated(EnumType.STRING) // EnumType.STRING을 사용하면 문자열로 저장
+    @Column(name = "time")
     private Time time;
 
     @Column(name="image_url")
@@ -77,7 +78,7 @@ public class Medicine {
     List<MedicineIntake> medicineIntakeList;
 
     @Builder
-    public Medicine(CopaymentRateCd copaymentRateCd, String usage, Integer dosePerDay, Integer dosePerTime, String medicineNm, Long medicineCd, Long price, String caution, String sideEffect, String efficacy, String unit, Time time, String imageUrl) {
+    public Medicine(CopaymentRateCd copaymentRateCd, String method, Integer dosePerDay, Integer dosePerTime, String medicineNm, Long medicineCd, Long price, String caution, String sideEffect, String efficacy, String unit, Time time, String imageUrl) {
         this.medicineNm = medicineNm;
         this.medicineCd = medicineCd;
         this.price = price;
@@ -87,7 +88,7 @@ public class Medicine {
         this.unit = unit;
         this.time = time;
         this.imageUrl = imageUrl;
-        this.usage = usage;
+        this.method = method;
         this.dosePerDay = dosePerDay;
         this.dosePerTime = dosePerTime;
         this.copaymentRateCd = copaymentRateCd;
