@@ -28,19 +28,6 @@ public class PrescriptionInjection {
 
     @Column(name="total_days")
     private int totalDays;
-//
-//    @Column(name="usage")
-//    private String usage;
-//
-//    @Column(name="dose_per_time")
-//    private int dosePerTime;
-//
-//    @Column(name="dose_per_day")
-//    private int dosePerDay;
-//
-//    @Enumerated(EnumType.STRING)
-//    @Column(name="copayment_rate_cd")
-//    private Rate rate;
 
     @Column(name = "create_ymd", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -60,5 +47,6 @@ public class PrescriptionInjection {
         this.totalDays = totalDays;
         this.preInjPrescription = preInjPrescription;
         this.preInjInjection = preInjInjection;
+        this.createYmd = LocalDate.now();
     }
 }

@@ -36,5 +36,6 @@ public class PharmacyBill {
         this.totalPrice = totalPrice;
         this.pharmacyBillPrescription = pharmacyBillPrescription;
         this.pharmacyBillPharmacy = pharmacyBillPharmacy;
+        this.createYmd = LocalDate.now();
     }
 }

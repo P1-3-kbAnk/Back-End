@@ -33,11 +33,6 @@ public class Chemist {
     @Column(name = "chemist_nm", nullable = false)
     private String chemistNm;
 
-    // 면허 종별 구현 필
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "chemist_tp", nullable = false)
-//    private LicenseType licenseType;
-
     @Column(name = "chemist_no", nullable = false)
     private String chemistNo;
 
@@ -47,13 +42,6 @@ public class Chemist {
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
-
-    //없애야됨
-//    @Column(name = "first_no", nullable = false)
-//    private String firstNo;  // 주민등록번호 앞자리
-//
-//    @Column(name = "last_no", nullable = false)
-//    private String lastNo;   // 주민등록번호 뒷자리
 
     @Enumerated(EnumType.STRING)
     @Column(name = "provider", nullable = false)
@@ -86,5 +74,6 @@ public class Chemist {
         this.socialId = "none";
         this.provider = Provider.KAKAO;
         this.chemistPharmacy = chemistPharmacy;
+        this.createYmd = LocalDate.now();
     }
 }

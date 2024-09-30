@@ -62,7 +62,7 @@ public class PharmacyBillService {
     // 특정 날짜에 생성된 pharmacyBill 조회
     public List<PharmacyBillResponse> getBillsByBillYmd(LocalDateTime billYmd) {
 
-        List<PharmacyBill> pharmacyBills = pharmacyBillRepository.findByBillYmd(billYmd);
+        List<PharmacyBill> pharmacyBills = pharmacyBillRepository.findByCreateYmd(billYmd);
 
         List<PharmacyBillResponse> pharmacyBillResponses = pharmacyBills.stream()
                 .map(PharmacyBillResponse::new)
@@ -72,8 +72,8 @@ public class PharmacyBillService {
     }
 
     // 처방전 ID로  pharmacyBill 조회
-    public List<PharmacyBillResponse> getBillsByPrescriptionFk(Prescription billPrescriptionFk) {
-        List<PharmacyBill> pharmacyBills = pharmacyBillRepository.findByBillPrescriptionFk(billPrescriptionFk);
+    public List<PharmacyBillResponse> getBillsByPrescriptionFk(Prescription prescription) {
+        List<PharmacyBill> pharmacyBills = pharmacyBillRepository.findByPharmacyBillPrescription(prescription);
 
         List<PharmacyBillResponse> pharmacyBillResponses = pharmacyBills.stream()
                 .map(PharmacyBillResponse::new)

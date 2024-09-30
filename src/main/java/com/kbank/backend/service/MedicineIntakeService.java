@@ -44,7 +44,7 @@ public class MedicineIntakeService {
 
     // 특정 사용자에 대한 복약 여부 조회
     public List<MedicineIntakeResponse> getMedicineIntakeByUser(User user) {
-        List<MedicineIntake> medicineIntakes = medicineIntakeRepository.findByMedInkUserFk(user);
+        List<MedicineIntake> medicineIntakes = medicineIntakeRepository.findByMedInkUser(user);
 
         List<MedicineIntakeResponse> MedicineIntakeResponses = medicineIntakes.stream()
                 .map(MedicineIntakeResponse::new)  // HospitalBillResponse 생성자로 변환
@@ -55,7 +55,7 @@ public class MedicineIntakeService {
 
     // 특정 약물에 대한 복약 여부 조회
     public List<MedicineIntakeResponse> getMedicineIntakeByMedicine(Medicine medicine) {
-        List<MedicineIntake> medicineIntakes = medicineIntakeRepository.findByMedInkMedicineFk(medicine);
+        List<MedicineIntake> medicineIntakes = medicineIntakeRepository.findByMedInkMedicine(medicine);
 
         List<MedicineIntakeResponse> MedicineIntakeResponses = medicineIntakes.stream()
                 .map(MedicineIntakeResponse::new)  // HospitalBillResponse 생성자로 변환
@@ -76,17 +76,17 @@ public class MedicineIntakeService {
 
 
     // 복용 여부(EatSt)만 업데이트
-    public Boolean updateEatSt(Long medInkPk) {
-
-        MedicineIntake medicineIntake = medicineIntakeRepository
-                .findById(medInkPk)
-                .orElseThrow(
-                        () -> new IllegalArgumentException("MedicineIntake not found with id: " + medInkPk));
-        medicineIntake.setEatSt(true);
-        medicineIntakeRepository.save(medicineIntake);
-
-        return Boolean.TRUE;
-    }
+//    public Boolean updateEatSt(Long medInkPk) {
+//
+//        MedicineIntake medicineIntake = medicineIntakeRepository
+//                .findById(medInkPk)
+//                .orElseThrow(
+//                        () -> new IllegalArgumentException("MedicineIntake not found with id: " + medInkPk));
+//        medicineIntake.(true);
+//        medicineIntakeRepository.save(medicineIntake);
+//
+//        return Boolean.TRUE;
+//    }
 
     // 복약 정보 삭제
     public void deleteMedicineIntake(Long id) {

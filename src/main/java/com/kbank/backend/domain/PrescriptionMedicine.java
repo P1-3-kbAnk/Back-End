@@ -32,19 +32,6 @@ public class PrescriptionMedicine {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDate createYmd;
 
-    //medicine 으로 이동
-//    @Column(name="usage")
-//    private String usage;
-//
-//    @Column(name="dose_per_time")
-//    private int dosePerTime;
-//
-//    @Column(name="dose_per_day")
-//    private int dosePerDay;
-//
-//    @Enumerated(EnumType.STRING) // EnumType.STRING을 사용하면 문자열로 저장
-//    private CopaymentRateCd copaymentRateCd;
-
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="pre_med_prescription_fk") // prescription_pk를 참조
@@ -59,5 +46,6 @@ public class PrescriptionMedicine {
         this.totalDays = totalDays;
         this.preMedPrescription = preMedPrescription;
         this.preMedMedicine = preMedMedicine;
+        this.createYmd = LocalDate.now();
     }
 }

@@ -59,5 +59,6 @@ public class InjectionIntake {
         this.day = day;
         this.injInkUser = injInkUser;
         this.injInkInjection = injInkInjection;
+        this.createYmd = LocalDate.now();
     }
 }

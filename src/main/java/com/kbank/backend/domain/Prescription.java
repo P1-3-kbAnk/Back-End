@@ -6,7 +6,8 @@ import lombok.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 
 /*
 제목 : 주사제 복약 여부 엔티티 정의
@@ -43,7 +44,12 @@ public class Prescription {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
-    private LocalDate createYmd;
+    private LocalDateTime createYmd;
+
+    @PrePersist
+    public void prePersist() {
+        this.createYmd = (this.createYmd == null) ? LocalDateTime.now() : this.createYmd;
+    }
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -59,8 +65,8 @@ public class Prescription {
     private Chemist preChemist;
 
     @Builder
-    public Prescription(Doctor preDoctorFk, User preUser, Chemist preChemist, int prescriptionNo, int duration, String description, boolean prescriptionSt, boolean insuranceSt) {
-        this.preDoctor = preDoctorFk;
+    public Prescription(Doctor preDoctor, User preUser, Chemist preChemist, int prescriptionNo, int duration, String description, boolean prescriptionSt, boolean insuranceSt) {
+        this.preDoctor = preDoctor;
         this.preUser = preUser;
         this.preChemist = preChemist;
         this.prescriptionNo = prescriptionNo;
@@ -68,6 +74,7 @@ public class Prescription {
         this.description = description;
         this.prescriptionSt = prescriptionSt;
         this.insuranceSt = insuranceSt;
+        this.createYmd = LocalDateTime.now();
     }
 
 

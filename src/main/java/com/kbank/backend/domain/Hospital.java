@@ -55,5 +55,6 @@ public class Hospital {
         this.hospitalNo = hospitalNo;
         this.faxNo = faxNo;
         this.hospitalDong = hospitalDong;
+        this.createYmd = LocalDate.now();
     }
 }
