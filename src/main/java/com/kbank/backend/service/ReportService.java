@@ -1,12 +1,11 @@
-package com.kbank.backend.service.report;
+package com.kbank.backend.service;
 
 
 import com.kbank.backend.controller.ReportRestTemplate;
 import com.kbank.backend.domain.Prescription;
-import com.kbank.backend.domain.PrescriptionMedicine;
 import com.kbank.backend.domain.Report;
-import com.kbank.backend.dto.request.ReportRequest;
-import com.kbank.backend.dto.response.ReportResponse;
+import com.kbank.backend.dto.request.ReportRequestDto;
+import com.kbank.backend.dto.response.ReportResponseDto;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.DiseaseRepository;
@@ -24,7 +23,7 @@ import java.util.*;
 @Service
 @Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReportServiceImpl implements ReportService {
+public class ReportService {
 
     private final ReportRepository reportRepository;
     private final DiseaseRepository diseaseRepository;
@@ -32,25 +31,25 @@ public class ReportServiceImpl implements ReportService {
     private final PrescriptionRepository prescriptionRepository;
     private final PrescriptionMedicineRepository prescriptionMedicineRepository;
 
-    @Override
-    public List<Report> findAll() {
+    public List<Report> findAll(Long userPk) {
         return reportRepository.findAll();
     }
 
-    @Override
-    public Optional<Report> findById(Long id) {
+    public Optional<Report> findById(Long userPk, Long id) {
         return reportRepository.findById(id);
     }
 
-    @Override
-    public Optional<Report> findByPrescription(Prescription prescription) {
+    public Optional<Report> findByPrescription(Long userPk, Prescription prescription) {
         return reportRepository.findByReportPrescription(prescription);
     }
 
-    @Override
     public List<String> getMedicineList(Prescription prescription){
-        return prescriptionMedicineRepository
-                .findMedicineByPrescription(prescription);
+        List<String> res = new ArrayList<>();
+        prescriptionMedicineRepository
+                .findMedicineByPrescription(prescription)
+                .forEach(e -> res.add(e.getMedicineNm()));
+
+        return res;
     }
 
     public Report create(long prescriptionId) {
@@ -68,7 +67,7 @@ public class ReportServiceImpl implements ReportService {
             query.put("medi", getMedicineList(prescription).toString());
             query.put("code", res.toString());
 
-            ReportRequest responseFromFa = restTemplate.getReport(query);
+            ReportRequestDto responseFromFa = restTemplate.getReport(query);
             //System.out.println(responseFromFa);
 
             Report report = responseFromFa.toEntity(prescription);
@@ -82,7 +81,7 @@ public class ReportServiceImpl implements ReportService {
         }
     }
 
-    public ReportResponse getReportByPrescription(long id) {
+    public ReportResponseDto getReportByPrescription(long id) {
         Optional<Report> report = reportRepository
                 .findByReportPrescription(
                         prescriptionRepository
@@ -92,21 +91,13 @@ public class ReportServiceImpl implements ReportService {
                 );
         if(report.isPresent()){ // 리포트가 존재하면
 
-            return ReportResponse.builder()
-                    .intakeMethod(report.get().getIntakeMethod())
-                    .food(report.get().getFood())
-                    .exercise(report.get().getExercise()).build();
+            return ReportResponseDto.toEntity(report.get());
 
         } else { // 리포트가 없을 때
 
             Report newReport = create(id);
 
-            return ReportResponse
-                    .builder()
-                    .intakeMethod(newReport.getIntakeMethod())
-                    .food(newReport.getFood())
-                    .exercise(newReport.getExercise())
-                    .build();
+            return ReportResponseDto.toEntity(newReport);
         }
     }
 }

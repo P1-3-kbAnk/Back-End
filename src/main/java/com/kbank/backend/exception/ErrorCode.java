@@ -43,7 +43,11 @@ public enum ErrorCode {
 
     SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러 입니다."),
     AUTH_SERVER_USER_INFO_ERROR(50001, HttpStatus.INTERNAL_SERVER_ERROR, "인증 서버 사용자 정보 조회에 실패하였습니다."),
-    REST_CLIENT_ERROR(50002,HttpStatus.INTERNAL_SERVER_ERROR, "서버 통신 에러입니다.");
+    REST_CLIENT_ERROR(50002,HttpStatus.INTERNAL_SERVER_ERROR, "서버 통신 에러입니다."),
+
+    // FAST API ERROR
+    ERR_FAST_API(60000, HttpStatus.INTERNAL_SERVER_ERROR, "리포트 에러."),
+    TIME_OUT(60001, HttpStatus.REQUEST_TIMEOUT, "타임 아웃 에러.");
 
     private final Integer code;
     private final HttpStatus httpStatus;
