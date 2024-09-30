@@ -1,6 +1,6 @@
 package com.kbank.backend.controller;
 
-import com.kbank.backend.dto.request.ReportRequest;
+import com.kbank.backend.dto.request.ReportRequestDto;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
 import jakarta.validation.Valid;
@@ -12,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -30,7 +29,7 @@ public class ReportRestTemplate {
 
     private final RestTemplate restTemplate;
 
-    public ReportRequest getReport(@Valid Map<String, String> q) {
+    public ReportRequestDto getReport(@Valid Map<String, String> q) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -41,7 +40,7 @@ public class ReportRestTemplate {
         text.put("code", q.get("code"));
 
         HttpEntity<Map<String, String>> request = new HttpEntity<>(text, headers);
-        HttpEntity<ReportRequest> res;
+        HttpEntity<ReportRequestDto> res;
 
         try {
             String baseUrl = "http://localhost:8000";
@@ -49,7 +48,7 @@ public class ReportRestTemplate {
                     baseUrl + "/report",
                     HttpMethod.POST,
                     request,  // JSON 데이터를 감싸는 HttpEntity 사용
-                    ReportRequest.class
+                    ReportRequestDto.class
             );
 
             //System.out.println(res.getBody());

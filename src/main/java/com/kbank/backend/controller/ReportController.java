@@ -2,8 +2,8 @@ package com.kbank.backend.controller;
 
 
 import com.kbank.backend.dto.ResponseDto;
-import com.kbank.backend.dto.response.ReportResponse;
-import com.kbank.backend.service.report.ReportServiceImpl;
+import com.kbank.backend.dto.response.ReportResponseDto;
+import com.kbank.backend.service.ReportService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/patient/report")
 public class ReportController {
 
-    private final ReportServiceImpl reportService;
+    private final ReportService reportService;
 
+    // 처방전 주키를 가지고 리포트 가져오기
     @GetMapping("/get/{id}")
-    public ResponseDto<ReportResponse> getReport(@PathVariable("id") Long id) {
+    public ResponseDto<ReportResponseDto> getReport(@PathVariable("id") Long id) {
         return ResponseDto.ok(reportService.getReportByPrescription(id));
     }
 

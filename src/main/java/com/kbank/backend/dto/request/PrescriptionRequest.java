@@ -30,10 +30,9 @@ public class PrescriptionRequest {
     // toEntity 메서드에서 외래키로 엔티티를 생성해서 반환
     public Prescription toEntity(Doctor doctor, User user, Chemist chemist) {
         return Prescription.builder()
-                .preDoctorFk(doctor)  // 외래 키 대신 엔티티 주입
-                .preUserFk(user)  // 외래 키 대신 엔티티 주입
-                .preChemistFk(chemist)  // 외래 키 대신 엔티티 주입
-                .createYmd(createYmd)
+                .preDoctor(doctor)  // 외래 키 대신 엔티티 주입
+                .preUser(user)  // 외래 키 대신 엔티티 주입
+                .preChemist(chemist)  // 외래 키 대신 엔티티 주입
                 .prescriptionNo(prescriptionNo)
                 .duration(duration)
                 .description(description)
