@@ -42,7 +42,7 @@ public class DiseaseService {
 
     // 처방전 ID 로  질병 정보 조회
     public List<DiseaseResponse> getDiseasesByPrescription(Prescription prescription) {
-        List<Disease> diseases = diseaseRepository.findByDiseasePrescriptionFk(prescription);
+        List<Disease> diseases = diseaseRepository.findByDiseasePrescription(prescription);
         List<DiseaseResponse> diseaseResponses = diseases.stream()
                 .map(DiseaseResponse::new)  // HospitalBillResponse 생성자로 변환
                 .collect(Collectors.toList());

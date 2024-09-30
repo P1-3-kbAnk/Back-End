@@ -18,7 +18,7 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
     List<Hospital> findAll();
 
     // 특정 동(Dong)에 속한 병원 조회
-    List<Hospital> findByHospitalDongFk(Dong dong);
+    List<Hospital> findByHospitalDong(Dong dong);
 
     // 병원 이름으로 병원 조회
     List<Hospital> findByHospitalNm(String hospitalNm);

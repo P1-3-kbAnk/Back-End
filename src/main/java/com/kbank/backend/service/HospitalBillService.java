@@ -58,7 +58,7 @@ public class HospitalBillService {
     // 특정 날짜에 생성된 모든 hospitalBill 조회
     public List<HospitalBillResponse> getBillsByBillYmd(LocalDateTime billYmd) {
 
-        List<HospitalBill> hospitalBills = hospitalBillRepository.findByBillYmd(billYmd);
+        List<HospitalBill> hospitalBills = hospitalBillRepository.findByCreateYmd(billYmd);
 
         List<HospitalBillResponse> BillResponses = hospitalBills.stream()
                 .map(HospitalBillResponse::new)  // HospitalBillResponse 생성자로 변환
@@ -68,9 +68,9 @@ public class HospitalBillService {
     }
 
     // 처방전 ID로 모든 hospitalBill 조회
-    public List<HospitalBillResponse> getBillsByPrescriptionFk(Prescription billPrescriptionFk) {
+    public List<HospitalBillResponse> getBillsByPrescriptionFk(Prescription prescription) {
 
-        List<HospitalBill> hospitalBills = hospitalBillRepository.findByBillPrescriptionFk(billPrescriptionFk);
+        List<HospitalBill> hospitalBills = hospitalBillRepository.findByHospitalBillPrescription(prescription);
 
         List<HospitalBillResponse> BillResponses = hospitalBills.stream()
                 .map(HospitalBillResponse::new)  // HospitalBillResponse 생성자로 변환

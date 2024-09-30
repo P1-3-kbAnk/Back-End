@@ -21,8 +21,8 @@ public interface PharmacyBillRepository extends JpaRepository<PharmacyBill, Long
     List<PharmacyBill> findByTotalPrice(long totalPrice);
 
     // 특정 날짜에 생성된 Bill 조회
-    List<PharmacyBill> findByBillYmd(LocalDateTime billYmd);
+    List<PharmacyBill> findByCreateYmd(LocalDateTime createYmd);
 
     // 특정 Prescription에 대한 Bill 조회
-    List<PharmacyBill> findByBillPrescriptionFk(Prescription billPrescriptionFk);
+    List<PharmacyBill> findByPharmacyBillPrescription(Prescription billPrescriptionFk);
 }
