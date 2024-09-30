@@ -24,11 +24,10 @@ public class PharmacyBillResponse {
 
     @Builder
     public PharmacyBillResponse(PharmacyBill pharmacyBill) {
-        this.PrescriptionFK = pharmacyBill.getBillPrescriptionFk().getPrescriptionPk();
-        this.PharmacyFK = pharmacyBill.getPharmacyBillPharmacyFk().getPharmacyPk();
+        this.PrescriptionFK = pharmacyBill.getPharmacyBillPrescription().getPrescriptionPk();
+        this.PharmacyFK = pharmacyBill.getPharmacyBillPharmacy().getPharmacyPk();
         this.totalPrice = pharmacyBill.getTotalPrice();
-        this.billYmd = pharmacyBill.getBillYmd();
-
+        this.billYmd = pharmacyBill.getCreateYmd().atStartOfDay();
 
     }
 

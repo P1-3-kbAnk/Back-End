@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -25,17 +26,16 @@ public class PharmacyBillRequest {
 
     private long totalPrice;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime billYmd;
+    private LocalDateTime createYmd;
 
 
 
     @Builder
     public PharmacyBill toEntity(Prescription prescription, Pharmacy pharmacy) {
         return PharmacyBill.builder()
-                .billPrescriptionFk(prescription)
-                .pharmacyBillPharmacyFk(pharmacy)
+                .pharmacyBillPrescription(prescription)
+                .pharmacyBillPharmacy(pharmacy)
                 .totalPrice(totalPrice)
-                .billYmd(billYmd)
                 .build();
     }
 
