@@ -44,8 +44,8 @@ public class Injection {
     @Column(name="side_effect")
     private String sideEffect;
 
-    @Column(name="usage")
-    private String usage;
+    @Column(name="method")
+    private String method;
 
     @Column(name="unit")
     private String unit;
@@ -61,26 +61,23 @@ public class Injection {
     private Rate copaymentRateCd;
 
     @Enumerated(EnumType.STRING) // EnumType.STRING을 사용하면 문자열로 저장
+    @Column(name = "time")
     private Time time;
 
     @Column(name="efficacy")
     private String efficacy;
-
-    @Column(name="method")
-    private int method;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
     private LocalDate createYmd;
 
     @Builder
-    public Injection(String injectionNm, long injectionCd, Long price, String caution, String sideEffect, String usage, String unit, int dosePerTime, int dosePerDay, Rate copaymentRateCd, Time time, String efficacy, int method) {
+    public Injection(String injectionNm, long injectionCd, Long price, String caution, String sideEffect, String method, String unit, int dosePerTime, int dosePerDay, Rate copaymentRateCd, Time time, String efficacy) {
         this.injectionNm = injectionNm;
         this.injectionCd = injectionCd;
         this.price = price;
         this.caution = caution;
         this.sideEffect = sideEffect;
-        this.usage = usage;
         this.unit = unit;
         this.dosePerTime = dosePerTime;
         this.dosePerDay = dosePerDay;

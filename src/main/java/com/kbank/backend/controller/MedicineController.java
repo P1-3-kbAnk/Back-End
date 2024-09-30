@@ -13,8 +13,8 @@ public class MedicineController {
 
     private final MedicineService medicineService;
 
-    @PostMapping("/detail/{medicineId}")
-    public ResponseDto<MedicineResponseDto> medicineDetail(@RequestParam Long userId,
+    @GetMapping("/detail/{medicineId}")
+    public ResponseDto<MedicineResponseDto> medicineDetail(@RequestParam(name = "userId") Long userId,
                                                            @PathVariable("medicineId") Long medicineFk) {
         return ResponseDto.ok(medicineService.medicineDetail(userId, medicineFk));
     }

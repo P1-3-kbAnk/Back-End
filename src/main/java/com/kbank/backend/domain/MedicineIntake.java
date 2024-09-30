@@ -57,6 +57,12 @@ public class MedicineIntake {
         this.eatSt = eatSt;
         this.medInkUser = user;
         this.medInkMedicine = medicine;
-        this.createYmd = LocalDate.now();
+    }
+
+    /* Update */
+    public Boolean updateEatSt() {
+        this.eatSt = !this.eatSt;
+
+        return Boolean.TRUE;
     }
 }

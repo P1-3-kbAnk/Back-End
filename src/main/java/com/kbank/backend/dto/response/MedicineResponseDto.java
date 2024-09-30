@@ -33,7 +33,7 @@ public class MedicineResponseDto {
     @NotBlank
     private String imageUrl;
     @NotBlank
-    private String usage;
+    private String method;
     @NotBlank
     private Integer dosePerDay;
     @NotBlank
@@ -53,7 +53,7 @@ public class MedicineResponseDto {
                 .unit(medicine.getUnit())
                 .time(medicine.getTime())
                 .imageUrl(medicine.getImageUrl())
-                .usage(medicine.getUsage())
+                .method(medicine.getMethod())
                 .dosePerDay(medicine.getDosePerDay())
                 .dosePerTime(medicine.getDosePerTime())
                 .copaymentRateCd(medicine.getCopaymentRateCd())
