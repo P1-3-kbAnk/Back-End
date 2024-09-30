@@ -88,5 +88,6 @@ public class Injection {
         this.time = time;
         this.efficacy = efficacy;
         this.method = method;
+        this.createYmd = LocalDate.now();
     }
 }

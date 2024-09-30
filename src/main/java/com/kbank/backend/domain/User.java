@@ -100,6 +100,7 @@ public class User {
         this.role = Role.USER;
         this.socialId = "none";
         this.provider = Provider.KAKAO;
+        this.createYmd = LocalDate.now();
     }
 
     /* Update */

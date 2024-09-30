@@ -53,5 +53,6 @@ public class Pharmacy {
         this.phoneNo = phoneNo;
         this.faxNo = faxNo;
         this.pharmacyDong = pharmacyDong;
+        this.createYmd = LocalDate.now();
     }
 }

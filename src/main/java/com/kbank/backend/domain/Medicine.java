@@ -16,6 +16,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -90,5 +91,6 @@ public class Medicine {
         this.dosePerDay = dosePerDay;
         this.dosePerTime = dosePerTime;
         this.copaymentRateCd = copaymentRateCd;
+        this.createYmd = LocalDate.now();
     }
 }

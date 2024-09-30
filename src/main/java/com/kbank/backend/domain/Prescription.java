@@ -74,6 +74,7 @@ public class Prescription {
         this.description = description;
         this.prescriptionSt = prescriptionSt;
         this.insuranceSt = insuranceSt;
+        this.createYmd = LocalDateTime.now();
     }
 
 

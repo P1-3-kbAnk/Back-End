@@ -43,5 +43,6 @@ public class Disease {
     public Disease(String diseaseCd, Prescription diseasePrescription) {
         this.diseaseCd = diseaseCd;
         this.diseasePrescription = diseasePrescription;
+        this.createYmd = LocalDate.now();
     }
 }

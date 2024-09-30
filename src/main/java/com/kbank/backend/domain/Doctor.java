@@ -47,13 +47,6 @@ public class Doctor {
     @Column(name="gender")
     private Gender gender;
 
-    // 없애야됨
-//    @Column(name="first_no")
-//    private String firstNo;
-//
-//    @Column(name="last_no")
-//    private String lastNo;
-
     @Enumerated(EnumType.STRING)
     @Column(name="provider")
     private Provider provider;
@@ -85,5 +78,6 @@ public class Doctor {
         this.socialId = "none";
         this.provider = Provider.KAKAO;
         this.doctorHospital = doctorHospital;
+        this.createYmd = LocalDate.now();
     }
 }
