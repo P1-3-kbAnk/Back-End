@@ -74,7 +74,7 @@ public class User {
     private LocalDate createYmd;
 
     /* Relation */
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "medInkUser", fetch = FetchType.LAZY)
     private List<MedicineIntake> medicineIntakeList;
 
 //    @Builder

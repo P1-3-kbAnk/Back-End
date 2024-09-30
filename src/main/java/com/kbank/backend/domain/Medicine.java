@@ -73,7 +73,7 @@ public class Medicine {
     private LocalDate createYmd;
 
     /* Relation */
-    @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "medInkMedicine", fetch = FetchType.LAZY)
     List<MedicineIntake> medicineIntakeList;
 
     @Builder

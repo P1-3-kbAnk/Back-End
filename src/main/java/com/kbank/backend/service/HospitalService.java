@@ -43,7 +43,7 @@ public class HospitalService {
     // 특정 동(Dong)에 속한 병원 정보 조회
     public List<HospitalResponse> getHospitalsByDong(Dong dong) {
 
-        List<Hospital> hospitals = hospitalRepository.findByHospitalDongFk(dong);
+        List<Hospital> hospitals = hospitalRepository.findByHospitalDong(dong);
 
         List<HospitalResponse> hospitalResponses = hospitals.stream()
                 .map(HospitalResponse::new)

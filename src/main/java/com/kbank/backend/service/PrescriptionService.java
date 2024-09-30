@@ -1,7 +1,7 @@
 package com.kbank.backend.service;
 
 import com.kbank.backend.domain.*;
-import com.kbank.backend.dto.DiseaseDto;
+//import com.kbank.backend.dto.DiseaseDto;
 import com.kbank.backend.dto.request.DiseaseRequestDto;
 import com.kbank.backend.dto.request.PrescriptionMedicineRequestDto;
 import com.kbank.backend.dto.request.PrescriptionRequestDto;
