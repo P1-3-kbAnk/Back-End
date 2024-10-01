@@ -19,10 +19,26 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="prescription_medicine_tb")
 public class PrescriptionMedicine {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="pre_med_pk")
     private long preMedPk;
+
+    @Column(name ="medicine_nm")
+    private String medicineNm;
+
+    @Column(name="dose_pre_morning")
+    private int dosePreMorning;
+
+    @Column(name="dose_pre_lunch")
+    private int dosePreLunch;
+
+    @Column(name="dose_pre_dinner")
+    private int dosePreDinner;
+
+    @Column(name="method")
+    private String method;
 
     @Column(name="total_days")
     private int totalDays;
@@ -41,10 +57,43 @@ public class PrescriptionMedicine {
     private Medicine preMedMedicine;
 
     @Builder
-    public PrescriptionMedicine(int totalDays, Prescription preMedPrescription, Medicine preMedMedicine) {
+    public PrescriptionMedicine(int totalDays,String medicineNm, int dosePreMorning,int dosePreLunch,int dosePreDinner, String method, Prescription preMedPrescription, Medicine preMedMedicine) {
         this.totalDays = totalDays;
         this.preMedPrescription = preMedPrescription;
         this.preMedMedicine = preMedMedicine;
+        this.medicineNm=medicineNm;
+        this.dosePreMorning= dosePreMorning;
+        this.dosePreLunch=dosePreLunch;
+        this.dosePreDinner=dosePreDinner;
+        this.method=method;
         this.createYmd = LocalDateTime.now();
     }
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name="pre_med_pk")
+//    private long preMedPk;
+//
+//    @Column(name="total_days")
+//    private int totalDays;
+//
+//    @Column(name = "create_ymd", nullable = false)
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+//    private LocalDateTime createYmd;
+//
+//    /* Relation */
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="pre_med_prescription_fk") // prescription_pk를 참조
+//    private Prescription preMedPrescription;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="pre_med_medicine_fk")
+//    private Medicine preMedMedicine;
+//
+//    @Builder
+//    public PrescriptionMedicine(int totalDays, Prescription preMedPrescription, Medicine preMedMedicine) {
+//        this.totalDays = totalDays;
+//        this.preMedPrescription = preMedPrescription;
+//        this.preMedMedicine = preMedMedicine;
+//        this.createYmd = LocalDateTime.now();
+//    }
 }
