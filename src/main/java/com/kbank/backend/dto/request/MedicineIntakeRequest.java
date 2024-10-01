@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Getter
 @Builder
 @AllArgsConstructor
@@ -18,15 +20,17 @@ public class MedicineIntakeRequest {
     private long medInkUserID;
     private long medInkMedicineFk;
 
+    private LocalDate day;
     private Meal meal;
     private boolean eatSt;
 
     public MedicineIntake toEntity(User user, Medicine medicine) {
         return MedicineIntake.builder()
-                .medInkUserFk(user)
-                .medInkMedicineFk(medicine)
                 .meal(meal)
+                .day(day)
                 .eatSt(eatSt)
+                .user(user)
+                .medicine(medicine)
                 .build();
     }
 

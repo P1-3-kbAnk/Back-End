@@ -10,7 +10,7 @@ import com.kbank.backend.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,14 +29,15 @@ public class PrescriptionService {
     private final MedicineRepository medicineRepository;
 
     @Transactional
-    public boolean updatePrescriptionSt(long id) {
+    public boolean updateInsuranceSt(long id) {
         Prescription prescription = prescriptionRepository.findById(id)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
         //반대 상태로 바꾸기
-        prescription.setPrescriptionSt(!prescription.isPrescriptionSt());
+        prescription.setInsuranceSt(!prescription.isInsuranceSt());
         prescriptionRepository.save(prescription);
         return true;
     }
+
 
     //처방 받아야 할 리스트 조회
     @Transactional
@@ -48,6 +49,8 @@ public class PrescriptionService {
 
         for (Prescription prescription : prescriptions) {
 
+            // 현재 시간이 유효기간 안에 있는지 비교
+            if (!LocalDateTime.now().isBefore(prescription.getCreateYmd().plusDays(prescription.getDuration()))) continue;
             //처방여부 true면 ㄴㄴㄴ
             if(prescription.isPrescriptionSt()) continue;;
 

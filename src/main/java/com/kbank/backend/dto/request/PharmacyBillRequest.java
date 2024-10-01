@@ -32,10 +32,9 @@ public class PharmacyBillRequest {
     @Builder
     public PharmacyBill toEntity(Prescription prescription, Pharmacy pharmacy) {
         return PharmacyBill.builder()
-                .billPrescriptionFk(prescription)
-                .pharmacyBillPharmacyFk(pharmacy)
+                .pharmacyBillPrescription(prescription)
+                .pharmacyBillPharmacy(pharmacy)
                 .totalPrice(totalPrice)
-                .billYmd(billYmd)
                 .build();
     }
 
