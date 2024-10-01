@@ -3,6 +3,7 @@ package com.kbank.backend.service;
 import com.kbank.backend.domain.Doctor;
 import com.kbank.backend.domain.Hospital;
 import com.kbank.backend.dto.request.DoctorRequestDto;
+import com.kbank.backend.dto.response.DoctorResponseDto;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.DoctorRepository;
@@ -19,7 +20,6 @@ public class DoctorService {
     private final HospitalRepository hospitalRepository;
 
     public Boolean createDoctor(DoctorRequestDto doctorRequestDto) {
-
         // 시큐리티 후 수정
         Hospital hospital = hospitalRepository.findById(doctorRequestDto.getHospitalPk())
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_HOSPITAL));
@@ -35,5 +35,12 @@ public class DoctorService {
         doctorRepository.save(newDoctor);
 
         return Boolean.TRUE;
+    }
+
+    public DoctorResponseDto doctorInfo(Long doctorPk) {
+        Doctor doctor = doctorRepository.findDoctorByDoctorPk(doctorPk)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_DOCTOR));
+
+        return DoctorResponseDto.toEntity(doctor);
     }
 }
