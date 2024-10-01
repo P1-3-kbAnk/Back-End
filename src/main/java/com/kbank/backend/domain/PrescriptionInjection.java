@@ -23,7 +23,7 @@ public class PrescriptionInjection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="pre_inj_pk")
-    private long preInjPk;
+    private Long preInjPk;
 
     @Column(name="total_days")
     private Integer totalDays;

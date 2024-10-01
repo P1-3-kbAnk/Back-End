@@ -27,13 +27,13 @@ public class Injection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="injection_pk")
-    private long injectionPk;
+    private Long injectionPk;
 
     @Column(name="injection_nm")
     private String injectionNm;
 
     @Column(name="injection_cd")
-    private long injectionCd;
+    private Long injectionCd;
 
     @Column(name="price")
     private Long price;
@@ -56,7 +56,7 @@ public class Injection {
     private CopaymentRateCd copaymentRateCd;
 
     @Builder
-    public Injection(String injectionNm, long injectionCd, Long price, String sideEffect, String unit, CopaymentRateCd copaymentRateCd, Time time, String efficacy) {
+    public Injection(String injectionNm, Long injectionCd, Long price, String sideEffect, String unit, CopaymentRateCd copaymentRateCd, Time time, String efficacy) {
         this.injectionNm = injectionNm;
         this.injectionCd = injectionCd;
         this.price = price;
