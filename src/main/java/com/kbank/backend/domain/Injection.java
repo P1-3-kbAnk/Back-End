@@ -9,6 +9,7 @@ package com.kbank.backend.domain;
 */
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.kbank.backend.enumerate.CopaymentRateCd;
 import com.kbank.backend.enumerate.Rate;
 import com.kbank.backend.enumerate.Time;
 import lombok.*;
@@ -36,28 +37,12 @@ public class Injection {
 
     @Column(name="price")
     private Long price;
-
-    @Column(name="caution")
-    private String caution;
-
-    @Column(name="side_effect")
+    //부작용 및 주의사항
+    @Column(name="sideEffect")
     private String sideEffect;
-
-    @Column(name="method")
-    private String method;
 
     @Column(name="unit")
     private String unit;
-
-    @Column(name="dose_per_time")
-    private int dosePerTime;
-
-    @Column(name="dose_per_day")
-    private int dosePerDay;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name="copayment_rate_cd")
-    private Rate copaymentRateCd;
 
     @Enumerated(EnumType.STRING) // EnumType.STRING을 사용하면 문자열로 저장
     @Column(name = "time")
@@ -66,24 +51,19 @@ public class Injection {
     @Column(name="efficacy")
     private String efficacy;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @Column(name = "create_ymd")
-    private LocalDateTime createYmd;
+    @Enumerated(EnumType.STRING) // EnumType.STRING을 사용하면 문자열로 저장
+    @Column(name="copayment_rate_cd")
+    private CopaymentRateCd copaymentRateCd;
 
     @Builder
-    public Injection(String injectionNm, long injectionCd, Long price, String caution, String sideEffect, String method, String unit, int dosePerTime, int dosePerDay, Rate copaymentRateCd, Time time, String efficacy) {
+    public Injection(String injectionNm, long injectionCd, Long price, String sideEffect, String unit, CopaymentRateCd copaymentRateCd, Time time, String efficacy) {
         this.injectionNm = injectionNm;
         this.injectionCd = injectionCd;
         this.price = price;
-        this.caution = caution;
         this.sideEffect = sideEffect;
         this.unit = unit;
-        this.dosePerTime = dosePerTime;
-        this.dosePerDay = dosePerDay;
-        this.copaymentRateCd = copaymentRateCd;
         this.time = time;
         this.efficacy = efficacy;
-        this.method = method;
-        this.createYmd = LocalDateTime.now();
+        this.copaymentRateCd=copaymentRateCd;
     }
 }

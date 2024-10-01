@@ -26,11 +26,26 @@ public class PrescriptionInjection {
     private long preInjPk;
 
     @Column(name="total_days")
-    private int totalDays;
+    private Integer totalDays;
 
     @Column(name = "create_ymd", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createYmd;
+
+    @Column(name="dose_per_morning")
+    private Integer dosePerMorning;
+
+    @Column(name="dose_per_lunch")
+    private Integer dosePerLunch;
+
+    @Column(name="dose_per_dinner")
+    private Integer dosePerDinner;
+
+    @Column(name="method")
+    private String method;
+
+    @Column(name ="injection_nm")
+    private String injectionNm;
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,11 +56,15 @@ public class PrescriptionInjection {
     @JoinColumn(name="pre_inj_injection_fk")
     private Injection preInjInjection;
 
-    @Builder
-    public PrescriptionInjection(int totalDays, Prescription preInjPrescription, Injection preInjInjection) {
+    public PrescriptionInjection(Integer totalDays, Integer dosePerMorning, Integer dosePerLunch, Integer dosePerDinner, String method, String injectionNm, Prescription preInjPrescription, Injection preInjInjection) {
         this.totalDays = totalDays;
+        this.dosePerMorning = dosePerMorning;
+        this.dosePerLunch = dosePerLunch;
+        this.dosePerDinner = dosePerDinner;
+        this.method = method;
+        this.injectionNm = injectionNm;
         this.preInjPrescription = preInjPrescription;
         this.preInjInjection = preInjInjection;
-        this.createYmd = LocalDateTime.now();
+        this.createYmd=LocalDateTime.now();
     }
 }
