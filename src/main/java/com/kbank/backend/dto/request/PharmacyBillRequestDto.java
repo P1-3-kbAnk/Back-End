@@ -21,8 +21,6 @@ public class PharmacyBillRequestDto {
     private long totalPrice;
 
 
-
-    @Builder
     public PharmacyBill toEntity(Prescription prescription, Pharmacy pharmacy) {
         return PharmacyBill.builder()
                 .pharmacyBillPrescription(prescription)
@@ -30,6 +28,5 @@ public class PharmacyBillRequestDto {
                 .totalPrice(totalPrice)
                 .build();
     }
-
 
 }

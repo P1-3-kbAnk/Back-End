@@ -3,7 +3,7 @@ package com.kbank.backend.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -20,7 +20,7 @@ public class PharmacyBill {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
-    private LocalDate createYmd;
+    private LocalDateTime createYmd;
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,6 +36,6 @@ public class PharmacyBill {
         this.totalPrice = totalPrice;
         this.pharmacyBillPrescription = pharmacyBillPrescription;
         this.pharmacyBillPharmacy = pharmacyBillPharmacy;
-        this.createYmd = LocalDate.now();
+        this.createYmd = LocalDateTime.now();
     }
 }
