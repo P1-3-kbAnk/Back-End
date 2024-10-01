@@ -42,5 +42,6 @@ public class DoctorService {
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_DOCTOR));
 
         return DoctorResponseDto.toEntity(doctor);
+
     }
 }
