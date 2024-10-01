@@ -14,8 +14,7 @@ import com.kbank.backend.enumerate.Time;
 import lombok.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -69,7 +68,7 @@ public class Injection {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
-    private LocalDate createYmd;
+    private LocalDateTime createYmd;
 
     @Builder
     public Injection(String injectionNm, long injectionCd, Long price, String caution, String sideEffect, String method, String unit, int dosePerTime, int dosePerDay, Rate copaymentRateCd, Time time, String efficacy) {
@@ -85,6 +84,6 @@ public class Injection {
         this.time = time;
         this.efficacy = efficacy;
         this.method = method;
-        this.createYmd = LocalDate.now();
+        this.createYmd = LocalDateTime.now();
     }
 }

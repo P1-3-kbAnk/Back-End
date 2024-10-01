@@ -80,4 +80,8 @@ public class Prescription {
     public void setPrescriptionSt(boolean prescriptionSt) {
         this.prescriptionSt = prescriptionSt;
     }
+
+    public void setInsuranceSt(boolean insuranceSt) {
+        this.insuranceSt = insuranceSt;
+    }
 }

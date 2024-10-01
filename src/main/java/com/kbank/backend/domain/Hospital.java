@@ -14,8 +14,7 @@ import lombok.*;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -42,7 +41,7 @@ public class Hospital {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
-    private LocalDate createYmd;
+    private LocalDateTime createYmd;
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -55,6 +54,6 @@ public class Hospital {
         this.hospitalNo = hospitalNo;
         this.faxNo = faxNo;
         this.hospitalDong = hospitalDong;
-        this.createYmd = LocalDate.now();
+        this.createYmd = LocalDateTime.now();
     }
 }

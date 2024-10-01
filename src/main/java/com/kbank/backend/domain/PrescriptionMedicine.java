@@ -11,8 +11,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -30,7 +29,7 @@ public class PrescriptionMedicine {
 
     @Column(name = "create_ymd", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDate createYmd;
+    private LocalDateTime createYmd;
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -46,6 +45,6 @@ public class PrescriptionMedicine {
         this.totalDays = totalDays;
         this.preMedPrescription = preMedPrescription;
         this.preMedMedicine = preMedMedicine;
-        this.createYmd = LocalDate.now();
+        this.createYmd = LocalDateTime.now();
     }
 }
