@@ -23,8 +23,8 @@ public class MedicineIntakeRequest {
 
     public MedicineIntake toEntity(User user, Medicine medicine) {
         return MedicineIntake.builder()
-                .medInkUserFk(user)
-                .medInkMedicineFk(medicine)
+                .user(user)
+                .medicine(medicine)
                 .meal(meal)
                 .eatSt(eatSt)
                 .build();

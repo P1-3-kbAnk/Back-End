@@ -23,7 +23,7 @@ public class MedicineIntakeResponse {
     private boolean eatSt;
 
     public MedicineIntakeResponse(MedicineIntake medicineIntake) {
-        this.medInkUserFk = medicineIntake.getMedInkUserFk().getUserPk();
+        this.medInkUserFk = medicineIntake.getMedInkUser().getUserPk();
         this.meal = medicineIntake.getMeal();
         this.eatSt = medicineIntake.isEatSt();
     }
