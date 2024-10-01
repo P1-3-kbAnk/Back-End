@@ -10,14 +10,11 @@ package com.kbank.backend.domain;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -43,7 +40,7 @@ public class Report {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
-    private LocalDate createYmd;
+    private LocalDateTime createYmd;
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,7 +53,7 @@ public class Report {
         this.exercise = exercise;
         this.food = food;
         this.reportPrescription = reportPrescription;
-        this.createYmd = LocalDate.now();
+        this.createYmd = LocalDateTime.now();
     }
 
 

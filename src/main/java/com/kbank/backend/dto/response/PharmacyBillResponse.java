@@ -1,7 +1,6 @@
 package com.kbank.backend.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.kbank.backend.domain.HospitalBill;
 import com.kbank.backend.domain.PharmacyBill;
 import lombok.*;
 
@@ -27,7 +26,8 @@ public class PharmacyBillResponse {
         this.PrescriptionFK = pharmacyBill.getPharmacyBillPrescription().getPrescriptionPk();
         this.PharmacyFK = pharmacyBill.getPharmacyBillPharmacy().getPharmacyPk();
         this.totalPrice = pharmacyBill.getTotalPrice();
-        this.billYmd = pharmacyBill.getCreateYmd().atStartOfDay();
+        this.billYmd = pharmacyBill.getCreateYmd();
+
 
     }
 

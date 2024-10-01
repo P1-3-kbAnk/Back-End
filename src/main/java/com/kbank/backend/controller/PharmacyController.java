@@ -26,7 +26,7 @@ public class PharmacyController {
         return ResponseDto.created(chemistService.createChemist(chemistRequestDto));
     }
 
-    // 처방전 상태 토글
+    // 처방전 상태여부 업데이트
     @PatchMapping("/prescription/{id}")
     public ResponseDto<String> updatePrescriptionSt(@PathVariable("id") long id) {
         pharmacyService.updatePrescriptionSt(id);

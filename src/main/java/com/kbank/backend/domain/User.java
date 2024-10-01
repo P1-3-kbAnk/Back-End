@@ -14,8 +14,7 @@ import lombok.*;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -71,7 +70,7 @@ public class User {
     
     @Column(name = "create_ymd", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDate createYmd;
+    private LocalDateTime createYmd;
 
     /* Relation */
     @OneToMany(mappedBy = "medInkUser", fetch = FetchType.LAZY)
@@ -100,7 +99,7 @@ public class User {
         this.role = Role.USER;
         this.socialId = "none";
         this.provider = Provider.KAKAO;
-        this.createYmd = LocalDate.now();
+        this.createYmd = LocalDateTime.now();
     }
 
     /* Update */
