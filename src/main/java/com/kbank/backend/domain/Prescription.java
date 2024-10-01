@@ -25,31 +25,26 @@ public class Prescription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prescription_pk")
-    private long prescriptionPk;
+    private Long prescriptionPk;
 
     @Column(name = "prescription_no")
-    private int prescriptionNo;
+    private Integer prescriptionNo;
 
     @Column(name = "duration")
-    private int duration;
+    private Integer duration;
 
     @Column(name = "description")
     private String description;
 
     @Column(name = "prescription_st")
-    private boolean prescriptionSt;
+    private Boolean prescriptionSt;
 
     @Column(name = "insurance_st")
-    private boolean insuranceSt;
+    private Boolean insuranceSt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
     private LocalDateTime createYmd;
-
-    @PrePersist
-    public void prePersist() {
-        this.createYmd = (this.createYmd == null) ? LocalDateTime.now() : this.createYmd;
-    }
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -65,16 +60,16 @@ public class Prescription {
     private Chemist preChemist;
 
     @Builder
-    public Prescription(Doctor preDoctor, User preUser, Chemist preChemist, int prescriptionNo, int duration, String description, boolean prescriptionSt, boolean insuranceSt) {
-        this.preDoctor = preDoctor;
-        this.preUser = preUser;
-        this.preChemist = preChemist;
+    public Prescription(Integer prescriptionNo, Integer duration, String description, Doctor preDoctor, User preUser, Chemist preChemist) {
         this.prescriptionNo = prescriptionNo;
         this.duration = duration;
         this.description = description;
-        this.prescriptionSt = prescriptionSt;
-        this.insuranceSt = insuranceSt;
+        this.preDoctor = preDoctor;
+        this.preUser = preUser;
+        this.preChemist = preChemist;
         this.createYmd = LocalDateTime.now();
+        this.prescriptionSt = Boolean.FALSE;
+        this.insuranceSt = Boolean.FALSE;
     }
 
     public void setPrescriptionSt(boolean prescriptionSt) {
