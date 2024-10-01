@@ -2,25 +2,18 @@ package com.kbank.backend.dto.response;
 
 
 import com.kbank.backend.domain.Report;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Getter
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReportResponseDto {
 
     private String intakeMethod;
     private String exercise;
     private String food;
 
-    @Builder
-    public ReportResponseDto(String intakeMethod, String exercise, String food) {
-        this.intakeMethod = intakeMethod;
-        this.exercise = exercise;
-        this.food = food;
-    }
 
     public static ReportResponseDto toEntity(Report report) {
         return ReportResponseDto

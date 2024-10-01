@@ -20,27 +20,29 @@ public class PrescriptionController {
 
     //처방 받아야 할 조회
     @GetMapping("/new/list")
-    public ResponseDto<List<PrescriptionHtmlResponseDto>> notReceivedPrescriptionHtmls() {
+    public ResponseDto<List<PrescriptionHtmlResponseDto>> notReceivedPrescriptionHtmls(@RequestParam(name = "userId") Long userId) {
         List<PrescriptionHtmlResponseDto> prescriptionList = prescriptionService.notReceivedPrescriptionHtmls();
         return ResponseDto.ok(prescriptionList);
     }
 
     //전체 조회
     @GetMapping("/list")
-    public ResponseDto<List<PrescriptionHtmlResponseDto>> getAllPrescriptionHtmls() {
+    public ResponseDto<List<PrescriptionHtmlResponseDto>> getAllPrescriptionHtmls(@RequestParam(name = "userId") Long userId) {
         List<PrescriptionHtmlResponseDto> prescriptionList = prescriptionService.getAllPrescriptionHtmls();
         return ResponseDto.ok(prescriptionList);
     }
 
     //id별 처방전 조회
     @GetMapping("/detail/{id}")
-    public ResponseDto<PrescriptionHtmlResponseDto> getPrescription(@PathVariable("id") long id){
+    public ResponseDto<PrescriptionHtmlResponseDto> getPrescription(@RequestParam(name = "userId") Long userId,
+                                                                    @PathVariable("id") Long id){
         return ResponseDto.ok(prescriptionService.getPrescriptionHtml(id));
     }
 
     // 여기 반환 값 어떻게 해야 함요?
     @PostMapping("/post")
-    public ResponseDto<Object> savePrescription(@RequestBody PrescriptionHtmlRequestDto preHtmlReqDto) {
+    public ResponseDto<Object> savePrescription(@RequestParam(name = "userId") Long userId,
+                                                @RequestBody PrescriptionHtmlRequestDto preHtmlReqDto) {
 
         prescriptionService.createPrescription(preHtmlReqDto);
         return ResponseDto.ok("처방전이 성공적으로 저장되었습니다."); // 성공 응답

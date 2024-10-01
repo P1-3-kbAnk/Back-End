@@ -1,37 +1,30 @@
 package com.kbank.backend.dto.request;
 
 import com.kbank.backend.enumerate.Gender;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import jakarta.validation.constraints.NotNull;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequestDto {
 
-    @NotNull
+    @NotBlank
     private String userNm;
-
-    @NotNull
+    @NotBlank
     private String phoneNo;
-
-    @NotNull
+    @NotBlank
     private Gender gender;
-
-    @NotNull
+    @NotBlank
     private String firstNo;
-
-    @NotNull
+    @NotBlank
     private String lastNo;
-
-    @NotNull
+    @NotBlank
     private String bankNm;
-
-    @NotNull
+    @NotBlank
     private String accountNo;
-
-    @NotNull
+    @NotBlank
     private String accountPw;
 }
