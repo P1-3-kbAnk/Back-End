@@ -15,7 +15,7 @@ public class InsuranceController {
     private final PrescriptionService prescriptionService;
 
     @PatchMapping("/update/{id}")
-    public ResponseDto<String> updatePrescriptionSt(@PathVariable("id") long id) {
+    public ResponseDto<String> updatePrescriptionSt(@PathVariable("id") Long id) {
         prescriptionService.updateInsuranceSt(id);
         return ResponseDto.ok("success");
     }

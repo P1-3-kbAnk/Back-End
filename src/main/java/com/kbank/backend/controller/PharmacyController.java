@@ -5,10 +5,8 @@ import com.kbank.backend.dto.request.ChemistRequestDto;
 import com.kbank.backend.dto.response.PrescriptionHtmlResponseDto;
 import com.kbank.backend.service.ChemistService;
 import com.kbank.backend.service.PharmacyService;
-import com.kbank.backend.service.PrescriptionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +26,14 @@ public class PharmacyController {
 
     // 처방전 상태여부 업데이트
     @PatchMapping("/prescription/{id}")
-    public ResponseDto<String> updatePrescriptionSt(@PathVariable("id") long id) {
+    public ResponseDto<String> updatePrescriptionSt(@RequestParam(name = "userId") Long userId,
+                                                    @PathVariable("id") Long id) {
         pharmacyService.updatePrescriptionSt(id);
         return ResponseDto.ok("success");
     }
     @GetMapping("/list/{id}")
-    public ResponseDto<List<PrescriptionHtmlResponseDto>> receivedPrescription(@PathVariable("id") long id){
+    public ResponseDto<List<PrescriptionHtmlResponseDto>> receivedPrescription(@RequestParam(name = "userId") Long userId,
+                                                                               @PathVariable("id") Long id){
         List<PrescriptionHtmlResponseDto> prescriptionList = pharmacyService.receivedPrescription(id);
         return ResponseDto.ok(prescriptionList);
     }

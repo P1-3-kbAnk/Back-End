@@ -6,8 +6,6 @@ import com.kbank.backend.service.HospitalBillService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/patient/prescription")
 @RequiredArgsConstructor
@@ -23,8 +21,4 @@ public class HospitalBillController {
         return ResponseDto.ok(hospitalBillService.getBillByPrescriptionFk(userId, id));
     }
 
-
-
-
 }
-

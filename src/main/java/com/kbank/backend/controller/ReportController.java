@@ -17,7 +17,8 @@ public class ReportController {
 
     // 처방전 주키를 가지고 리포트 가져오기
     @GetMapping("/get/{id}")
-    public ResponseDto<ReportResponseDto> getReport(@PathVariable("id") Long id) {
+    public ResponseDto<ReportResponseDto> getReport(@RequestParam(name = "userId") Long userId,
+                                                    @PathVariable("id") Long id) {
         return ResponseDto.ok(reportService.getReportByPrescription(id));
     }
 
