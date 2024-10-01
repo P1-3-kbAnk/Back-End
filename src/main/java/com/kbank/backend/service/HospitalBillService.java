@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,7 +21,7 @@ public class HospitalBillService {
 
     // 처방전 ID로 hospitalBill 조회
     @Transactional
-    public HospitalBillResponseDto getBillByPrescriptionFk(Long prescriptionId) {
+    public HospitalBillResponseDto getBillByPrescriptionFk(Long prescriptionId, @RequestParam long userId) {
 
         HospitalBill hospitalBill = hospitalBillRepository.findByHospitalBillPrescriptionPrescriptionPk(prescriptionId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
@@ -29,7 +30,7 @@ public class HospitalBillService {
     }
 
     // hospitalBill 삭제
-    public void deleteBill(Long id) {
+    public void deleteBill(Long id,@RequestParam long userId) {
 
         hospitalBillRepository.deleteById(id);
 

@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,7 +21,7 @@ public class PharmacyBillService {
 
     // 처방전 ID로  pharmacyBill 조회
     @Transactional
-    public PharmacyBillResponseDto getBillByPrescription(Long prescriptionId) {
+    public PharmacyBillResponseDto getBillByPrescription(Long prescriptionId,@RequestParam long userId) {
 
         PharmacyBill pharmacyBill = pharmacyBillRepository
                 .findByPharmacyBillPrescriptionPrescriptionPk(prescriptionId)
@@ -31,7 +32,7 @@ public class PharmacyBillService {
     }
 
     // pharmacyBill 삭제
-    public void deleteBill(Long id) {
+    public void deleteBill(Long id,@RequestParam long userId) {
 
         pharmacyBillRepository.deleteById(id);
     }
