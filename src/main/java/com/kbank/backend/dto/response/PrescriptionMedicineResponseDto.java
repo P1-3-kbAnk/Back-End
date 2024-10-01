@@ -9,8 +9,8 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PrescriptionMedicineResponseDto {
-    private int totalDays; // 총 투약 일수
-    private long preMedPrescription;
+    private Integer totalDays; // 총 투약 일수
+    private Long preMedPrescription;
     private PrescriptionResponseDto prescription; // 처방전 정보
 
 

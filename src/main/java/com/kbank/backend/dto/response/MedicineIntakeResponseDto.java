@@ -13,9 +13,9 @@ import java.time.LocalDate;
 @Builder
 public class MedicineIntakeResponseDto {
 
-    private long medInkPk;
+    private Long medInkPk;
     private Meal meal;
-    private boolean eatSt;
+    private Boolean eatSt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate day;
 

@@ -2,7 +2,7 @@ package com.kbank.backend.dto.request;
 
 import com.kbank.backend.enumerate.Gender;
 import com.kbank.backend.enumerate.Tp;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Getter
@@ -10,21 +10,17 @@ import lombok.*;
 @NoArgsConstructor
 public class DoctorRequestDto {
 
-    @NotNull
+    @NotBlank
+    private Long hospitalPk;
+    @NotBlank
     private String doctorNm;
-
-    @NotNull
+    @NotBlank
     private Tp tp;
-
-    @NotNull
+    @NotBlank
     private String doctorNo;
-
-    @NotNull
+    @NotBlank
     private String phoneNo;
-
-    @NotNull
+    @NotBlank
     private Gender gender;
 
-    @NotNull
-    private Long hospitalPk;
 }

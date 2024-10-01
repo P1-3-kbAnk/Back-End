@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access =AccessLevel.PACKAGE)
 public class DiseaseResponseDto {
-    private long diseasePrescription;
+    private Long diseasePrescription;
     private String diseaseCd;
 
     public static DiseaseResponseDto toEntity(Disease disease) {

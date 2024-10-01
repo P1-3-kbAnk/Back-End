@@ -39,8 +39,8 @@ public class PrescriptionResponseDto {
                 .prescriptionNo(prescription.getPrescriptionNo())  // prescriptionNo 필드 매핑
                 .duration(prescription.getDuration())  // duration 필드 매핑
                 .description(prescription.getDescription())  // description 필드 매핑
-                .prescriptionSt(prescription.isPrescriptionSt())  // prescriptionSt 필드 매핑
-                .insuranceSt(prescription.isInsuranceSt())  // insuranceSt 필드 매핑
+                .prescriptionSt(prescription.getPrescriptionSt())  // prescriptionSt 필드 매핑
+                .insuranceSt(prescription.getInsuranceSt())  // insuranceSt 필드 매핑
                 .build();
     }
 

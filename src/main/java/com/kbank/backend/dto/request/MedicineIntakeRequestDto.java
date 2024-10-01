@@ -1,7 +1,7 @@
 package com.kbank.backend.dto.request;
 
 import com.kbank.backend.enumerate.Meal;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MedicineIntakeRequestDto {
 
-    @NotNull
+    @NotBlank
+    private Long medicineId;
+    @NotBlank
     private Meal meal;
-
-    @NotNull
-    private boolean eatSt;
-
-    @NotNull
-    private Long medicineId; // Medicine 객체 대신 ID로 받음
+    @NotBlank
+    private Boolean eatSt;
 }
