@@ -21,7 +21,7 @@ public class PharmacyBillService {
 
     // 처방전 ID로  pharmacyBill 조회
     @Transactional
-    public PharmacyBillResponseDto getBillByPrescription(Long prescriptionId,@RequestParam long userId) {
+    public PharmacyBillResponseDto getBillByPrescription(Long prescriptionId,long userId) {
 
         PharmacyBill pharmacyBill = pharmacyBillRepository
                 .findByPharmacyBillPrescriptionPrescriptionPk(prescriptionId)
@@ -32,7 +32,7 @@ public class PharmacyBillService {
     }
 
     // pharmacyBill 삭제
-    public void deleteBill(Long id,@RequestParam long userId) {
+    public void deleteBill(Long id, long userId) {
 
         pharmacyBillRepository.deleteById(id);
     }

@@ -4,10 +4,7 @@ import com.kbank.backend.dto.ResponseDto;
 import com.kbank.backend.dto.response.PharmacyBillResponseDto;
 import com.kbank.backend.service.PharmacyBillService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,7 +18,7 @@ public class PharmacyBillController {
 
     //특정 처방전 id로 조회
     @GetMapping("/pharmacyBill/{id}")
-    public ResponseDto<PharmacyBillResponseDto> detailHospitalBill(@PathVariable("id") long id){
-        return ResponseDto.ok(pharmacyBillService.getBillByPrescription(id));
+    public ResponseDto<PharmacyBillResponseDto> detailHospitalBill(@RequestParam(name = "userId") Long userId, @PathVariable("id") long id){
+        return ResponseDto.ok(pharmacyBillService.getBillByPrescription(userId,id));
     }
 }
