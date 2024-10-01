@@ -61,9 +61,9 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-core:2.15.0"
     implementation "com.fasterxml.jackson.core:jackson-annotations:2.15.0"
     implementation "com.fasterxml.jackson.core:jackson-databind:2.15.0"
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0"
+    // implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0"
     implementation "net.minidev:json-smart:2.4.10"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
 
     /*** JSP, SERVLET, JSTL ***/
     implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'

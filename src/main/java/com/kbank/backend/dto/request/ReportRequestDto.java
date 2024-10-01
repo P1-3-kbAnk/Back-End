@@ -4,16 +4,14 @@ package com.kbank.backend.dto.request;
 import com.kbank.backend.domain.Prescription;
 import com.kbank.backend.domain.Report;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReportRequest {
+public class ReportRequestDto {
 
     @NotBlank
     private List<String> caution;

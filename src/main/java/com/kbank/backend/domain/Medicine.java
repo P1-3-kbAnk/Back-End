@@ -24,7 +24,9 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="medicine_tb")
 public class Medicine {
+
     @Id
+    @Column(name = "medicine_pk")
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가 설정
     private Long medicinePk;
 

@@ -40,10 +40,17 @@ public enum ErrorCode {
     NOT_FOUND_PRESCRIPTION_MEDICINE(40403, HttpStatus.NOT_FOUND, "처방전에 해당 약물이 존재하지 않습니다."),
     NOT_FOUND_HOSPITAL(40404, HttpStatus.NOT_FOUND, " 해당 병원이 존재하지 않습니다."),
     NOT_FOUND_PHARMACY(40405, HttpStatus.NOT_FOUND, " 해당 약국이 존재하지 않습니다."),
+    NOT_FOUND_DOCTOR(40406, HttpStatus.NOT_FOUND, " 해당 의사가 존재하지 않습니다."),
+    NOT_FOUND_CHEMIST(40407, HttpStatus.NOT_FOUND, " 해당 약사가 존재하지 않습니다."),
+
 
     SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러 입니다."),
     AUTH_SERVER_USER_INFO_ERROR(50001, HttpStatus.INTERNAL_SERVER_ERROR, "인증 서버 사용자 정보 조회에 실패하였습니다."),
-    REST_CLIENT_ERROR(50002,HttpStatus.INTERNAL_SERVER_ERROR, "서버 통신 에러입니다.");
+    REST_CLIENT_ERROR(50002,HttpStatus.INTERNAL_SERVER_ERROR, "서버 통신 에러입니다."),
+
+    // FAST API ERROR
+    ERR_FAST_API(60000, HttpStatus.INTERNAL_SERVER_ERROR, "리포트 에러."),
+    TIME_OUT(60001, HttpStatus.REQUEST_TIMEOUT, "타임 아웃 에러.");
 
     private final Integer code;
     private final HttpStatus httpStatus;

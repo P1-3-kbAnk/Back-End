@@ -1,73 +1,54 @@
 package com.kbank.backend.controller;
 
 
-import com.kbank.backend.domain.Prescription;
-import com.kbank.backend.dto.request.PrescriptionRequestDto;
-import com.kbank.backend.dto.response.PrescriptionResponseDto;
+import com.kbank.backend.dto.ResponseDto;
+import com.kbank.backend.dto.request.PrescriptionHtmlRequestDto;
+import com.kbank.backend.dto.response.PrescriptionHtmlResponseDto;
 import com.kbank.backend.service.PrescriptionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @RestController
-@RequestMapping("api/patient/prescription")
+@RequestMapping("/api/patient/prescription")
 @RequiredArgsConstructor
 public class PrescriptionController {
     private final PrescriptionService prescriptionService;
 
 
 
-    // 특정 처방전과 관련된 질병 조회
-    @GetMapping("/diseases/{id}")
-    public ResponseEntity<PrescriptionResponseDto> getPrescriptionWithDisease(@PathVariable("id") Long id) {
-        PrescriptionResponseDto responseDto = prescriptionService.getPrescriptionWithDisease(id);
-        return ResponseEntity.ok(responseDto);
+    //처방 받아야 할 조회
+    @GetMapping("/new/list")
+    public ResponseDto<List<PrescriptionHtmlResponseDto>> notReceivedPrescriptionHtmls() {
+        List<PrescriptionHtmlResponseDto> prescriptionList = prescriptionService.notReceivedPrescriptionHtmls();
+        return ResponseDto.ok(prescriptionList);
     }
 
-    // 처방전과 관련 질병 정보를 함께 입력하는 API
-    @PostMapping("/create")
-    public ResponseEntity<PrescriptionResponseDto> createPrescriptionWithDiseases(@RequestBody PrescriptionRequestDto requestDto) {
-        PrescriptionResponseDto responseDto = prescriptionService.createPrescriptionWithDiseases(requestDto);
-        return ResponseEntity.ok(responseDto);
+    //전체 조회
+    @GetMapping("/list")
+    public ResponseDto<List<PrescriptionHtmlResponseDto>> getAllPrescriptionHtmls() {
+        List<PrescriptionHtmlResponseDto> prescriptionList = prescriptionService.getAllPrescriptionHtmls();
+        return ResponseDto.ok(prescriptionList);
     }
-//    //전체 리스트 조회
-//    @GetMapping("/list")
-//    public ResponseEntity<List<PrescriptionResponseDto>> listPrescription(){
-//        List<PrescriptionResponseDto> prescriptionResponseDtoList =prescriptionService.findAll()
-//                .stream()
-//                .map(PrescriptionResponseDto::toEntity)
-//                .collect(Collectors.toList());
-//        return ResponseEntity.ok(prescriptionResponseDtoList);
-//    }
 
+    //id별 처방전 조회
+    @GetMapping("/detail/{id}")
+    public ResponseDto<PrescriptionHtmlResponseDto> getPrescription(@PathVariable("id") long id){
+        return ResponseDto.ok(prescriptionService.getPrescriptionHtml(id));
+    }
 
-//    //id로 하나 조회
-//    @GetMapping("/detail/{id}")
-//    public ResponseEntity<PrescriptionResponseDto> detialPrescription(@PathVariable("id") long id){
-//        Optional<Prescription> prescription= prescriptionService.findById(id);
-//
-//        PrescriptionResponseDto prescriptionResponseDto = PrescriptionResponseDto.toEntity(prescription.get());
-//
-//        return ResponseEntity.ok(prescriptionResponseDto);
-//    }
-//    //처방받지 않는 처방전들 리스트
-//    @GetMapping("/new/list")
-//    public ResponseEntity<List<PrescriptionResponseDto>> notRecivedPrescription(){
-//        List<PrescriptionResponseDto> prescriptionResponseDtoList =prescriptionService.findNotReceived()
-//                .stream()
-//                .map(PrescriptionResponseDto::toEntity)
-//                .collect(Collectors.toList());
-//        return ResponseEntity.ok(prescriptionResponseDtoList);
-//    }
+    // 여기 반환 값 어떻게 해야 함요?
     @PostMapping("/post")
-    public ResponseEntity<Boolean> createPrescription(@RequestBody PrescriptionRequestDto request) {
-        boolean isSaved = prescriptionService.createPrescription(request);
-        return ResponseEntity.ok(isSaved);
+    public ResponseDto<Object> savePrescription(@RequestBody PrescriptionHtmlRequestDto preHtmlReqDto) {
+
+        prescriptionService.createPrescription(preHtmlReqDto);
+        return ResponseDto.ok("처방전이 성공적으로 저장되었습니다."); // 성공 응답
+
     }
+
+
+
 
 
 }

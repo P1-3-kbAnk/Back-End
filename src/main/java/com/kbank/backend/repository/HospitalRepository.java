@@ -11,6 +11,9 @@ import java.util.Optional;
 @Repository
 public interface HospitalRepository extends JpaRepository<Hospital, Long> {
 
+    //처방전 create용 메서드 생성 - 김성헌
+    List<Hospital> findByHospitalNm(String hospitalNm);
+
     // 특정 ID로 병원 정보 조회
     Optional<Hospital> findById(Long id);
 
@@ -20,8 +23,6 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
     // 특정 동(Dong)에 속한 병원 조회
     List<Hospital> findByHospitalDong(Dong dong);
 
-    // 병원 이름으로 병원 조회
-    List<Hospital> findByHospitalNm(String hospitalNm);
 
     // 전화번호로 병원 조회
     List<Hospital> findByPhoneNo(String phoneNo);
