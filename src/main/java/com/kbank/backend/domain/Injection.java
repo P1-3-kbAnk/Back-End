@@ -38,7 +38,7 @@ public class Injection {
     @Column(name="price")
     private Long price;
     //부작용 및 주의사항
-    @Column(name="sideEffect")
+    @Column(name="side_effect")
     private String sideEffect;
 
     @Column(name="unit")
