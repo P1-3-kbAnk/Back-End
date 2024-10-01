@@ -1,11 +1,9 @@
 package com.kbank.backend.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.kbank.backend.dto.DiseaseDto;
 import lombok.*;
-
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Getter
 @Builder
@@ -24,24 +22,6 @@ public class PrescriptionRequestDto {
     private String description;
     private boolean prescriptionSt;
     private boolean insuranceSt;
-    private List<DiseaseRequestDto> diseases;  // 질병 정보를 리스트로 포함
-//    private List<PrescriptionMedicineRequestDto> preMedReqDtos;
-
-//    @Builder
-//    public PrescriptionRequestDto(long preDoctorFk, long preUserFk, long preChemistFk,
-//                                  int prescriptionNo, int duration, String description,
-//                                  boolean prescriptionSt, boolean insuranceSt, List<DiseaseRequestDto> diseases) {
-//        this.doctorId = preDoctorFk;
-//        this.userId = preUserFk;
-//        this.chemistId = preChemistFk;
-//        this.prescriptionNo = prescriptionNo;
-//        this.duration = duration;
-//        this.description = description;
-//        this.prescriptionSt = prescriptionSt;
-//        this.insuranceSt = insuranceSt;
-//        this.diseases = diseases;
-//    }
-
 
 
 }

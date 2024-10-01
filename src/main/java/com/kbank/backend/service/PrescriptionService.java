@@ -1,27 +1,18 @@
 package com.kbank.backend.service;
 
 import com.kbank.backend.domain.*;
-//import com.kbank.backend.dto.DiseaseDto;
 import com.kbank.backend.dto.MedicineDto;
-import com.kbank.backend.dto.request.DiseaseRequestDto;
-import com.kbank.backend.dto.request.PrescriptionMedicineRequestDto;
-import com.kbank.backend.dto.request.PrescriptionRequestDto;
+import com.kbank.backend.dto.request.PrescriptionHtmlRequestDto;
 import com.kbank.backend.dto.response.PrescriptionHtmlResponseDto;
-import com.kbank.backend.dto.response.PrescriptionMedicineResponseDto;
-import com.kbank.backend.dto.response.PrescriptionResponseDto;
-import com.kbank.backend.dto.response.QrResponse;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.*;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,83 +26,95 @@ public class PrescriptionService {
     private final DiseaseRepository diseaseRepository;
     private final PrescriptionMedicineRepository prescriptionMedicineRepository;
     private final HospitalRepository hospitalRepository;
-
+    private final MedicineRepository medicineRepository;
 
     @Transactional
-    public boolean createPrescription(PrescriptionRequestDto prescriptionRequestDto) {
-        try {
-            // Doctor, User, Chemist 엔티티 조회
-            Doctor doctor = doctorRepository.findById(prescriptionRequestDto.getDoctorId())
-                    .orElseThrow(() -> new EntityNotFoundException("Doctor not found with id: " + prescriptionRequestDto.getDoctorId()));
-            User user = userRepository.findById(prescriptionRequestDto.getUserId())
-                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + prescriptionRequestDto.getUserId()));
-            Chemist chemist = chemistRepository.findById(prescriptionRequestDto.getChemistId())
-                    .orElseThrow(() -> new EntityNotFoundException("Chemist not found with id: " + prescriptionRequestDto.getChemistId()));
+    public boolean updatePrescriptionSt(long id) {
+        Prescription prescription = prescriptionRepository.findById(id)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+        //반대 상태로 바꾸기
+        prescription.setPrescriptionSt(!prescription.isPrescriptionSt());
+        prescriptionRepository.save(prescription);
+        return true;
+    }
 
-            // Prescription 엔티티 빌더 사용
-            Prescription prescription = Prescription.builder()
-                    .preDoctor(doctor)
-                    .preUser(user)
-                    .preChemist(chemist)
-                    .prescriptionNo(prescriptionRequestDto.getPrescriptionNo())
-                    .duration(prescriptionRequestDto.getDuration())
-                    .description(prescriptionRequestDto.getDescription())
-                    .prescriptionSt(prescriptionRequestDto.isPrescriptionSt())
-                    .insuranceSt(prescriptionRequestDto.isInsuranceSt())
-                    .build();
+    //처방 받아야 할 리스트 조회
+    @Transactional
+    public List<PrescriptionHtmlResponseDto> notReceivedPrescriptionHtmls() {
+        // 모든 처방전 조회
+        List<Prescription> prescriptions = prescriptionRepository.findAll();
 
-            // DB에 저장
-            prescriptionRepository.save(prescription);
-            return true;
+        List<PrescriptionHtmlResponseDto> prescriptionResponseList = new ArrayList<>();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+        for (Prescription prescription : prescriptions) {
+
+            //처방여부 true면 ㄴㄴㄴ
+            if(prescription.isPrescriptionSt()) continue;;
+
+            User user = prescription.getPreUser();
+            Doctor doctor = prescription.getPreDoctor();
+            Hospital hospital = doctor.getDoctorHospital();
+
+            // 질병 및 약 정보 조회
+            List<Disease> diseases = diseaseRepository.findByDiseasePrescription(prescription);
+            List<Medicine> medicines = prescriptionMedicineRepository.findMedicineByPrescription(prescription);
+
+            // DTO 리스트 생성
+            List<MedicineDto> medicineList = new ArrayList<>();
+            for (Medicine medicine : medicines) {
+                medicineList.add(MedicineDto.toEntity(medicine)); // DTO 변환
+            }
+            //여기도 dto 써야 될까요
+            List<String> diseaseList = new ArrayList<>();
+            for (Disease disease : diseases) {
+                diseaseList.add(disease.getDiseaseCd()); // 질병 코드 추가
+            }
+
+            // 리스트에 추가
+            prescriptionResponseList.add(PrescriptionHtmlResponseDto.toEntity(
+                    prescription,user,doctor,hospital,diseaseList,medicineList
+            ));
         }
+
+        return prescriptionResponseList; // 모든 처방전 리스트 반환
     }
 
-    // 특정 id로 처방전 조회
-    public Optional<Prescription> findById(Long id) {
-        return prescriptionRepository.findById(id);
-    }
 
-    // 모든 처방전 조회
-    public List<Prescription> findAll() {
-        return prescriptionRepository.findAll();
-    }
+    //전체 리스트 조회
+    @Transactional
+    public List<PrescriptionHtmlResponseDto> getAllPrescriptionHtmls() {
+        // 모든 처방전 조회
+        List<Prescription> prescriptions = prescriptionRepository.findAll();
 
-    // 조제 여부가 false인 처방전 목록 조회
-    public List<Prescription> findNotReceived() {
-        return prescriptionRepository.findByPrescriptionStFalse();
-    }
+        List<PrescriptionHtmlResponseDto> prescriptionResponseList = new ArrayList<>();
 
-    //질병과 같이 조회하기
-    public PrescriptionResponseDto getPrescriptionWithDisease(Long prescriptionId) {
-        // Prescription 엔티티 조회
-        Prescription prescription = prescriptionRepository.findById(prescriptionId)
-                .orElseThrow(() -> new RuntimeException("Prescription not found"));
+        for (Prescription prescription : prescriptions) {
+            User user = prescription.getPreUser();
+            Doctor doctor = prescription.getPreDoctor();
+            Hospital hospital = doctor.getDoctorHospital();
 
-        // Disease 엔티티를 Prescription 객체로 조회
-        List<Disease> diseases = diseaseRepository.findByDiseasePrescription(prescription);
+            // 질병 및 약 정보 조회
+            List<Disease> diseases = diseaseRepository.findByDiseasePrescription(prescription);
+            List<Medicine> medicines = prescriptionMedicineRepository.findMedicineByPrescription(prescription);
 
-        // Disease 엔티티를 DTO로 변환
-        List<DiseaseRequestDto> diseaseDTOs = diseases.stream()
-                .map(disease -> DiseaseRequestDto.builder()
-                        .diseaseCd(disease.getDiseaseCd())
-                        .build())
-                .collect(Collectors.toList());
+            // DTO 리스트 생성
+            List<MedicineDto> medicineList = new ArrayList<>();
+            for (Medicine medicine : medicines) {
+                medicineList.add(MedicineDto.toEntity(medicine)); // DTO 변환
+            }
+            //여기도 dto 써야 될까요
+            List<String> diseaseList = new ArrayList<>();
+            for (Disease disease : diseases) {
+                diseaseList.add(disease.getDiseaseCd()); // 질병 코드 추가
+            }
 
-//        //premed 엔티티 조회
-//        List<PrescriptionMedicine> prescriptionMedicines = prescriptionMedicineRepository.findByPreMedPrescription(prescription);
-//
-//        List<PrescriptionMedicineRequestDto> preMedReqDtos=prescriptionMedicines.stream()
-//                .map(prescriptionMedicine -> PrescriptionMedicineRequestDto.builder()
-//
-//                        .build())
+            // 리스트에 추가
+            prescriptionResponseList.add(PrescriptionHtmlResponseDto.toEntity(
+                    prescription,user,doctor,hospital,diseaseList,medicineList
+            ));
+        }
 
-
-        // PrescriptionResponseDto로 변환 및 반환
-        return PrescriptionResponseDto.toEntity(prescription, diseaseDTOs);
+        return prescriptionResponseList; // 모든 처방전 리스트 반환
     }
 
 
@@ -143,59 +146,107 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public PrescriptionResponseDto createPrescriptionWithDiseases(PrescriptionRequestDto requestDto) {
-        // 1. 필요한 객체를 조회
-        Doctor doctor = doctorRepository.findById(requestDto.getDoctorId())
-                .orElseThrow(() -> new EntityNotFoundException("Doctor not found with id: " + requestDto.getDoctorId()));
-        User user = userRepository.findById(requestDto.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + requestDto.getUserId()));
-        Chemist chemist = chemistRepository.findById(requestDto.getChemistId())
-                .orElseThrow(() -> new EntityNotFoundException("Chemist not found with id: " + requestDto.getChemistId()));
+    public boolean createPrescription(PrescriptionHtmlRequestDto preHtmlReqDto)
+    {
+        //처방전에 입력받은 정보로 create할 때 각 테이블 pk번호를 받는게 아니라서 ..  findfirst안하면 무조건 중복된 데이터가 있을 수 밖에 없음..
+        //데이터를 중복해서 안넣거나 첫번째 찾는 값을 사용해야 될 것 같은디.. 좋은 생각 있나요...
+        // 병원 정보 확인
+        Hospital hospital = hospitalRepository.findByHospitalNm(preHtmlReqDto.getHospitalNm())
+                .stream()
+                .findFirst()
+                .orElseThrow(() ->new CommonException(ErrorCode.NOT_FOUND_HOSPITAL));
 
+        // 의사 정보 확인
+        Doctor doctor = doctorRepository.findByDoctorNo(preHtmlReqDto.getDoctorNo())
+                .stream()
+                .findFirst()
+                .orElseThrow(() ->new CommonException(ErrorCode.NOT_FOUND_DOCTOR));
 
-        // 2. Prescription 엔티티 생성
+        // 사용자 정보 확인
+        User user = userRepository.findByUserNm(preHtmlReqDto.getUserNm())
+                .stream()
+                .findFirst()
+                .orElseThrow(() ->new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        // 약사 정보 확인 (null 허용)
+        Chemist chemist = null;
+        if (preHtmlReqDto.getChemistNm() != null) {
+            chemist = chemistRepository.findByChemistNm(preHtmlReqDto.getChemistNm())
+                    .stream()
+                    .findFirst()
+                    .orElseThrow(() ->new CommonException(ErrorCode.NOT_FOUND_CHEMIST));
+        }
+
+        // 2. Prescription 엔티티 생성 및 저장
         Prescription prescription = Prescription.builder()
-                .preDoctor(doctor)  // 객체 참조
-                .preUser(user)      // 객체 참조
-                .preChemist(chemist) // 객체 참조
-                .prescriptionNo(requestDto.getPrescriptionNo())
-                .duration(requestDto.getDuration())
-                .description(requestDto.getDescription())
-                .prescriptionSt(requestDto.isPrescriptionSt())
-                .insuranceSt(requestDto.isInsuranceSt())
+                .preDoctor(doctor)
+                .preUser(user)
+                .preChemist(chemist)
+                .prescriptionNo(preHtmlReqDto.getPrescriptonNo())
+                .duration(preHtmlReqDto.getDuration())
+                .description(preHtmlReqDto.getDescription())
+                .prescriptionSt(preHtmlReqDto.isPrescriptionSt())
+                .insuranceSt(preHtmlReqDto.isInsuranceSt())
                 .build();
-
-        // 3. 처방전 저장
         prescriptionRepository.save(prescription);
 
-        // 4. 관련된 질병 정보 저장
-        List<Disease> diseases = requestDto.getDiseases().stream()
+        // 3. 관련된 질병 정보 저장
+        List<Disease> diseases = preHtmlReqDto.getDiseaseList().stream()
                 .map(diseaseDto -> Disease.builder()
                         .diseaseCd(diseaseDto.getDiseaseCd())
-                        .diseasePrescription(prescription)  // 처방전과 연결
+                        .diseasePrescription(prescription)
+                        .build())
+                .collect(Collectors.toList());
+        diseaseRepository.saveAll(diseases);
+
+        // 4. 약 정보 저장
+        List<Medicine> medicines = preHtmlReqDto.getMedicineList().stream()
+                .map(medicineDto -> Medicine.builder()
+                        .medicineNm(medicineDto.getMedicineNm())
+                        .dosePerTime(medicineDto.getDoesPerTime())
+                        .dosePerDay(medicineDto.getDoesPerDay())
+                        .unit(medicineDto.getUsage())
+                        .method(medicineDto.getMethod())
+                        .medicineCd(medicineDto.getMedicineCd())
+                        .price(medicineDto.getPrice())
+                        .caution(medicineDto.getCaution())
+                        .sideEffect(medicineDto.getSideEffect())
+                        .efficacy(medicineDto.getEfficacy())
+                        .unit(medicineDto.getUnit())
+                        .time(medicineDto.getTime())
+                        .imageUrl(medicineDto.getImageUrl())
+                        .copaymentRateCd(medicineDto.getCopaymentRateCd())
                         .build())
                 .collect(Collectors.toList());
 
-        diseaseRepository.saveAll(diseases);
+        medicineRepository.saveAll(medicines);
 
-
-
-        // 5. DTO로 변환하여 반환
-        List<DiseaseRequestDto> diseaseDTOs = diseases.stream()
-                .map(disease -> DiseaseRequestDto.builder().diseaseCd(disease.getDiseaseCd()).build())
+        // 5. PrescriptionMedicine 저장 (처방전과 약 매핑)
+        List<PrescriptionMedicine> prescriptionMedicines = medicines.stream()
+                .map(medicine -> PrescriptionMedicine.builder()
+                        .totalDays(preHtmlReqDto.getDuration())  // 처방된 기간 사용
+                        .preMedPrescription(prescription)       // 처방전과 연결
+                        .preMedMedicine(medicine)               // 약과 연결
+                        .build())
                 .collect(Collectors.toList());
 
-        return PrescriptionResponseDto.toEntity(prescription, diseaseDTOs);
+        prescriptionMedicineRepository.saveAll(prescriptionMedicines);
+
+        // 트랜잭션 성공적으로 완료
+        return true;
+
     }
 
-    // 처방전 교부번호를 기준으로 조회 -> 처방전의 주키를 반환 (근데 처방전 교부 번호를 기준으로 조회하는 API를 만들면 되지 않나?
-    public QrResponse getPreQRByPreNo(Long userPk, int prescriptionNo) {
-        Prescription prescription = prescriptionRepository
-                .findByPrescriptionNo(prescriptionNo)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
-        return QrResponse.toEntity(prescription.getPrescriptionPk());
-    }
+
+//    // 처방전 교부번호를 기준으로 조회 -> 처방전의 주키를 반환 (근데 처방전 교부 번호를 기준으로 조회하는 API를 만들면 되지 않나?
+//    public QrResponse getPreQRByPreNo(Long userPk, int prescriptionNo) {
+//        Prescription prescription = prescriptionRepository
+//                .findByPrescriptionNo(prescriptionNo)
+//                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+//
+//        return QrResponse.toEntity(prescription.getPrescriptionPk());
+//    }
 
 
 }

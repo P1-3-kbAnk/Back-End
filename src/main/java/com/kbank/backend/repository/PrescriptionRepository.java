@@ -15,4 +15,6 @@ public interface PrescriptionRepository extends JpaRepository<Prescription,Long>
     List<Prescription> findByPrescriptionStFalse();
 
     Optional<Prescription> findByPrescriptionNo(int prescriptionNo);
+
+    List<Prescription> findByPreChemist_ChemistPkAndPrescriptionStTrue(Long chemistId);
 }

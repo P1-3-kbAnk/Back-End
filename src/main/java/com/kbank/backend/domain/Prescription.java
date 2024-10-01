@@ -77,5 +77,7 @@ public class Prescription {
         this.createYmd = LocalDateTime.now();
     }
 
-
+    public void setPrescriptionSt(boolean prescriptionSt) {
+        this.prescriptionSt = prescriptionSt;
+    }
 }
