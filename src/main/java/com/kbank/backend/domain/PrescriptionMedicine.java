@@ -61,32 +61,5 @@ public class PrescriptionMedicine {
         this.preMedMedicine = preMedMedicine;
         this.createYmd = LocalDateTime.now();
     }
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name="pre_med_pk")
-//    private long preMedPk;
-//
-//    @Column(name="total_days")
-//    private int totalDays;
-//
-//    @Column(name = "create_ymd", nullable = false)
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-//    private LocalDateTime createYmd;
-//
-//    /* Relation */
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="pre_med_prescription_fk") // prescription_pk를 참조
-//    private Prescription preMedPrescription;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="pre_med_medicine_fk")
-//    private Medicine preMedMedicine;
-//
-//    @Builder
-//    public PrescriptionMedicine(int totalDays, Prescription preMedPrescription, Medicine preMedMedicine) {
-//        this.totalDays = totalDays;
-//        this.preMedPrescription = preMedPrescription;
-//        this.preMedMedicine = preMedMedicine;
-//        this.createYmd = LocalDateTime.now();
-//    }
+
 }
