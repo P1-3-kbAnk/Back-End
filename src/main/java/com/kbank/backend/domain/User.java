@@ -104,6 +104,13 @@ public class User {
 
     /* Update */
     public void setRole(Role role) {
+
         this.role = role;
     }
+
+    //계좌 잔액 변경
+    public void setAccount(long newAccount) {
+        this.account = newAccount;
+    }
+
 }

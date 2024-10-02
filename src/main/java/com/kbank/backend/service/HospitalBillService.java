@@ -21,7 +21,7 @@ public class HospitalBillService {
 
     // 처방전 ID로 hospitalBill 조회
     @Transactional
-    public HospitalBillResponseDto getBillByPrescriptionFk(Long prescriptionId, long userId) {
+    public HospitalBillResponseDto getBillByPrescriptionFk(Long userId,Long prescriptionId) {
 
         HospitalBill hospitalBill = hospitalBillRepository.findByHospitalBillPrescriptionPrescriptionPk(prescriptionId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
@@ -30,7 +30,7 @@ public class HospitalBillService {
     }
 
     // hospitalBill 삭제
-    public void deleteBill(Long id, long userId) {
+    public void deleteBill(Long userId,Long id) {
 
         hospitalBillRepository.deleteById(id);
 
