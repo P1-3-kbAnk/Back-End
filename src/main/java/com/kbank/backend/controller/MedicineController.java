@@ -22,10 +22,11 @@ public class MedicineController {
         return ResponseDto.ok(medicineService.medicineDetail(userId, medicineFk));
     }
 
+    // 수정 요함
     // 현재 복용 중인 약물 조회
-    @GetMapping("/taking/list")
-    public ResponseDto<?> takingMedcineList(@RequestParam(name = "userId") Long userId) {
-
-        return ResponseDto.ok(medicineIntakeService.getMedicineIntakeByUser(userId));
-    }
+//    @GetMapping("/taking/list")
+//    public ResponseDto<?> takingMedcineList(@RequestParam(name = "userId") Long userId) {
+//
+//        return ResponseDto.ok(medicineIntakeService.getMedicineIntakeByUser(userId));
+//    }
 }

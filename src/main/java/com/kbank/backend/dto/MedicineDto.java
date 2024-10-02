@@ -40,13 +40,7 @@ public class MedicineDto {
         return MedicineDto
                 .builder()
                 .medicineNm(medicine.getMedicineNm())
-                .doesPerTime(medicine.getDosePerTime())
-                .doesPerDay(medicine.getDosePerDay())
-                .usage(medicine.getMethod())
                 .build();
     }
-
-
-
 
 }

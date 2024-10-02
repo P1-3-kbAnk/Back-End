@@ -15,14 +15,11 @@ public class ReportController {
 
     private final ReportService reportService;
 
+    // 수정 요함
     // 처방전 주키를 가지고 리포트 가져오기
-    @GetMapping("/get/{id}")
-    public ResponseDto<ReportResponseDto> getReport(@RequestParam(name = "userId") Long userId,
-                                                    @PathVariable("id") Long id) {
-        return ResponseDto.ok(reportService.getReportByPrescription(id));
-    }
-
-
-
-
+//    @GetMapping("/get/{id}")
+//    public ResponseDto<ReportResponseDto> getReport(@RequestParam(name = "userId") Long userId,
+//                                                    @PathVariable("id") Long id) {
+//        return ResponseDto.ok(reportService.getReportByPrescription(id));
+//    }
 }

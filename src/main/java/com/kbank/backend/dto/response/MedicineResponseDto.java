@@ -53,9 +53,6 @@ public class MedicineResponseDto {
                 .unit(medicine.getUnit())
                 .time(medicine.getTime())
                 .imageUrl(medicine.getImageUrl())
-                .method(medicine.getMethod())
-                .dosePerDay(medicine.getDosePerDay())
-                .dosePerTime(medicine.getDosePerTime())
                 .copaymentRateCd(medicine.getCopaymentRateCd())
                 .build();
     }
