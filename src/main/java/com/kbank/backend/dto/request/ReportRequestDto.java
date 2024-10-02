@@ -1,6 +1,6 @@
 package com.kbank.backend.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.util.List;
@@ -9,11 +9,11 @@ import java.util.List;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReportRequestDto {
 
-    @NotBlank
+    @NotEmpty
     private List<String> caution;
-    @NotBlank
+    @NotEmpty
     private List<String> exercise;
-    @NotBlank
+    @NotEmpty
     private List<String> food;
 
 }

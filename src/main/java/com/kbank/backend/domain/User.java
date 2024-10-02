@@ -15,6 +15,7 @@ import lombok.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -69,13 +70,13 @@ public class User {
     private String accountPw;
 
     @Column(name = "morning_alarm")
-    private Integer morningAlarm;
+    private LocalTime morningAlarm;
 
     @Column(name = "lunch_alarm")
-    private Integer lunchAlarm;
+    private LocalTime lunchAlarm;
 
     @Column(name = "dinner_alarm")
-    private Integer dinnerAlarm;
+    private LocalTime dinnerAlarm;
 
 
     @Column(name = "create_ymd", nullable = false)
@@ -109,9 +110,9 @@ public class User {
         this.role = Role.USER;
         this.socialId = "none";
         this.provider = Provider.KAKAO;
-        this.morningAlarm=9;
-        this.lunchAlarm=12;
-        this.dinnerAlarm=18;
+        this.morningAlarm = LocalTime.of(9,0);
+        this.lunchAlarm = LocalTime.of(12,0);
+        this.dinnerAlarm = LocalTime.of(18,0);
         this.createYmd = LocalDateTime.now();
     }
 

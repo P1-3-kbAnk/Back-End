@@ -2,6 +2,7 @@ package com.kbank.backend.dto.request;
 
 import com.kbank.backend.enumerate.Gender;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ public class UserRequestDto {
     private String userNm;
     @NotBlank
     private String phoneNo;
-    @NotBlank
+    @NotNull
     private Gender gender;
     @NotBlank
     private String firstNo;

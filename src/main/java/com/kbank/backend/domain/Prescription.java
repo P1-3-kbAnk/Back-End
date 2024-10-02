@@ -2,19 +2,10 @@ package com.kbank.backend.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 
-
 import java.time.LocalDateTime;
-
-/*
-제목 : 주사제 복약 여부 엔티티 정의
-설명 : 주사제를 복약 했는지 여부의 정보를 담은 엔티티.
-      사용자, 주사제 정보, 복약 일시, 여부로 구성 됨.
-담당자 : 문환희
-*/
 
 @Getter
 @Entity
@@ -72,11 +63,11 @@ public class Prescription {
         this.insuranceSt = Boolean.FALSE;
     }
 
-    public void setPrescriptionSt(boolean prescriptionSt) {
-        this.prescriptionSt = prescriptionSt;
+    public void updatePrescriptionSt() {
+        this.prescriptionSt = !this.prescriptionSt;
     }
 
-    public void setInsuranceSt(boolean insuranceSt) {
-        this.insuranceSt = insuranceSt;
+    public void updateInsuranceSt() {
+        this.insuranceSt = !this.insuranceSt;
     }
 }

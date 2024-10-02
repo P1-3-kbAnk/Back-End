@@ -1,20 +1,11 @@
 package com.kbank.backend.domain;
 
-
-/*
-제목 : 복약 정보 테이블 엔티티 정의
-설명 : 약에 대한 정보를 담은 엔티티
-담당자 : 김성헌
-*/
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.enumerate.CopaymentRateCd;
 import com.kbank.backend.enumerate.Time;
 import lombok.*;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -50,9 +41,6 @@ public class Medicine {
     @Column(name="unit")
     private String unit; //용량 단위
 
-
-
-
     @Enumerated(EnumType.STRING) // EnumType.STRING을 사용하면 문자열로 저장
     @Column(name="copayment_rate_cd")
     private CopaymentRateCd copaymentRateCd;
@@ -64,13 +52,12 @@ public class Medicine {
     @Column(name="image_url")
     private String imageUrl;
 
-
     /* Relation */
     @OneToMany(mappedBy = "medInkMedicine", fetch = FetchType.LAZY)
     List<MedicineIntake> medicineIntakeList;
 
     @Builder
-    public Medicine(CopaymentRateCd copaymentRateCd,String medicineNm, Long medicineCd, Long price, String caution, String sideEffect, String efficacy, String unit, Time time, String imageUrl) {
+    public Medicine(CopaymentRateCd copaymentRateCd, String medicineNm, Long medicineCd, Long price, String caution, String sideEffect, String efficacy, String unit, Time time, String imageUrl) {
         this.medicineNm = medicineNm;
         this.medicineCd = medicineCd;
         this.price = price;
