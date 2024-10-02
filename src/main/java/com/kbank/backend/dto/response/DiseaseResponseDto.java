@@ -1,22 +1,24 @@
 package com.kbank.backend.dto.response;
 
-
 import com.kbank.backend.domain.Disease;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@NoArgsConstructor(access =AccessLevel.PACKAGE)
 public class DiseaseResponseDto {
-    private Long diseasePrescription;
+
+    private Long diseasePk;
     private String diseaseCd;
 
-//    public static DiseaseResponseDto toEntity(Disease disease) {
-//        return DiseaseResponseDto
-//                .builder()
-//                .diseasePrescription(disease.getDiseasePrescription().getPrescriptionPk())
-//                .diseaseCd(disease.getDiseaseCd())
-//                .build();
-//    }
+    public static DiseaseResponseDto toEntity(Disease disease) {
+        return DiseaseResponseDto.builder()
+                .diseasePk(disease.getDiseasePk())
+                .diseaseCd(disease.getDiseaseCd())
+                .build();
+    }
 }

@@ -3,8 +3,10 @@ package com.kbank.backend.dto.response;
 import com.kbank.backend.domain.Medicine;
 import com.kbank.backend.enumerate.CopaymentRateCd;
 import com.kbank.backend.enumerate.Time;
-import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Getter
 @NoArgsConstructor
@@ -12,34 +14,17 @@ import lombok.*;
 @Builder
 public class MedicineResponseDto {
 
-    @NotBlank
     private Long medicinePk;
-    @NotBlank
     private String medicineNm;
-    @NotBlank
     private Long medicineCd;
-    @NotBlank
     private Long price;
-    @NotBlank
     private String caution;
-    @NotBlank
     private String sideEffect;
-    @NotBlank
     private String efficacy;
-    @NotBlank
     private String unit;
-    @NotBlank
-    private Time time;
-    @NotBlank
-    private String imageUrl;
-    @NotBlank
-    private String method;
-    @NotBlank
-    private Integer dosePerDay;
-    @NotBlank
-    private Integer dosePerTime;
-    @NotBlank
     private CopaymentRateCd copaymentRateCd;
+    private Time time;
+    private String imageUrl;
 
     public static MedicineResponseDto toEntity(Medicine medicine) {
         return MedicineResponseDto.builder()
@@ -51,9 +36,9 @@ public class MedicineResponseDto {
                 .sideEffect(medicine.getSideEffect())
                 .efficacy(medicine.getEfficacy())
                 .unit(medicine.getUnit())
+                .copaymentRateCd(medicine.getCopaymentRateCd())
                 .time(medicine.getTime())
                 .imageUrl(medicine.getImageUrl())
-                .copaymentRateCd(medicine.getCopaymentRateCd())
                 .build();
     }
 }
