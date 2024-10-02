@@ -28,11 +28,13 @@ public enum ErrorCode {
     TOKEN_GENERATION_ERROR(40105, HttpStatus.UNAUTHORIZED, "토큰 생성에 실패하였습니다."),
     FAILURE_LOGIN(40106, HttpStatus.UNAUTHORIZED, "로그인에 실패하였습니다."),
     FAILURE_LOGOUT(40107, HttpStatus.UNAUTHORIZED, "로그아웃에 실패하였습니다."),
-    TOKEN_UNKNOWN_ERROR(40106, HttpStatus.UNAUTHORIZED, "알 수 없는 토큰입니다."),
+    TOKEN_UNKNOWN_ERROR(40108, HttpStatus.UNAUTHORIZED, "알 수 없는 토큰입니다."),
 
     FILE_UPLOAD_ERROR(42201, HttpStatus.UNPROCESSABLE_ENTITY, "파일 업로드에 실패하였습니다."),
 
     ACCESS_DENIED_ERROR(40300, HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
+
+
 
     // Not Found Error
     NOT_FOUND_USER(40401, HttpStatus.NOT_FOUND, "해당 사용자가 존재하지 않습니다."),
@@ -42,6 +44,7 @@ public enum ErrorCode {
     NOT_FOUND_PHARMACY(40405, HttpStatus.NOT_FOUND, " 해당 약국이 존재하지 않습니다."),
     NOT_FOUND_DOCTOR(40406, HttpStatus.NOT_FOUND, " 해당 의사가 존재하지 않습니다."),
     NOT_FOUND_CHEMIST(40407, HttpStatus.NOT_FOUND, " 해당 약사가 존재하지 않습니다."),
+    INSUFFICIENT_FUNDS(40408, HttpStatus.NOT_FOUND, "잔액이 부족합니다."),
 
 
     SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러 입니다."),

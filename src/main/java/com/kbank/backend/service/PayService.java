@@ -1,16 +1,11 @@
 package com.kbank.backend.service;
 
-import com.kbank.backend.domain.Medicine;
-import com.kbank.backend.domain.Prescription;
-import com.kbank.backend.domain.User;
+import com.kbank.backend.domain.*;
 import com.kbank.backend.dto.response.PayResponseDto;
 import com.kbank.backend.dto.response.UserResponseDto;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
-import com.kbank.backend.repository.MedicineRepository;
-import com.kbank.backend.repository.PrescriptionMedicineRepository;
-import com.kbank.backend.repository.PrescriptionRepository;
-import com.kbank.backend.repository.UserRepository;
+import com.kbank.backend.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +20,7 @@ public class PayService {
     private final PrescriptionRepository prescriptionRepository;
     private final UserRepository userRepository;
     private final PrescriptionMedicineRepository prescriptionMedicineRepository;
+    private final PharmacyBillRepository pharmacyBillRepository;
 
     @Transactional
     public PayResponseDto payment(Long userId, Long prescriptionId) {
@@ -38,16 +34,30 @@ public class PayService {
                 .orElseThrow(()->new CommonException(ErrorCode.NOT_FOUND_USER));
         //처방전에 있는 모든 약 찾기
         List<Medicine> medicines = prescriptionMedicineRepository.findMedicineByPrescription(prescription);
-                //medicineRepository.findAllByPrescriptionId(prescriptionId);
+
 
         long totalPrice = medicines.stream()
                 .mapToLong(Medicine::getPrice)
                 .sum();
 
+        //계좌 업데이트
         long newAccount = user.getAccount() - totalPrice;
 
-        user.setAccount(newAccount);
-        userRepository.save(user);
+        // 계좌가 부족한 경우 예외 발생
+        if (newAccount < 0) {
+            throw new CommonException(ErrorCode.INSUFFICIENT_FUNDS); // 새로운 에러코드 정의 필요
+        }
+        user.setAccount(newAccount); //dynamic update
+
+        //약국 영수증 생성
+        PharmacyBill pharmacyBill = PharmacyBill.builder()
+                .totalPrice(totalPrice)
+                .pharmacyBillPrescription(prescription)
+                .pharmacyBillPharmacy(prescription.getPreChemist().getChemistPharmacy())
+                .build();
+
+        pharmacyBillRepository.save(pharmacyBill);
+
 
         return PayResponseDto.toEntity(newAccount,totalPrice);
     }
