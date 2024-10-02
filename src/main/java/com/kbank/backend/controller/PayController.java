@@ -16,11 +16,13 @@ public class PayController {
 
     //자동 결제
 
-    @PostMapping("/{prescriptionId}")
-    public ResponseEntity<PayResponseDto> payment(
+    @PutMapping("/{prescriptionId}")
+    public ResponseDto<PayResponseDto> payment(
+            @RequestParam(name = "userId") Long userId,
             @PathVariable(name = "prescriptionId") Long prescriptionId) {
-        PayResponseDto response = payService.payment(prescriptionId);
-        return ResponseEntity.ok(response);
+
+        return ResponseDto.ok(payService.payment(userId, prescriptionId));
+
     }
 
 }

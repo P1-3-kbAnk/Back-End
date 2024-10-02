@@ -27,7 +27,7 @@ public class PayService {
     private final PrescriptionMedicineRepository prescriptionMedicineRepository;
 
     @Transactional
-    public PayResponseDto payment(Long prescriptionId) {
+    public PayResponseDto payment(Long userId, Long prescriptionId) {
 
         //처방전 ID로 처방전 찾기
         Prescription prescription = prescriptionRepository.findById(prescriptionId)

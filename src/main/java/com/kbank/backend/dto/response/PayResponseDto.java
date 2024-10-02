@@ -1,11 +1,10 @@
 package com.kbank.backend.dto.response;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PayResponseDto {
 
@@ -13,11 +12,6 @@ public class PayResponseDto {
     private Long account;
     private Long totalPrice;
 
-    @Builder
-    public PayResponseDto(Long account, Long totalPrice) {
-        this.account = account;
-        this.totalPrice = totalPrice;
-    }
 
     public static PayResponseDto toEntity(Long account, Long totalPrice) {
         return PayResponseDto.builder()
