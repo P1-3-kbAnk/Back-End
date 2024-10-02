@@ -67,7 +67,17 @@ public class User {
 
     @Column(name = "account_pw")
     private String accountPw;
-    
+
+    @Column(name = "morning_alarm")
+    private Integer morningAlarm;
+
+    @Column(name = "lunch_alarm")
+    private Integer lunchAlarm;
+
+    @Column(name = "dinner_alarm")
+    private Integer dinnerAlarm;
+
+
     @Column(name = "create_ymd", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createYmd;
@@ -99,6 +109,9 @@ public class User {
         this.role = Role.USER;
         this.socialId = "none";
         this.provider = Provider.KAKAO;
+        this.morningAlarm=9;
+        this.lunchAlarm=12;
+        this.dinnerAlarm=18;
         this.createYmd = LocalDateTime.now();
     }
 
