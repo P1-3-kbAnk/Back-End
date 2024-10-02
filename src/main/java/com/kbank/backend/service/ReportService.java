@@ -51,53 +51,53 @@ public class ReportService {
 
         return res;
     }
+// 수정 요함
+//    public Report create(long prescriptionId) {
+//        try {
+//            Prescription prescription = prescriptionRepository
+//                    .findById(prescriptionId)
+//                    .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+//
+//            List<String> res = new ArrayList<>();
+//            Map<String, String> query = new HashMap<>();
+//
+//            diseaseRepository.findByDiseasePrescription(prescription)
+//                    .forEach(e -> res.add(e.getDiseaseCd()));
+//
+//            query.put("medi", getMedicineList(prescription).toString());
+//            query.put("code", res.toString());
+//
+//            ReportRequestDto responseFromFa = restTemplate.getReport(query);
+//            //System.out.println(responseFromFa);
+//
+//            Report report = responseFromFa.toEntity(prescription);
+//
+//            reportRepository.save(responseFromFa.toEntity(prescription));
+//
+//            return report;
+//
+//        } catch (CommonException e) {
+//            throw new CommonException(ErrorCode.ERR_FAST_API);
+//        }
+//    }
 
-    public Report create(long prescriptionId) {
-        try {
-            Prescription prescription = prescriptionRepository
-                    .findById(prescriptionId)
-                    .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
-
-            List<String> res = new ArrayList<>();
-            Map<String, String> query = new HashMap<>();
-
-            diseaseRepository.findByDiseasePrescription(prescription)
-                    .forEach(e -> res.add(e.getDiseaseCd()));
-
-            query.put("medi", getMedicineList(prescription).toString());
-            query.put("code", res.toString());
-
-            ReportRequestDto responseFromFa = restTemplate.getReport(query);
-            //System.out.println(responseFromFa);
-
-            Report report = responseFromFa.toEntity(prescription);
-
-            reportRepository.save(responseFromFa.toEntity(prescription));
-
-            return report;
-
-        } catch (CommonException e) {
-            throw new CommonException(ErrorCode.ERR_FAST_API);
-        }
-    }
-
-    public ReportResponseDto getReportByPrescription(long id) {
-        Optional<Report> report = reportRepository
-                .findByReportPrescription(
-                        prescriptionRepository
-                                .findById(id)
-                                .orElseThrow(() ->
-                                        new CommonException(ErrorCode.NOT_FOUND_RESOURCE))
-                );
-        if(report.isPresent()){ // 리포트가 존재하면
-
-            return ReportResponseDto.toEntity(report.get());
-
-        } else { // 리포트가 없을 때
-
-            Report newReport = create(id);
-
-            return ReportResponseDto.toEntity(newReport);
-        }
-    }
+//    public ReportResponseDto getReportByPrescription(long id) {
+//        Optional<Report> report = reportRepository
+//                .findByReportPrescription(
+//                        prescriptionRepository
+//                                .findById(id)
+//                                .orElseThrow(() ->
+//                                        new CommonException(ErrorCode.NOT_FOUND_RESOURCE))
+//                );
+//        if(report.isPresent()){ // 리포트가 존재하면
+//
+//            return ReportResponseDto.toEntity(report.get());
+//
+//        } else { // 리포트가 없을 때
+//
+//            Report newReport = create(id);
+//
+//            return ReportResponseDto.toEntity(newReport);
+//        }
+//    }
 }

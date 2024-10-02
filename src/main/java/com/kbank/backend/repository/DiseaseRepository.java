@@ -18,9 +18,4 @@ public interface DiseaseRepository extends JpaRepository<Disease, Long> {
 
     List<Disease> findAll();
 
-    // 특정 Prescription에 대한 질병 조회
-    List<Disease> findByDiseasePrescription(Prescription prescription);
-
-    // 질병 코드로 질병 조회
-    List<Disease> findByDiseaseCd(String diseaseCd);
 }

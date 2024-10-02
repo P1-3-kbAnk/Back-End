@@ -12,11 +12,11 @@ public class DiseaseResponseDto {
     private Long diseasePrescription;
     private String diseaseCd;
 
-    public static DiseaseResponseDto toEntity(Disease disease) {
-        return DiseaseResponseDto
-                .builder()
-                .diseasePrescription(disease.getDiseasePrescription().getPrescriptionPk())
-                .diseaseCd(disease.getDiseaseCd())
-                .build();
-    }
+//    public static DiseaseResponseDto toEntity(Disease disease) {
+//        return DiseaseResponseDto
+//                .builder()
+//                .diseasePrescription(disease.getDiseasePrescription().getPrescriptionPk())
+//                .diseaseCd(disease.getDiseaseCd())
+//                .build();
+//    }
 }

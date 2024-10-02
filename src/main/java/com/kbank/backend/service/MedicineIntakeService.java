@@ -28,6 +28,7 @@ public class MedicineIntakeService {
     private final MedicineRepository medicineRepository;
     private final UserRepository userRepository;
 
+    // 수정 요함
     //복약 여부 id로 조회
 //    public MedicineIntakeResponse getMedicineIntake(Long id) {
 //
@@ -49,20 +50,20 @@ public class MedicineIntakeService {
 //    }
 //
     /** 현재 복용 중인 약물 조회 */
-    public Map<String, Object> getMedicineIntakeByUser(Long userPk) {
-
-        User user = userRepository.findByUserPk(userPk)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
-        List<MedicineIntake> medicineIntakeList = medicineIntakeRepository.findMedicineIntakeByUserAndDay(user, LocalDate.now());
-        Map<String, Object> result = new HashMap<>();
-
-        result.put("result", medicineIntakeList.stream()
-                .map(MedicineIntakeResponseDto::toEntity)
-                .toList()
-        );
-
-        return result;
-    }
+//    public Map<String, Object> getMedicineIntakeByUser(Long userPk) {
+//
+//        User user = userRepository.findByUserPk(userPk)
+//                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+//        List<MedicineIntake> medicineIntakeList = medicineIntakeRepository.findMedicineIntakeByUserAndDay(user, LocalDate.now());
+//        Map<String, Object> result = new HashMap<>();
+//
+//        result.put("result", medicineIntakeList.stream()
+//                .map(MedicineIntakeResponseDto::toEntity)
+//                .toList()
+//        );
+//
+//        return result;
+//    }
 //
 //    // 특정 약물에 대한 복약 여부 조회
 //    public List<MedicineIntakeResponse> getMedicineIntakeByMedicine(Medicine medicine) {

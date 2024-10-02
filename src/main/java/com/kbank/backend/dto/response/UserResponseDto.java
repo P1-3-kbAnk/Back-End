@@ -1,7 +1,6 @@
 package com.kbank.backend.dto.response;
 
 import com.kbank.backend.domain.User;
-import com.kbank.backend.dto.UserDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

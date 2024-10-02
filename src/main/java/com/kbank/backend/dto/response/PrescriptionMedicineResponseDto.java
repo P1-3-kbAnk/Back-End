@@ -18,7 +18,7 @@ public class PrescriptionMedicineResponseDto {
         return PrescriptionMedicineResponseDto
                 .builder()
                 .preMedPrescription(prescriptionMedicine.getPreMedPrescription().getPrescriptionPk())
-                .totalDays(prescriptionMedicine.getTotalDays()) //
+                .totalDays(prescriptionMedicine.getTotalDay())
                 .build();
     }
 }
