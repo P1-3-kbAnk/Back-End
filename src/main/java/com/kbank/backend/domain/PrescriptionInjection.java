@@ -1,12 +1,5 @@
 package com.kbank.backend.domain;
 
-
-/*
-제목 : 주사제 처방전 매핑 엔티티 정의
-설명 : ~~~~
-담당자 : 문환희
-*/
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
@@ -26,7 +19,7 @@ public class PrescriptionInjection {
     private Long preInjPk;
 
     @Column(name="total_days")
-    private Integer totalDays;
+    private Integer totalDay;
 
     @Column(name = "create_ymd", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -56,8 +49,9 @@ public class PrescriptionInjection {
     @JoinColumn(name="pre_inj_injection_fk")
     private Injection preInjInjection;
 
-    public PrescriptionInjection(Integer totalDays, Integer dosePerMorning, Integer dosePerLunch, Integer dosePerDinner, String method, String injectionNm, Prescription preInjPrescription, Injection preInjInjection) {
-        this.totalDays = totalDays;
+    @Builder
+    public PrescriptionInjection(Integer totalDay, Integer dosePerMorning, Integer dosePerLunch, Integer dosePerDinner, String method, String injectionNm, Prescription preInjPrescription, Injection preInjInjection) {
+        this.totalDay = totalDay;
         this.dosePerMorning = dosePerMorning;
         this.dosePerLunch = dosePerLunch;
         this.dosePerDinner = dosePerDinner;
