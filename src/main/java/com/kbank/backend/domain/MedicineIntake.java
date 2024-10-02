@@ -1,19 +1,11 @@
 package com.kbank.backend.domain;
 
-/*
-제목 : 복약 여부 엔티티 정의
-설명 : 복약 했는지 여부의 정보를 담은 엔티티.
-      ~~~~
-담당자 : 김도은
-*/
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.enumerate.Meal;
 import lombok.*;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -26,7 +18,7 @@ public class MedicineIntake {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="med_ink_pk")
-    private long medInkPk;
+    private Long medInkPk;
 
     @Enumerated(EnumType.STRING)
     @Column(name="meal", nullable=false)
@@ -36,7 +28,7 @@ public class MedicineIntake {
     private LocalDate day;
 
     @Column(name="eat_st", nullable=false)
-    private boolean eatSt;
+    private Boolean eatSt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
@@ -52,7 +44,7 @@ public class MedicineIntake {
     private Medicine medInkMedicine;
 
     @Builder
-    public MedicineIntake(Meal meal, boolean eatSt, User user, Medicine medicine, LocalDate day) {
+    public MedicineIntake(Meal meal, Boolean eatSt, User user, Medicine medicine, LocalDate day) {
         this.meal = meal;
         this.day = day;
         this.eatSt = eatSt;

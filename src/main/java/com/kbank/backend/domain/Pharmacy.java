@@ -1,12 +1,5 @@
 package com.kbank.backend.domain;
 
-
-/*
-제목 : 약국 정보 테이블 엔티티 정의
-설명 : ~~~~
-담당자 : 최규찬
-*/
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.domain.address.Dong;
 import lombok.*;
