@@ -19,7 +19,6 @@ public enum ErrorCode {
     MISSING_REQUEST_PARAMETER(40005, HttpStatus.BAD_REQUEST, "필수 요청 파라미터가 누락되었습니다."),
     METHOD_ARGUMENT_TYPE_MISMATCH(40006, HttpStatus.BAD_REQUEST, "요청 파라미터의 형태가 잘못되었습니다."),
     DUPLICATE_RESOURCE(40007, HttpStatus.BAD_REQUEST, "중복된 리소스입니다."),
-    INSUFFICIENT_FUNDS(40008, HttpStatus.BAD_REQUEST, "잔액이 부족합니다."),
 
     EXPIRED_TOKEN_ERROR(40100, HttpStatus.UNAUTHORIZED, "만료된 토큰입니다."),
     INVALID_TOKEN_ERROR(40101, HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),
@@ -45,6 +44,7 @@ public enum ErrorCode {
     NOT_FOUND_PHARMACY(40405, HttpStatus.NOT_FOUND, " 해당 약국이 존재하지 않습니다."),
     NOT_FOUND_DOCTOR(40406, HttpStatus.NOT_FOUND, " 해당 의사가 존재하지 않습니다."),
     NOT_FOUND_CHEMIST(40407, HttpStatus.NOT_FOUND, " 해당 약사가 존재하지 않습니다."),
+    INSUFFICIENT_FUNDS(40408, HttpStatus.NOT_FOUND, "잔액이 부족합니다."),
 
 
     SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러 입니다."),
