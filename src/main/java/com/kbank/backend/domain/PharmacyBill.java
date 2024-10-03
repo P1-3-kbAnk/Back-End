@@ -13,10 +13,10 @@ public class PharmacyBill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="pharmacy_bill_pk")
-    private long pharmacyBillPk;
+    private Long pharmacyBillPk;
 
     @Column(name="total_price", nullable = false)
-    private long totalPrice;
+    private Long totalPrice;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
@@ -32,7 +32,7 @@ public class PharmacyBill {
     private Pharmacy pharmacyBillPharmacy;
 
     @Builder
-    public PharmacyBill(long totalPrice, Prescription pharmacyBillPrescription, Pharmacy pharmacyBillPharmacy) {
+    public PharmacyBill(Long totalPrice, Prescription pharmacyBillPrescription, Pharmacy pharmacyBillPharmacy) {
         this.totalPrice = totalPrice;
         this.pharmacyBillPrescription = pharmacyBillPrescription;
         this.pharmacyBillPharmacy = pharmacyBillPharmacy;

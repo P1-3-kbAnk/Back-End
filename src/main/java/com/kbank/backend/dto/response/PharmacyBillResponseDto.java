@@ -1,8 +1,11 @@
 package com.kbank.backend.dto.response;
 
-import com.kbank.backend.domain.Pharmacy;
 import com.kbank.backend.domain.PharmacyBill;
-import lombok.*;
+import com.kbank.backend.domain.Prescription;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Getter
 @NoArgsConstructor
@@ -10,17 +13,17 @@ import lombok.*;
 @Builder
 public class PharmacyBillResponseDto {
 
-    private String pharmacyNm;
+    private Long pharmacyBillPk;
     private Long totalPrice;
-    private Long pharmacyNo;
+    private Prescription pharmacyBillPrescription;
+    private Long pharmacyId;
 
-    public static PharmacyBillResponseDto toEntity(Pharmacy pharmacy, PharmacyBill pharmacyBill) {
-        return PharmacyBillResponseDto
-                .builder()
-                .pharmacyNm(pharmacy.getPharmacyNm())
+    public static PharmacyBillResponseDto toEntity(PharmacyBill pharmacyBill, Long pharmacyId) {
+        return PharmacyBillResponseDto.builder()
+                .pharmacyBillPk(pharmacyBill.getPharmacyBillPk())
                 .totalPrice(pharmacyBill.getTotalPrice())
-                .pharmacyNo(pharmacy.getPharmacyNo())
+                .pharmacyBillPrescription(pharmacyBill.getPharmacyBillPrescription())
+                .pharmacyId(pharmacyId)
                 .build();
     }
 }
-

@@ -1,27 +1,28 @@
 package com.kbank.backend.dto.response;
 
-import com.kbank.backend.domain.Hospital;
 import com.kbank.backend.domain.HospitalBill;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@NoArgsConstructor(access =AccessLevel.PACKAGE)
 public class HospitalBillResponseDto {
 
-    private String hospitalNm;
+    private Long hospitalBillPk;
     private Long totalPrice;
-    private Long hospitalNo;
+    private Long prescriptionId;
+    private Long hospitalId;
 
-    public static HospitalBillResponseDto toEntity(Hospital hospital, HospitalBill hospitalBill) {
-        return HospitalBillResponseDto
-                .builder()
-                .hospitalNm(hospital.getHospitalNm())
+    public static HospitalBillResponseDto toEntity(HospitalBill hospitalBill, Long prescriptionId, Long hospitalId) {
+        return HospitalBillResponseDto.builder()
+                .hospitalBillPk(hospitalBill.getHospitalBillPk())
                 .totalPrice(hospitalBill.getTotalPrice())
-                .hospitalNo(hospital.getHospitalNo())
+                .prescriptionId(prescriptionId)
+                .hospitalId(hospitalId)
                 .build();
     }
-
 }
-

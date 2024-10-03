@@ -1,13 +1,5 @@
 package com.kbank.backend.domain;
 
-
-/*
-제목 : 리포트 테이블 엔티티 정의
-설명 : ~~~~
-담당자 : 김성헌
-*/
-
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -27,7 +19,7 @@ public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="report_pk")
-    private long reportPk;
+    private Long reportPk;
 
     @Column(name="intake_method", nullable = false)
     private String intakeMethod;
@@ -55,7 +47,4 @@ public class Report {
         this.reportPrescription = reportPrescription;
         this.createYmd = LocalDateTime.now();
     }
-
-
-
 }
