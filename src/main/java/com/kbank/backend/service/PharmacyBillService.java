@@ -21,13 +21,15 @@ public class PharmacyBillService {
 
     // 처방전 ID로  pharmacyBill 조회
     @Transactional
-    public PharmacyBillResponseDto getBillByPrescription(Long prescriptionId,long userId) {
+    public PharmacyBillResponseDto getBillByPrescription(Long userId,Long prescriptionId) {
 
         PharmacyBill pharmacyBill = pharmacyBillRepository
                 .findByPharmacyBillPrescriptionPrescriptionPk(prescriptionId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
-        return PharmacyBillResponseDto.toEntity(pharmacyBill.getPharmacyBillPharmacy(), pharmacyBill);
+        Long pharmacyId = pharmacyBill.getPharmacyBillPharmacy().getPharmacyPk();
+
+        return PharmacyBillResponseDto.toEntity(pharmacyBill,prescriptionId,pharmacyId);
 
     }
 

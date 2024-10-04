@@ -2,7 +2,6 @@ package com.kbank.backend.controller;
 
 import com.kbank.backend.dto.ResponseDto;
 import com.kbank.backend.dto.request.ChemistRequestDto;
-import com.kbank.backend.dto.response.PrescriptionHtmlResponseDto;
 import com.kbank.backend.service.ChemistService;
 import com.kbank.backend.service.PharmacyService;
 import jakarta.validation.Valid;

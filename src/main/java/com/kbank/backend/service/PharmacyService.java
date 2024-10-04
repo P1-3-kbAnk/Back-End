@@ -1,10 +1,5 @@
 package com.kbank.backend.service;
 
-import com.kbank.backend.domain.*;
-import com.kbank.backend.dto.MedicineDto;
-import com.kbank.backend.dto.response.PrescriptionHtmlResponseDto;
-import com.kbank.backend.exception.CommonException;
-import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.DiseaseRepository;
 import com.kbank.backend.repository.PrescriptionMedicineRepository;
 import com.kbank.backend.repository.PrescriptionRepository;
