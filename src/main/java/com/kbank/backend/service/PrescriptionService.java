@@ -2,11 +2,15 @@ package com.kbank.backend.service;
 
 import com.kbank.backend.domain.*;
 import com.kbank.backend.dto.request.PrescriptionRequestDto;
+import com.kbank.backend.dto.response.PageInfo;
 import com.kbank.backend.dto.response.PrescriptionResponseDto;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -155,7 +159,7 @@ public class PrescriptionService {
     /** 처방 안 받은 리스트 조회 */
     @Transactional
     public Map<String, List<PrescriptionResponseDto>> notReceivedPrescriptionList(Long userId) {
-        List<Prescription> prescriptionList = prescriptionRepository.findByUserPkAndPreStFalse(userId);
+        List<Prescription> prescriptionList = prescriptionRepository.findByUserFkAndPreStFalse(userId);
         Map<String, List<PrescriptionResponseDto>> result = new HashMap<>();
         List<PrescriptionResponseDto> prescriptionDtoList = prescriptionList.stream()
                 .map(PrescriptionResponseDto::toEntity)
@@ -165,44 +169,39 @@ public class PrescriptionService {
 
         return result;
     }
-//
-//
-//    //전체 리스트 조회
-//    @Transactional
-//    public List<PrescriptionHtmlResponseDto> getAllPrescriptionHtmls() {
-//        // 모든 처방전 조회
-//        List<Prescription> prescriptions = prescriptionRepository.findAll();
-//
-//        List<PrescriptionHtmlResponseDto> prescriptionResponseList = new ArrayList<>();
-//
-//        for (Prescription prescription : prescriptions) {
-//            User user = prescription.getPreUser();
-//            Doctor doctor = prescription.getPreDoctor();
-//            Hospital hospital = doctor.getDoctorHospital();
-//
-//            // 질병 및 약 정보 조회
-//            List<Disease> diseases = diseaseRepository.findByDiseasePrescription(prescription);
-//            List<Medicine> medicines = prescriptionMedicineRepository.findMedicineByPrescription(prescription);
-//
-//            // DTO 리스트 생성
-//            List<MedicineDto> medicineList = new ArrayList<>();
-//            for (Medicine medicine : medicines) {
-//                medicineList.add(MedicineDto.toEntity(medicine)); // DTO 변환
-//            }
-//            //여기도 dto 써야 될까요
-//            List<String> diseaseList = new ArrayList<>();
-//            for (Disease disease : diseases) {
-//                diseaseList.add(disease.getDiseaseCd()); // 질병 코드 추가
-//            }
-//
-//            // 리스트에 추가
-//            prescriptionResponseList.add(PrescriptionHtmlResponseDto.toEntity(
-//                    prescription,user,doctor,hospital,diseaseList,medicineList
-//            ));
-//        }
-//
-//        return prescriptionResponseList; // 모든 처방전 리스트 반환
-//    }
+
+    //전체 리스트 조회
+    @Transactional
+    public Map<String, Object> getAllPrescriptionList(Long userId, Integer pageIndex, Integer pageSize) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+        Page<Prescription> prescriptionList = prescriptionRepository.findAllByPreUser(
+                user,
+                PageRequest.of(pageIndex, pageSize, Sort.by(
+                        Sort.Order.asc("prescriptionSt"),
+                        Sort.Order.desc("createYmd")
+                ))
+        );
+        Map<String, Object> result = new HashMap<>();
+
+        PageInfo pageInfo = PageInfo.builder()
+                .currentPage(prescriptionList.getNumber() + 1)
+                .totalPages(prescriptionList.getTotalPages())
+                .pageSize(prescriptionList.getSize())
+                .currentItems(prescriptionList.getNumberOfElements())
+                .totalItems(prescriptionList.getTotalElements())
+                .build();
+
+        List<PrescriptionResponseDto> prescriptionDtoList = prescriptionList.stream()
+                .map(PrescriptionResponseDto::toEntity)
+                .toList();
+
+        result.put("pageInfo", pageInfo);
+        result.put("prescriptionList", prescriptionDtoList);
+
+        return result;
+    }
 //
 //
 //    @Transactional
