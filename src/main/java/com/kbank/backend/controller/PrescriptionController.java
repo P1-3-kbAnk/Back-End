@@ -20,12 +20,12 @@ public class PrescriptionController {
     }
 
     // 수정 요함
-//    //처방 받아야 할 조회
-//    @GetMapping("/new/list")
-//    public ResponseDto<List<PrescriptionHtmlResponseDto>> notReceivedPrescriptionHtmls(@RequestParam(name = "userId") Long userId) {
-//        List<PrescriptionHtmlResponseDto> prescriptionList = prescriptionService.notReceivedPrescriptionHtmls();
-//        return ResponseDto.ok(prescriptionList);
-//    }
+    // 처방 받아야 할 처방전 조회
+    @GetMapping("/new/list")
+    public ResponseDto<?> notReceivedPrescriptionList(@RequestParam(name = "userId") Long userId) {
+
+        return ResponseDto.ok(prescriptionService.notReceivedPrescriptionList(userId));
+    }
 //
 //    //전체 조회
 //    @GetMapping("/list")

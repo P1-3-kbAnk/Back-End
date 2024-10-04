@@ -22,6 +22,17 @@ public class PrescriptionResponseDto {
     private Long userId;
     private Long chemistId;
 
+    public static PrescriptionResponseDto toEntity(Prescription prescription) {
+        return PrescriptionResponseDto.builder()
+                .prescriptionPk(prescription.getPrescriptionPk())
+                .prescriptionNo(prescription.getPrescriptionNo())
+                .duration(prescription.getDuration())
+                .description(prescription.getDescription())
+                .prescriptionSt(prescription.getPrescriptionSt())
+                .insuranceSt(prescription.getInsuranceSt())
+                .build();
+    }
+
     public static PrescriptionResponseDto toEntity(Prescription prescription, Long userId, Long doctorId, Long chemistId) {
         return PrescriptionResponseDto.builder()
                 .prescriptionPk(prescription.getPrescriptionPk())
