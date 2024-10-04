@@ -1,9 +1,11 @@
 package com.kbank.backend.service;
 
 
+import com.kbank.backend.domain.Medicine;
 import com.kbank.backend.domain.MedicineIntake;
 import com.kbank.backend.domain.User;
 import com.kbank.backend.dto.response.MedicineIntakeResponseDto;
+import com.kbank.backend.dto.response.MedicineResponseDto;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.MedicineIntakeRepository;
@@ -11,16 +13,15 @@ import com.kbank.backend.repository.MedicineRepository;
 import com.kbank.backend.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-@Transactional
+@Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class MedicineIntakeService {
 
@@ -28,28 +29,97 @@ public class MedicineIntakeService {
     private final MedicineRepository medicineRepository;
     private final UserRepository userRepository;
 
-    // 수정 요함
+
+    // 날짜(2024-10-5)를 받아서 조회
+    @Transactional
+    public List<Map<?, ?>> getMedicineIntakeByDate(Long userPk, String date) {
+
+        log.info(date);
+        String[] tmp = date.split("-");
+
+        LocalDate localDate = LocalDate.of(
+                Integer.parseInt(tmp[0]),
+                Integer.parseInt(tmp[1]),
+                Integer.parseInt(tmp[2])
+                );
+
+        List<MedicineIntake> list = medicineIntakeRepository
+                .findByMedInkUserAndDay(
+                    userRepository.findById(userPk).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER)),
+                    localDate
+        );
+        List<Map<?, ?>> result = new ArrayList<>();
+
+        list.forEach(e -> {
+            Map<String,Object> st = new HashMap<>();
+
+            st.put("intake", MedicineIntakeResponseDto
+                        .builder()
+                            .medInkPk(e.getMedInkPk())
+                            .meal(e.getMeal())
+                            .day(e.getDay())
+                            .eatSt(e.getEatSt())
+                        .build()
+            );
+
+            st.put("med", MedicineResponseDto
+                            .builder()
+                                .medicinePk(e.getMedInkMedicine().getMedicinePk())
+                                .medicineNm(e.getMedInkMedicine().getMedicineNm())
+                                .time(e.getMedInkMedicine().getTime())
+                                .caution(e.getMedInkMedicine().getCaution())
+                            .build());
+
+            result.add(st);
+        });
+
+        return result;
+    }
+
+    // 복용 여부(EatSt)만 업데이트
+    public Boolean updateEatSt(Long userPk, Long medInkPk) {
+        User user = userRepository.findById(userPk).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        MedicineIntake medicineIntake = medicineIntakeRepository.findById(medInkPk)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+
+        // 해당 유저가 아닌경우 예외 던지기
+        if(medicineIntake.getMedInkUser() != user) {throw new CommonException(ErrorCode.ACCESS_DENIED_ERROR);}
+
+        medicineIntake.updateEatSt();
+        medicineIntakeRepository.save(medicineIntake);
+
+        return Boolean.TRUE;
+    }
+
+    // 복약 정보 삭제
+    public void deleteMedicineIntake(Long id) {
+
+        medicineIntakeRepository.deleteById(id);
+    }
+}
+
     //복약 여부 id로 조회
-//    public MedicineIntakeResponse getMedicineIntake(Long id) {
+//    public MedicineIntakeResponseDto getMedicineIntake(Long id) {
 //
 //        Optional<MedicineIntake> medicineIntake = medicineIntakeRepository.findById(id);
 //
-//        return new MedicineIntakeResponse(medicineIntake);
+//        return new MedicineIntakeResponseDto(medicineIntake);
 //    }
 //
 //    // 모든 복약 여부 정보 조회
-//    public List<MedicineIntakeResponse> getAllMedicineIntakes() {
+//    public List<MedicineIntakeResponseDto> getAllMedicineIntakes() {
 //
 //        List<MedicineIntake> medicineIntakes = medicineIntakeRepository.findAll();
 //
-//        List<MedicineIntakeResponse> MedicineIntakeResponses = medicineIntakes.stream()
+//        List<MedicineIntakeResponseDto> MedicineIntakeResponses = medicineIntakes.stream()
 //                .map(MedicineIntakeResponse::new)  // HospitalBillResponse 생성자로 변환
 //                .collect(Collectors.toList());
 //
 //        return MedicineIntakeResponses;
 //    }
 //
-    /** 현재 복용 중인 약물 조회 */
+//    /* 현재 복용 중인 약물 조회 ***/
 //    public Map<String, Object> getMedicineIntakeByUser(Long userPk) {
 //
 //        User user = userRepository.findByUserPk(userPk)
@@ -87,20 +157,3 @@ public class MedicineIntakeService {
 //    }
 //
 //
-//    // 복용 여부(EatSt)만 업데이트
-//    public Boolean updateEatSt(Long medInkPk) {
-//
-//        MedicineIntake medicineIntake = medicineIntakeRepository.findById(medInkPk)
-//                .orElseThrow(() -> new IllegalArgumentException("MedicineIntake not found with id: " + medInkPk));
-//        medicineIntake.setEatSt(true);
-//        medicineIntakeRepository.save(medicineIntake);
-//
-//        return Boolean.TRUE;
-//    }
-//
-//    // 복약 정보 삭제
-//    public void deleteMedicineIntake(Long id) {
-//
-//        medicineIntakeRepository.deleteById(id);
-//    }
-}

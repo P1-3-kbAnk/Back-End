@@ -53,7 +53,10 @@ public enum ErrorCode {
 
     // FAST API ERROR
     ERR_FAST_API(60000, HttpStatus.INTERNAL_SERVER_ERROR, "리포트 에러."),
-    TIME_OUT(60001, HttpStatus.REQUEST_TIMEOUT, "타임 아웃 에러.");
+    TIME_OUT(60001, HttpStatus.REQUEST_TIMEOUT, "타임 아웃 에러."),
+
+    // FireBase ERROR
+    FIREBASE_ERROR(70000, HttpStatus.INTERNAL_SERVER_ERROR, "파이어베이스 에러");
 
     private final Integer code;
     private final HttpStatus httpStatus;
