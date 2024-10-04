@@ -37,13 +37,12 @@ public class PayService {
 
 
 
-        long totalPrice = medicines.stream()
+        Long totalPrice = medicines.stream()
                 .mapToLong(Medicine::getPrice)
                 .sum();
 
         //계좌 업데이트
-        long newAccount = user.getAccount() - totalPrice;
-
+        Long newAccount = user.getAccount() - totalPrice;
         // 계좌가 부족한 경우 예외 발생
         if (newAccount < 0) {
             throw new CommonException(ErrorCode.INSUFFICIENT_FUNDS); // 새로운 에러코드 정의 필요
