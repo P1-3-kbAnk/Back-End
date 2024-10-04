@@ -1,8 +1,6 @@
 package com.kbank.backend.service;
 
 import com.kbank.backend.domain.*;
-import com.kbank.backend.dto.response.PayResponseDto;
-import com.kbank.backend.dto.response.UserResponseDto;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.*;
@@ -11,7 +9,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,7 +23,7 @@ public class PayService {
     private final PharmacyBillRepository pharmacyBillRepository;
 
     @Transactional
-    public PayResponseDto payment(Long userId, Long prescriptionId) {
+    public Map<?,?> payment(Long userId, Long prescriptionId) {
 
         //처방전 ID로 처방전 찾기
         Prescription prescription = prescriptionRepository.findById(prescriptionId)
@@ -34,6 +34,7 @@ public class PayService {
                 .orElseThrow(()->new CommonException(ErrorCode.NOT_FOUND_USER));
         //처방전에 있는 모든 약 찾기
         List<Medicine> medicines = prescriptionMedicineRepository.findMedicineByPrescription(prescription);
+
 
 
         long totalPrice = medicines.stream()
@@ -58,8 +59,12 @@ public class PayService {
 
         pharmacyBillRepository.save(pharmacyBill);
 
+        Map<String, String> result = new HashMap<>();
+        result.put("totalPrice", String.valueOf(totalPrice));
+        result.put("Account", String.valueOf(newAccount));
 
-        return PayResponseDto.toEntity(newAccount,totalPrice);
+
+        return result;
     }
 
 
