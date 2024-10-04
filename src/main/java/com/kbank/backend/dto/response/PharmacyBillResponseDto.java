@@ -18,11 +18,11 @@ public class PharmacyBillResponseDto {
     private Prescription pharmacyBillPrescription;
     private Long pharmacyId;
 
-    public static PharmacyBillResponseDto toEntity(PharmacyBill pharmacyBill, Long pharmacyId) {
+    public static PharmacyBillResponseDto toEntity(PharmacyBill pharmacyBill,Long prescriptionId, Long pharmacyId) {
         return PharmacyBillResponseDto.builder()
                 .pharmacyBillPk(pharmacyBill.getPharmacyBillPk())
                 .totalPrice(pharmacyBill.getTotalPrice())
-                .pharmacyBillPrescription(pharmacyBill.getPharmacyBillPrescription())
+                .pharmacyId(prescriptionId)
                 .pharmacyId(pharmacyId)
                 .build();
     }
