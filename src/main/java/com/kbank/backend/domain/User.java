@@ -127,4 +127,21 @@ public class User {
         this.account = newAccount;
     }
 
+    //사용자 계좌 번호 수정
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
+    }
+
+    //사용자 은행 수정
+    public void setBankNm(String bankNm) {
+        this.bankNm = bankNm;
+    }
+
+    //사용자 아침 시간 수정
+    public void setMorningAlarm(LocalTime morningAlarm) {this.morningAlarm = morningAlarm;}
+
+    //사용자 점심 시간 수정
+    public void setLunchAlarm(LocalTime lunchAlarm) {this.lunchAlarm = lunchAlarm;}
+    //사용자 저녁 시간 수정
+    public void setDinnerAlarm(LocalTime dinnerAlarm) {this.dinnerAlarm = dinnerAlarm;}
 }
