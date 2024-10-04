@@ -19,15 +19,17 @@ public class HospitalBillService {
 
     //생성 생략 -> 처방전에서 생성
 
-    // 처방전 ID로 hospitalBill 조회
     @Transactional
-    public HospitalBillResponseDto getBillByPrescriptionFk(Long userId,Long prescriptionId) {
+    public HospitalBillResponseDto getBillByPrescriptionFk(Long userId, Long prescriptionId) {
 
         HospitalBill hospitalBill = hospitalBillRepository.findByHospitalBillPrescriptionPrescriptionPk(prescriptionId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
-        return HospitalBillResponseDto.toEntity(hospitalBill.getHospitalBillHospital(),hospitalBill);
+        Long hospitalId = hospitalBill.getHospitalBillHospital().getHospitalPk();
+
+        return HospitalBillResponseDto.toEntity(hospitalBill, prescriptionId, hospitalId);
     }
+
 
     // hospitalBill 삭제
     public void deleteBill(Long userId,Long id) {
@@ -36,4 +38,3 @@ public class HospitalBillService {
 
     }
 }
-
