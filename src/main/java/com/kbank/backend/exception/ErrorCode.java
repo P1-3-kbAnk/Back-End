@@ -45,6 +45,7 @@ public enum ErrorCode {
     NOT_FOUND_DOCTOR(40406, HttpStatus.NOT_FOUND, " 해당 의사가 존재하지 않습니다."),
     NOT_FOUND_CHEMIST(40407, HttpStatus.NOT_FOUND, " 해당 약사가 존재하지 않습니다."),
     INSUFFICIENT_FUNDS(40408, HttpStatus.NOT_FOUND, "잔액이 부족합니다."),
+    NOT_FOUND_PRESCRIPTION(40409, HttpStatus.NOT_FOUND, "처방전이 존재하지 않습니다."),
 
 
     SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러 입니다."),
