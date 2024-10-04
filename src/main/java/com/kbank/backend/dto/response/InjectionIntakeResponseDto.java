@@ -17,7 +17,7 @@ public class InjectionIntakeResponseDto {
 
     private Long injInkPk;
     private Meal meal;
-    private Integer eatSt;
+    private Boolean eatSt;
     private LocalDate day;
     private Long userId;
     private Long injectionId;
