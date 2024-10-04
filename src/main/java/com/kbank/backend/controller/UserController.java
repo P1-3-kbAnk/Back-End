@@ -30,13 +30,13 @@ public class UserController{
         return ResponseDto.ok(userService.getUserById(userId));
     }
     //사용자 계좌 정보 수정
-    @PutMapping("/modify/account")
+    @PatchMapping("/modify/account")
     public ResponseDto<Map<?,?>> modifyAccount(@RequestParam(name = "userId") Long userId,
                                           @RequestBody @Valid AccountRequestDto accountRequestDto){
         return ResponseDto.ok(userService.updateUser(userId,accountRequestDto));
     }
     //사용자 복약 시간 수정
-    @PutMapping("/modify/medicineTime")
+    @PatchMapping("/modify/medicineTime")
     public ResponseDto<Map<?,?>> modifyMedicineTime(@RequestParam(name = "userId") Long userId,
                                                     @RequestBody @Valid MedicineTimeDto medicineTimeDto){
         return ResponseDto.ok(userService.updateMedicineTime(userId,medicineTimeDto));
