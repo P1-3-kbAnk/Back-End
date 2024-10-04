@@ -7,6 +7,7 @@ import com.kbank.backend.enumerate.Meal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,4 +26,7 @@ public interface MedicineIntakeRepository extends JpaRepository<MedicineIntake, 
 
     // 특정 식사 시간에 복약 여부 조회
     List<MedicineIntake> findByMeal(Meal meal);
+
+    List<MedicineIntake> findByMedInkUserAndDay(User user, LocalDate day);
+
 }

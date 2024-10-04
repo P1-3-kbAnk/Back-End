@@ -30,6 +30,9 @@ public class MedicineIntake {
     @Column(name="eat_st", nullable=false)
     private Boolean eatSt;
 
+    @Column(name = "intake_cnt", nullable = false)
+    private Integer intakeCnt;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
     private LocalDateTime createYmd;
@@ -44,18 +47,18 @@ public class MedicineIntake {
     private Medicine medInkMedicine;
 
     @Builder
-    public MedicineIntake(Meal meal, Boolean eatSt, User user, Medicine medicine, LocalDate day) {
+    public MedicineIntake(Meal meal, Boolean eatSt, User user, Medicine medicine, LocalDate day, Integer intakeCnt) {
         this.meal = meal;
         this.day = day;
         this.eatSt = eatSt;
         this.medInkUser = user;
         this.medInkMedicine = medicine;
+        this.intakeCnt = intakeCnt;
     }
 
     /* Update */
     public Boolean updateEatSt() {
         this.eatSt = !this.eatSt;
-
         return Boolean.TRUE;
     }
 }
