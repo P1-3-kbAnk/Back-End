@@ -1,8 +1,6 @@
 package com.kbank.backend.service;
 
 import com.kbank.backend.domain.*;
-import com.kbank.backend.dto.response.PayResponseDto;
-import com.kbank.backend.dto.response.UserResponseDto;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.*;
@@ -11,7 +9,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,7 +23,7 @@ public class PayService {
     private final PharmacyBillRepository pharmacyBillRepository;
 
     @Transactional
-    public PayResponseDto payment(Long userId, Long prescriptionId) {
+    public Map<?,?> payment(Long userId, Long prescriptionId) {
 
         //처방전 ID로 처방전 찾기
         Prescription prescription = prescriptionRepository.findById(prescriptionId)
@@ -36,13 +36,13 @@ public class PayService {
         List<Medicine> medicines = prescriptionMedicineRepository.findMedicineByPrescription(prescription);
 
 
-        long totalPrice = medicines.stream()
+
+        Long totalPrice = medicines.stream()
                 .mapToLong(Medicine::getPrice)
                 .sum();
 
         //계좌 업데이트
-        long newAccount = user.getAccount() - totalPrice;
-
+        Long newAccount = user.getAccount() - totalPrice;
         // 계좌가 부족한 경우 예외 발생
         if (newAccount < 0) {
             throw new CommonException(ErrorCode.INSUFFICIENT_FUNDS); // 새로운 에러코드 정의 필요
@@ -58,8 +58,12 @@ public class PayService {
 
         pharmacyBillRepository.save(pharmacyBill);
 
+        Map<String, String> result = new HashMap<>();
+        result.put("totalPrice", String.valueOf(totalPrice));
+        result.put("Account", String.valueOf(newAccount));
 
-        return PayResponseDto.toEntity(newAccount,totalPrice);
+
+        return result;
     }
 
 
