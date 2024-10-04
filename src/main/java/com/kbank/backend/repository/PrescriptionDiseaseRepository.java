@@ -1,5 +1,7 @@
 package com.kbank.backend.repository;
 
+import com.kbank.backend.domain.Disease;
+import com.kbank.backend.domain.Prescription;
 import com.kbank.backend.domain.PrescriptionDisease;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,5 +15,7 @@ public interface PrescriptionDiseaseRepository extends JpaRepository<Prescriptio
 
     @Query("SELECT pd FROM PrescriptionDisease pd WHERE pd.preDisPrescription.prescriptionPk = :prescriptionId")
     List<PrescriptionDisease> findDiseasesByPrescriptionId(@Param("prescriptionId") Long prescriptionId);
+
+    List<Disease> findByPreDisPrescription(Prescription prescription);
 
 }

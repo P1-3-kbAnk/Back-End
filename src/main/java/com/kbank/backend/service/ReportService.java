@@ -1,21 +1,17 @@
 package com.kbank.backend.service;
 
-
 import com.kbank.backend.controller.ReportRestTemplate;
 import com.kbank.backend.domain.Prescription;
 import com.kbank.backend.domain.Report;
 import com.kbank.backend.dto.request.ReportRequestDto;
-import com.kbank.backend.dto.response.ReportResponseDto;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
-import com.kbank.backend.repository.DiseaseRepository;
-import com.kbank.backend.repository.PrescriptionMedicineRepository;
-import com.kbank.backend.repository.PrescriptionRepository;
-import com.kbank.backend.repository.ReportRepository;
+import com.kbank.backend.repository.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.*;
@@ -26,22 +22,10 @@ import java.util.*;
 public class ReportService {
 
     private final ReportRepository reportRepository;
-    private final DiseaseRepository diseaseRepository;
+    private final PrescriptionDiseaseRepository prescriptionDiseaseRepository;
     private final ReportRestTemplate restTemplate;
     private final PrescriptionRepository prescriptionRepository;
     private final PrescriptionMedicineRepository prescriptionMedicineRepository;
-
-    public List<Report> findAll(Long userPk) {
-        return reportRepository.findAll();
-    }
-
-    public Optional<Report> findById(Long userPk, Long id) {
-        return reportRepository.findById(id);
-    }
-
-    public Optional<Report> findByPrescription(Long userPk, Prescription prescription) {
-        return reportRepository.findByReportPrescription(prescription);
-    }
 
     public List<String> getMedicineList(Prescription prescription){
         List<String> res = new ArrayList<>();
@@ -51,53 +35,65 @@ public class ReportService {
 
         return res;
     }
-// 수정 요함
-//    public Report create(long prescriptionId) {
-//        try {
-//            Prescription prescription = prescriptionRepository
-//                    .findById(prescriptionId)
-//                    .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
-//
-//            List<String> res = new ArrayList<>();
-//            Map<String, String> query = new HashMap<>();
-//
-//            diseaseRepository.findByDiseasePrescription(prescription)
-//                    .forEach(e -> res.add(e.getDiseaseCd()));
-//
-//            query.put("medi", getMedicineList(prescription).toString());
-//            query.put("code", res.toString());
-//
-//            ReportRequestDto responseFromFa = restTemplate.getReport(query);
-//            //System.out.println(responseFromFa);
-//
-//            Report report = responseFromFa.toEntity(prescription);
-//
-//            reportRepository.save(responseFromFa.toEntity(prescription));
-//
-//            return report;
-//
-//        } catch (CommonException e) {
-//            throw new CommonException(ErrorCode.ERR_FAST_API);
-//        }
-//    }
 
-//    public ReportResponseDto getReportByPrescription(long id) {
-//        Optional<Report> report = reportRepository
-//                .findByReportPrescription(
-//                        prescriptionRepository
-//                                .findById(id)
-//                                .orElseThrow(() ->
-//                                        new CommonException(ErrorCode.NOT_FOUND_RESOURCE))
-//                );
-//        if(report.isPresent()){ // 리포트가 존재하면
-//
-//            return ReportResponseDto.toEntity(report.get());
-//
-//        } else { // 리포트가 없을 때
-//
-//            Report newReport = create(id);
-//
-//            return ReportResponseDto.toEntity(newReport);
-//        }
-//    }
+    // report 생성 -> 하나의 메소드엔 하나의 기능만 있어야 하니까 report 반환 x
+    public Boolean create(Long prescriptionId) {
+        try {
+
+            // 처방전 받아옴
+            Prescription prescription = prescriptionRepository
+                    .findById(prescriptionId)
+                    .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+
+            List<String> res = new ArrayList<>(); // 질병 코드 리스트
+            Map<String, String> query = new HashMap<>(); // GPT에게 보낼 쿼리
+
+            prescriptionDiseaseRepository.findByPreDisPrescription(prescription)
+                    .forEach(e -> res.add(e.getDiseaseCd()));
+
+            query.put("medi", getMedicineList(prescription).toString()); // 약 리스트
+            query.put("code", res.toString()); // 질병 코드 리스트
+
+            // fast api 에서 온 응답
+            ReportRequestDto responseFromFa = restTemplate.getReport(query);
+
+            // 리스트로 온 응답을 하나의 문자열로 변환하여 저장
+            reportRepository.save(Report
+                    .builder()
+                    .intakeMethod(String.join(",", responseFromFa.getCaution()))
+                    .food(String.join(",", responseFromFa.getFood()))
+                    .exercise(String.join(",", responseFromFa.getExercise()))
+                    .build());
+
+            return Boolean.TRUE;
+
+        } catch (CommonException e) {
+            throw new CommonException(ErrorCode.ERR_FAST_API);
+        }
+    }
+
+    // 처방전을 통해서 리포트를 조회하는 메솓,
+    @Transactional // 없을떈 생성하는 메소드를 호출해야하므로 트랜잭션 처리 필수
+    public Map<String, ?> getReportByPrescription(Long userId, Long prescriptionId) {
+        Report report = reportRepository // 리포트 가져옴
+                .findByReportPrescription(
+                        prescriptionRepository // 처방전을 기준으로
+                                .findById(prescriptionId)
+                                .orElseThrow(() ->
+                                        new CommonException(ErrorCode.NOT_FOUND_RESOURCE))
+                )
+                .orElseThrow(() -> // 아니면 예외 던지기
+                        new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+
+        // response
+        Map<String, String> response = new HashMap<>();
+
+        response.put("reportPk", String.valueOf(report.getReportPk()));
+        response.put("prescriptionPk", String.valueOf(report.getReportPrescription().getPrescriptionPk()));
+        response.put("intakeMethod", report.getIntakeMethod());
+        response.put("food", report.getFood());
+        response.put("exercise", report.getExercise());
+
+        return response;
+    }
 }
