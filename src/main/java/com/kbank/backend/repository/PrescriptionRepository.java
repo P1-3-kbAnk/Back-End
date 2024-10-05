@@ -5,6 +5,7 @@ import com.kbank.backend.domain.Prescription;
 import com.kbank.backend.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,6 +22,9 @@ public interface PrescriptionRepository extends JpaRepository<Prescription,Long>
     @Query(value = "SELECT * FROM prescription_tb p WHERE p.pre_user_fk = :userId " +
             "AND p.prescription_st IS FALSE", nativeQuery = true)
     List<Prescription> findByUserFkAndPreStFalse(@Param("userId") Long userId);
+
+    @EntityGraph(attributePaths = {"preDoctor", "preDoctor.doctorHospital", "preChemist", "preChemist.chemistPharmacy", "preUser"})
+    Optional<Prescription> findPrescriptionByPrescriptionPk(Long prescriptionId);
 
     Page<Prescription> findAllByPreUser(User user, Pageable pageable);
 
