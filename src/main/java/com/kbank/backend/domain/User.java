@@ -87,13 +87,13 @@ public class User {
     @OneToMany(mappedBy = "medInkUser", fetch = FetchType.LAZY)
     private List<MedicineIntake> medicineIntakeList;
 
-//    @Builder
-//    public User(Provider provider, String socialId, Role role, LocalDate createYmd) {
-//        this.provider = provider;
-//        this.socialId = socialId;
-//        this.role = role;
-//        this.createYmd = createYmd;
-//    }
+    @Builder
+    public User(Provider provider, String socialId, Role role) {
+        this.provider = provider;
+        this.socialId = socialId;
+        this.role = role;
+        this.createYmd = LocalDateTime.now();
+    }
 
     // 시큐리티 후 수정
     @Builder

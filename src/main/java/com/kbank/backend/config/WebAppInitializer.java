@@ -1,6 +1,10 @@
 package com.kbank.backend.config;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /*
@@ -18,13 +22,13 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     // 기본 설정 파일 지정
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { AppConfig.class, MyBatisConfig.class, JpaConfig.class };
+        return new Class[] { AppConfig.class, MyBatisConfig.class, JpaConfig.class};
     }
 
     // Servlet 설정 파일 지정
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { WebConfig.class };
+        return new Class[] { WebConfig.class, SecurityConfig.class };
     }
 
     @NotNull
@@ -32,5 +36,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     protected String[] getServletMappings() {
         return new String[] { "/" };
     }
+
 }
 
