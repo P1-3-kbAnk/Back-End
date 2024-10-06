@@ -29,4 +29,14 @@ public class PharmacyResponseDto {
                 .dongId(dongId)
                 .build();
     }
+
+    public static PharmacyResponseDto toEntity(Pharmacy pharmacy) {
+        return PharmacyResponseDto.builder()
+                .pharmacyPk(pharmacy.getPharmacyPk())
+                .pharmacyNm(pharmacy.getPharmacyNm())
+                .phoneNo(pharmacy.getPhoneNo())
+                .faxNo(pharmacy.getFaxNo())
+                .pharmacyNo(pharmacy.getPharmacyNo())
+                .build();
+    }
 }
