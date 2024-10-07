@@ -78,7 +78,6 @@ public class User {
     @Column(name = "dinner_alarm")
     private LocalTime dinnerAlarm;
 
-
     @Column(name = "create_ymd", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createYmd;
@@ -117,10 +116,6 @@ public class User {
     }
 
     /* Update */
-    public void setRole(Role role) {
-
-        this.role = role;
-    }
 
     //계좌 잔액 변경
     public void setAccount(long newAccount) {
