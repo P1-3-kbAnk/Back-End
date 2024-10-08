@@ -29,7 +29,7 @@ public class HospitalBillService {
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
         String hospitalNm = hospitalBill.getHospitalBillHospital().getHospitalNm();
-        LocalDateTime createYmd = hospitalBill.getHospitalBillHospital().getCreateYmd();
+        LocalDateTime createYmd = hospitalBill.getCreateYmd();
         Hospital hospital = hospitalBill.getHospitalBillHospital();
 
         return HospitalBillResponseDto.toEntity(hospital, hospitalBill, prescriptionId, hospitalNm,createYmd);

@@ -23,6 +23,7 @@ public class PharmacyBillResponseDto {
     private LocalDateTime createYmd;
     private Long pharmacyNo;
 
+
     public static PharmacyBillResponseDto toEntity(Pharmacy pharmacy,PharmacyBill pharmacyBill, Long prescriptionId, String pharmacyNm, LocalDateTime createYMD) {
         return PharmacyBillResponseDto.builder()
                 .pharmacyBillPk(pharmacyBill.getPharmacyBillPk())

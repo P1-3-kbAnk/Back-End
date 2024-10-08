@@ -22,7 +22,6 @@ public class HospitalBillResponseDto {
     private LocalDateTime createYmd;
     private Long hospitalNo;
 
-
     public static HospitalBillResponseDto toEntity(Hospital hospital,HospitalBill hospitalBill, Long prescriptionId, String hospitalNm, LocalDateTime createYmd) {
         return HospitalBillResponseDto.builder()
                 .hospitalBillPk(hospitalBill.getHospitalBillPk())
