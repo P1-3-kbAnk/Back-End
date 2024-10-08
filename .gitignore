@@ -17,6 +17,7 @@ out/
 !**/src/test/**/out/
 *.yml
 *.properties
+/src/main/resources/fcm-service_account.json
 
 ### Eclipse ###
 .apt_generated
@@ -43,3 +44,4 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
