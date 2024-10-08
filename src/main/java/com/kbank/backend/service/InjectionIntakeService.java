@@ -30,48 +30,25 @@ public class InjectionIntakeService {
 
     // 날짜(2024-10-5)를 받아서 조회
     @Transactional
-    public List<Map<?, ?>> getInjectionIntakeByDate(Long userPk, String date) {
+    public Map<String, Object> getInjectionIntakeByDate(Long userPk, LocalDate date) {
 
-        String[] tmp = date.split("-");
-
-        LocalDate localDate = LocalDate.of(
-                Integer.parseInt(tmp[0]),
-                Integer.parseInt(tmp[1]),
-                Integer.parseInt(tmp[2])
-        );
-
-        List<InjectionIntake> list = injectionIntakeRepository
+        List<InjectionIntake> injectionIntakeList = injectionIntakeRepository
                 .findByInjInkUserAndDay(
                         userRepository.findById(userPk).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER)),
-                        localDate
+                        date
                 );
 
-        List<Map<?, ?>> result = new ArrayList<>();
+        List<InjectionIntakeResponseDto> injectionIntakeResponseDtoList = new ArrayList<>();
 
-        list.forEach(e -> {
-            Map<String,Object> st = new HashMap<>();
-
-            st.put("intake", InjectionIntakeResponseDto
-                    .builder()
-                    .injInkPk(e.getInjInkPk())
-                    .meal(e.getMeal())
-                    .day(e.getDay())
-                    .eatSt(e.getEatSt())
-                    .build()
-            );
-
-            st.put("inj", InjectionResponseDto
-                    .builder()
-                    .injectionPk(e.getInjInkPk())
-                    .injectionNm(e.getInjInkInjection().getInjectionNm())
-                    .time(e.getInjInkInjection().getTime())
-                    .caution(e.getInjInkInjection().getCaution())
-                    .build());
-
-            result.add(st);
+        injectionIntakeList.forEach(injectionIntake -> {
+            injectionIntakeResponseDtoList.add(InjectionIntakeResponseDto.toEntity(injectionIntake));
         });
 
-        return result;
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("injectionIntakeList", injectionIntakeResponseDtoList);
+
+        return response;
     }
 
     // 복용 여부(EatSt)만 업데이트
@@ -82,7 +59,7 @@ public class InjectionIntakeService {
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
         // 해당 유저의 접근이 아닐경우 예외 던지기
-        if(injectionIntake.getInjInkUser() != user) {throw new CommonException(ErrorCode.ACCESS_DENIED_ERROR);}
+        if(!Objects.equals(injectionIntake.getInjInkUser().getUserPk(), user.getUserPk())) {throw new CommonException(ErrorCode.ACCESS_DENIED_ERROR);}
 
         injectionIntake.updateEatSt();
         injectionIntakeRepository.save(injectionIntake);
