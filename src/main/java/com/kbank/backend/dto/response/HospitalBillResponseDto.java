@@ -15,14 +15,14 @@ public class HospitalBillResponseDto {
     private Long hospitalBillPk;
     private Long totalPrice;
     private Long prescriptionId;
-    private Long hospitalId;
+    private String hospitalNm;
 
-    public static HospitalBillResponseDto toEntity(HospitalBill hospitalBill, Long prescriptionId, Long hospitalId) {
+    public static HospitalBillResponseDto toEntity(HospitalBill hospitalBill, Long prescriptionId, String hospitalNm) {
         return HospitalBillResponseDto.builder()
                 .hospitalBillPk(hospitalBill.getHospitalBillPk())
                 .totalPrice(hospitalBill.getTotalPrice())
                 .prescriptionId(prescriptionId)
-                .hospitalId(hospitalId)
+                .hospitalNm(hospitalNm)
                 .build();
     }
 }
