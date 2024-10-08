@@ -25,9 +25,9 @@ public class HospitalBillService {
         HospitalBill hospitalBill = hospitalBillRepository.findByHospitalBillPrescriptionPrescriptionPk(prescriptionId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
-        Long hospitalId = hospitalBill.getHospitalBillHospital().getHospitalPk();
+        String hospitalNm = hospitalBill.getHospitalBillHospital().getHospitalNm();
 
-        return HospitalBillResponseDto.toEntity(hospitalBill, prescriptionId, hospitalId);
+        return HospitalBillResponseDto.toEntity(hospitalBill, prescriptionId, hospitalNm);
     }
 
 

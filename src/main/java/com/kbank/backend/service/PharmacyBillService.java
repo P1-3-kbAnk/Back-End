@@ -27,9 +27,9 @@ public class PharmacyBillService {
                 .findByPharmacyBillPrescriptionPrescriptionPk(prescriptionId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
-        Long pharmacyId = pharmacyBill.getPharmacyBillPharmacy().getPharmacyPk();
+        String pharmacyNm = pharmacyBill.getPharmacyBillPharmacy().getPharmacyNm();
 
-        return PharmacyBillResponseDto.toEntity(pharmacyBill,prescriptionId,pharmacyId);
+        return PharmacyBillResponseDto.toEntity(pharmacyBill,prescriptionId,pharmacyNm);
 
     }
 

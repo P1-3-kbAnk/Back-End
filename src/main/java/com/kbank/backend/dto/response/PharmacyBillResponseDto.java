@@ -15,15 +15,15 @@ public class PharmacyBillResponseDto {
 
     private Long pharmacyBillPk;
     private Long totalPrice;
-    private Prescription pharmacyBillPrescription;
-    private Long pharmacyId;
+    private long PrescriptionId;
+    private String pharmacyNm;
 
-    public static PharmacyBillResponseDto toEntity(PharmacyBill pharmacyBill,Long prescriptionId, Long pharmacyId) {
+    public static PharmacyBillResponseDto toEntity(PharmacyBill pharmacyBill,Long prescriptionId, String pharmacyNm) {
         return PharmacyBillResponseDto.builder()
                 .pharmacyBillPk(pharmacyBill.getPharmacyBillPk())
                 .totalPrice(pharmacyBill.getTotalPrice())
-                .pharmacyId(prescriptionId)
-                .pharmacyId(pharmacyId)
+                .PrescriptionId(prescriptionId)
+                .pharmacyNm(pharmacyNm)
                 .build();
     }
 }
