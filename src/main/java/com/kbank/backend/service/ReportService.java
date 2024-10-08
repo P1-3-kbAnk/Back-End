@@ -22,10 +22,10 @@ import java.util.*;
 public class ReportService {
 
     private final ReportRepository reportRepository;
-    private final PrescriptionDiseaseRepository prescriptionDiseaseRepository;
     private final ReportRestTemplate restTemplate;
     private final PrescriptionRepository prescriptionRepository;
     private final PrescriptionMedicineRepository prescriptionMedicineRepository;
+    private final PrescriptionDiseaseRepository prescriptionDiseaseRepository;
 
     public List<String> getMedicineList(Prescription prescription){
         List<String> res = new ArrayList<>();
@@ -49,7 +49,7 @@ public class ReportService {
             Map<String, String> query = new HashMap<>(); // GPT에게 보낼 쿼리
 
             prescriptionDiseaseRepository.findByPreDisPrescription(prescription)
-                    .forEach(e -> res.add(e.getDiseaseCd()));
+                    .forEach(e -> res.add(e.getPreDisDisease().getDiseaseCd()));
 
             query.put("medi", getMedicineList(prescription).toString()); // 약 리스트
             query.put("code", res.toString()); // 질병 코드 리스트
