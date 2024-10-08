@@ -100,7 +100,7 @@ public class User {
 
     // 시큐리티 후 수정
     @Builder
-    public User(String userNm, String phoneNo, Gender gender, String firstNo, String lastNo, String bankNm, String accountNo, String accountPw,String fcmNo) {
+    public User(String userNm, String phoneNo, Gender gender, String firstNo, String lastNo, String bankNm, String accountNo, String accountPw,String fcmNo, Provider provider, String socialId, Role role) {
         this.userNm = userNm;
         this.phoneNo = phoneNo;
         this.gender = gender;

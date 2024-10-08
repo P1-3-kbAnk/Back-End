@@ -16,7 +16,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     // 기본 설정 파일 지정
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { AppConfig.class, MyBatisConfig.class, JpaConfig.class, SecurityConfig.class};
+        return new Class[] { AppConfig.class, MyBatisConfig.class, JpaConfig.class }; //SecurityConfig.class
     }
 
     // Servlet 설정 파일 지정
@@ -31,15 +31,15 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new String[] { "/" };
     }
 
-    @Override
-    protected Filter[] getServletFilters() {
-        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-        characterEncodingFilter.setEncoding("UTF-8");
-        characterEncodingFilter.setForceEncoding(true);
-
-        DelegatingFilterProxy securityFilterChain = new DelegatingFilterProxy("springSecurityFilterChain");
-
-        return new Filter[] { characterEncodingFilter, securityFilterChain };
-    }
+//    @Override
+//    protected Filter[] getServletFilters() {
+//        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+//        characterEncodingFilter.setEncoding("UTF-8");
+//        characterEncodingFilter.setForceEncoding(true);
+//
+//        DelegatingFilterProxy securityFilterChain = new DelegatingFilterProxy("springSecurityFilterChain");
+//
+//        return new Filter[] { characterEncodingFilter, securityFilterChain };
+//    }
 }
 
