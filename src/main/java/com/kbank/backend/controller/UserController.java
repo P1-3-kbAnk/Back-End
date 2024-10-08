@@ -39,6 +39,12 @@ public class UserController {
         return ResponseDto.ok(prescriptionService.getAllPrescriptionList(userId, pageIndex, pageSize));
     }
 
+    // 처방전 상세 조회
+    @GetMapping("/prescription/detail/{id}")
+    public ResponseDto<?> prescriptionDetail(@PathVariable("id") Long prescriptionId) {
+        return ResponseDto.ok(prescriptionService.prescriptionDetail(prescriptionId));
+    }
+
     @PatchMapping("/modify/medicineTime")
     public ResponseDto<Boolean> updateAlarm(@RequestParam(name = "userId") Long userId,
                                            @RequestBody UserRequestDto userRequestDto){
@@ -50,6 +56,7 @@ public class UserController {
     public ResponseDto<UserResponseDto> detailAccount(@RequestParam(name = "userId") Long userId){
         return ResponseDto.ok(userService.getUserById(userId));
     }
+
     //사용자 계좌 정보 수정
     @PatchMapping("/modify/account")
     public ResponseDto<?> modifyAccount(@RequestParam(name = "userId") Long userId,
