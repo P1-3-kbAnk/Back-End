@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import java.time.LocalTime;
 
 @Getter
 @AllArgsConstructor
@@ -28,4 +29,12 @@ public class UserRequestDto {
     private String accountNo;
     @NotBlank
     private String accountPw;
+    @NotBlank
+    private String fcmNo;
+    @NotNull
+    private LocalTime morningAlarm;
+    @NotNull
+    private LocalTime lunchAlarm;
+    @NotNull
+    private LocalTime dinnerAlarm;
 }
