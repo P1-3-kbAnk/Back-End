@@ -1,6 +1,8 @@
 package com.kbank.backend.repository;
 
+import com.kbank.backend.domain.Prescription;
 import com.kbank.backend.domain.PrescriptionInjection;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,5 +15,8 @@ public interface PrescriptionInjectionRepository extends JpaRepository<Prescript
 
     @Query("SELECT pi FROM PrescriptionInjection pi WHERE pi.preInjPrescription.prescriptionPk = :prescriptionId")
     List<PrescriptionInjection> findInjectionsByPrescriptionId(@Param("prescriptionId") Long prescriptionId);
+
+    @EntityGraph(attributePaths = "preInjInjection")
+    List<PrescriptionInjection> findByPreInjPrescription(Prescription prescription);
 
 }

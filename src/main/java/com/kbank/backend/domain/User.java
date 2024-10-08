@@ -79,7 +79,6 @@ public class User {
     @Column(name = "dinner_alarm")
     private LocalTime dinnerAlarm;
 
-
     @Column(name = "create_ymd", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createYmd;
@@ -101,7 +100,7 @@ public class User {
 
     // 시큐리티 후 수정
     @Builder
-    public User(String userNm, String phoneNo, Gender gender, String firstNo, String lastNo, String bankNm, String accountNo, String accountPw,String fcmNo) {
+    public User(String userNm, String phoneNo, Gender gender, String firstNo, String lastNo, String bankNm, String accountNo, String accountPw,String fcmNo, Provider provider, String socialId, Role role) {
         this.userNm = userNm;
         this.phoneNo = phoneNo;
         this.gender = gender;
@@ -122,10 +121,6 @@ public class User {
     }
 
     /* Update */
-    public void setRole(Role role) {
-
-        this.role = role;
-    }
 
     //계좌 잔액 변경
     public void setAccount(long newAccount) {

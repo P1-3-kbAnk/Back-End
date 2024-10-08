@@ -1,13 +1,11 @@
 package com.kbank.backend.config;
 
 import jakarta.validation.constraints.NotNull;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-/*
-    제목 : Servlet 초기 설정
-    작성자 : 김성헌
-    일시 : 2024.09.20
- */
+import jakarta.servlet.Filter;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -18,7 +16,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     // 기본 설정 파일 지정
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { AppConfig.class, MyBatisConfig.class, JpaConfig.class };
+        return new Class[] { AppConfig.class, MyBatisConfig.class, JpaConfig.class }; //SecurityConfig.class
     }
 
     // Servlet 설정 파일 지정
@@ -32,5 +30,16 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     protected String[] getServletMappings() {
         return new String[] { "/" };
     }
+
+//    @Override
+//    protected Filter[] getServletFilters() {
+//        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+//        characterEncodingFilter.setEncoding("UTF-8");
+//        characterEncodingFilter.setForceEncoding(true);
+//
+//        DelegatingFilterProxy securityFilterChain = new DelegatingFilterProxy("springSecurityFilterChain");
+//
+//        return new Filter[] { characterEncodingFilter, securityFilterChain };
+//    }
 }
 

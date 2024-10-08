@@ -42,7 +42,7 @@ import java.util.Properties;
 @MapperScan("com.kbank.backend.mapper")//mybatis 매퍼 스캔
 @PropertySources({
         @PropertySource("classpath:application.properties"),
-//        @PropertySource("classpath:application-oauth.properties"),
+        @PropertySource("classpath:application-oauth.properties"),
         @PropertySource("classpath:application-jpa.properties")
 
 })

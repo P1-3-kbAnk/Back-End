@@ -13,7 +13,7 @@ repositories {
 ext {
     junitVersion = '5.9.2'
     springVersion = '6.1.5'
-    securityVersion = '6.1.4'
+    securityVersion = '6.3.0'
 }
 
 java {
@@ -49,6 +49,11 @@ dependencies {
     implementation "org.springframework.security:spring-security-core:${securityVersion}"
     implementation "org.springframework.security:spring-security-web:${securityVersion}"
     implementation "org.springframework.security:spring-security-config:${securityVersion}"
+
+    /*** Spring Security OAuth2 ***/
+    implementation "org.springframework.security:spring-security-oauth2-client:${securityVersion}"
+    implementation "org.springframework.security:spring-security-oauth2-core:${securityVersion}"
+    implementation "org.springframework.security:spring-security-oauth2-jose:${securityVersion}"
 
     /*** JWT ***/
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
