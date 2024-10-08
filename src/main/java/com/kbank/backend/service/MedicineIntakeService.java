@@ -32,48 +32,28 @@ public class MedicineIntakeService {
 
     // 날짜(2024-10-5)를 받아서 조회
     @Transactional
-    public List<Map<?, ?>> getMedicineIntakeByDate(Long userPk, String date) {
+    public Map<String, Object> getMedicineIntakeByDate(Long userPk, LocalDate date) {
 
-        log.info(date);
-        String[] tmp = date.split("-");
 
-        LocalDate localDate = LocalDate.of(
-                Integer.parseInt(tmp[0]),
-                Integer.parseInt(tmp[1]),
-                Integer.parseInt(tmp[2])
+        List<MedicineIntake> medicineIntakeList = medicineIntakeRepository
+                .findByMedInkUserAndDay(
+                        userRepository.findById(userPk).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER)),
+                        date
                 );
 
-        List<MedicineIntake> list = medicineIntakeRepository
-                .findByMedInkUserAndDay(
-                    userRepository.findById(userPk).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER)),
-                    localDate
-        );
-        List<Map<?, ?>> result = new ArrayList<>();
+        Map<String, Object> response = new HashMap<>();
+        List<MedicineIntakeResponseDto> medicineIntakeResponseDtoList = new ArrayList<>();
 
-        list.forEach(e -> {
-            Map<String,Object> st = new HashMap<>();
-
-            st.put("intake", MedicineIntakeResponseDto
-                        .builder()
-                            .medInkPk(e.getMedInkPk())
-                            .meal(e.getMeal())
-                            .day(e.getDay())
-                            .eatSt(e.getEatSt())
-                        .build()
+        medicineIntakeList.forEach(e -> {
+            medicineIntakeResponseDtoList.add(
+                    MedicineIntakeResponseDto
+                            .toEntity(e)
             );
-
-            st.put("med", MedicineResponseDto
-                            .builder()
-                                .medicinePk(e.getMedInkMedicine().getMedicinePk())
-                                .medicineNm(e.getMedInkMedicine().getMedicineNm())
-                                .time(e.getMedInkMedicine().getTime())
-                                .caution(e.getMedInkMedicine().getCaution())
-                            .build());
-
-            result.add(st);
         });
 
-        return result;
+        response.put("medicineIntakeList", medicineIntakeResponseDtoList);
+
+        return response;
     }
 
     // 복용 여부(EatSt)만 업데이트
@@ -84,7 +64,7 @@ public class MedicineIntakeService {
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
         // 해당 유저가 아닌경우 예외 던지기
-        if(medicineIntake.getMedInkUser() != user) {throw new CommonException(ErrorCode.ACCESS_DENIED_ERROR);}
+        if(!Objects.equals(medicineIntake.getMedInkUser().getUserPk(), user.getUserPk())) {throw new CommonException(ErrorCode.ACCESS_DENIED_ERROR);}
 
         medicineIntake.updateEatSt();
         medicineIntakeRepository.save(medicineIntake);
@@ -99,7 +79,7 @@ public class MedicineIntakeService {
     }
 }
 
-    //복약 여부 id로 조회
+//복약 여부 id로 조회
 //    public MedicineIntakeResponseDto getMedicineIntake(Long id) {
 //
 //        Optional<MedicineIntake> medicineIntake = medicineIntakeRepository.findById(id);
