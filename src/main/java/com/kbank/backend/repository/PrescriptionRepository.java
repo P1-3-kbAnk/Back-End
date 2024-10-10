@@ -26,6 +26,7 @@ public interface PrescriptionRepository extends JpaRepository<Prescription,Long>
     @EntityGraph(attributePaths = {"preDoctor", "preDoctor.doctorHospital", "preChemist", "preChemist.chemistPharmacy", "preUser"})
     Optional<Prescription> findPrescriptionByPrescriptionPk(Long prescriptionId);
 
+    @EntityGraph(attributePaths = {"preChemist", "preChemist.chemistPharmacy"})
     Page<Prescription> findAllByPreUser(User user, Pageable pageable);
 
     Optional<Prescription> findByPrescriptionNo(int prescriptionNo);

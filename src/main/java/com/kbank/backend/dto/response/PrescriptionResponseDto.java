@@ -16,6 +16,7 @@ public class PrescriptionResponseDto {
     private Integer prescriptionNo;
     private Integer duration;
     private String description;
+    private String hospitalNm;
     private Boolean prescriptionSt;
     private Boolean insuranceSt;
     private Long doctorId;
@@ -44,6 +45,19 @@ public class PrescriptionResponseDto {
                 .userId(userId)
                 .doctorId(doctorId)
                 .chemistId(chemistId)
+                .build();
+    }
+
+    public static PrescriptionResponseDto fromEntityWithHospitalNm(Prescription prescription) {
+        return PrescriptionResponseDto.builder()
+                .prescriptionPk(prescription.getPrescriptionPk())
+                .prescriptionNo(prescription.getPrescriptionNo())
+                .duration(prescription.getDuration())
+                .description(prescription.getDescription())
+                .prescriptionSt(prescription.getPrescriptionSt())
+                .insuranceSt(prescription.getInsuranceSt())
+                .hospitalNm(prescription.getPreChemist().getChemistPharmacy().getPharmacyNm())
+                .chemistId(prescription.getPreChemist().getChemistPk())
                 .build();
     }
 }
