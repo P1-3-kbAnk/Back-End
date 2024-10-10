@@ -60,7 +60,7 @@ public class UserController {
     //사용자 계좌 정보 수정
     @PatchMapping("/modify/account")
     public ResponseDto<?> modifyAccount(@RequestParam(name = "userId") Long userId,
-                                        @RequestBody @Valid UserRequestDto userRequestDto){
+                                        @RequestBody UserRequestDto userRequestDto){
         return ResponseDto.ok(userService.updateAccountInfo(userId,userRequestDto));
     }
 
