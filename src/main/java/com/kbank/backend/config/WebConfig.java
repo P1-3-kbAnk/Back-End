@@ -46,24 +46,24 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("/resources/");
     }
 
-    @Bean
-    public UserIdResolver userIdResolver() {
-        return new UserIdResolver();
-    }
-
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        WebMvcConfigurer.super.addArgumentResolvers(resolvers);
-        resolvers.add(userIdResolver());
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new UserIdInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns(Constant.NO_NEED_AUTH_URLS)
-        ;
-    }
+//    @Bean
+//    public UserIdResolver userIdResolver() {
+//        return new UserIdResolver();
+//    }
+//
+//    @Override
+//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+//        WebMvcConfigurer.super.addArgumentResolvers(resolvers);
+//        resolvers.add(userIdResolver());
+//    }
+//
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new UserIdInterceptor())
+//                .addPathPatterns("/**")
+//                .excludePathPatterns(Constant.NO_NEED_AUTH_URLS)
+//        ;
+//    }
 
     @Bean
     public Filter characterEncodingFilter() {
