@@ -10,22 +10,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PrescriptionService {
 
     private final PrescriptionRepository prescriptionRepository;
+    private final ChemistRepository chemistRepository;
     private final DoctorRepository doctorRepository;
     private final UserRepository userRepository;
     private final DiseaseRepository diseaseRepository;
@@ -161,8 +159,13 @@ public class PrescriptionService {
                 .build();
 
         List<PrescriptionResponseDto> prescriptionDtoList = prescriptionList.stream()
-                .map(PrescriptionResponseDto::toEntity)
-                .toList();
+                .map(prescription -> {
+                    if (prescription.getPreChemist() == null) {
+                        return PrescriptionResponseDto.toEntity(prescription);
+                    } else {
+                        return PrescriptionResponseDto.fromEntityWithHospitalNm(prescription);
+                    }
+                }).toList();
 
         result.put("pageInfo", pageInfo);
         result.put("prescriptionList", prescriptionDtoList);
@@ -240,11 +243,13 @@ public class PrescriptionService {
 
     /** 처방 여부 수정 */
     @Transactional
-    public Boolean updatePrescriptionSt(Long id) {
+    public Boolean updatePrescriptionSt(Long chemistId, Long id) {
+        Chemist chemist = chemistRepository.findById(chemistId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_CHEMIST));
         Prescription prescription = prescriptionRepository.findById(id)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRESCRIPTION));
 
-        prescription.updatePrescriptionSt();
+        prescription.updatePrescriptionSt(chemist);
         return Boolean.TRUE;
     }
 
