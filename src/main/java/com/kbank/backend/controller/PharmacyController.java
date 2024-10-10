@@ -26,7 +26,7 @@ public class PharmacyController {
     @PatchMapping("/prescription/{id}")
     public ResponseDto<Boolean> updatePrescriptionSt(@RequestParam(name = "chemistId") Long chemistId,
                                                      @PathVariable("id") Long prescriptionId) {
-        return ResponseDto.ok(prescriptionService.updatePrescriptionSt(prescriptionId));
+        return ResponseDto.ok(prescriptionService.updatePrescriptionSt(chemistId, prescriptionId));
     }
 
     // 처방전 상세조회

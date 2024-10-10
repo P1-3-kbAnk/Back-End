@@ -63,7 +63,8 @@ public class Prescription {
         this.insuranceSt = Boolean.FALSE;
     }
 
-    public void updatePrescriptionSt() {
+    public void updatePrescriptionSt(Chemist chemist) {
+        this.preChemist = chemist;
         this.prescriptionSt = !this.prescriptionSt;
     }
 

@@ -1,5 +1,8 @@
 package com.kbank.backend.config;
 
+import com.kbank.backend.security.config.ECryptConfig;
+import com.kbank.backend.security.config.OAuth2Config;
+import com.kbank.backend.security.config.SecurityConfig;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
@@ -16,7 +19,14 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     // 기본 설정 파일 지정
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { AppConfig.class, MyBatisConfig.class, JpaConfig.class }; //SecurityConfig.class
+        return new Class[] {
+                AppConfig.class,
+                MyBatisConfig.class,
+                JpaConfig.class,
+//                SecurityConfig.class,
+                OAuth2Config.class,
+                ECryptConfig.class
+        }; //SecurityConfig.class
     }
 
     // Servlet 설정 파일 지정
