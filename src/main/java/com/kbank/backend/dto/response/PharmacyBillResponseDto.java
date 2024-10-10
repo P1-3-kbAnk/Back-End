@@ -24,14 +24,15 @@ public class PharmacyBillResponseDto {
     private Long pharmacyNo;
 
 
-    public static PharmacyBillResponseDto toEntity(Pharmacy pharmacy,PharmacyBill pharmacyBill, Long prescriptionId, String pharmacyNm, LocalDateTime createYMD) {
+    public static PharmacyBillResponseDto toEntity(PharmacyBill pharmacyBill, Long prescriptionId) {
+
         return PharmacyBillResponseDto.builder()
                 .pharmacyBillPk(pharmacyBill.getPharmacyBillPk())
                 .totalPrice(pharmacyBill.getTotalPrice())
                 .PrescriptionId(prescriptionId)
-                .pharmacyNm(pharmacyNm)
-                .createYmd(createYMD)
-                .pharmacyNo(pharmacy.getPharmacyNo())
+                .pharmacyNm(pharmacyBill.getPharmacyBillPharmacy().getPharmacyNm())
+                .createYmd(pharmacyBill.getCreateYmd())
+                .pharmacyNo(pharmacyBill.getPharmacyBillPharmacy().getPharmacyNo())
                 .build();
     }
 }

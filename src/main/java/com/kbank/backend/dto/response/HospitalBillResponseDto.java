@@ -22,14 +22,16 @@ public class HospitalBillResponseDto {
     private LocalDateTime createYmd;
     private Long hospitalNo;
 
-    public static HospitalBillResponseDto toEntity(Hospital hospital,HospitalBill hospitalBill, Long prescriptionId, String hospitalNm, LocalDateTime createYmd) {
+    public static HospitalBillResponseDto toEntity(HospitalBill hospitalBill, Long prescriptionId) {
+
         return HospitalBillResponseDto.builder()
                 .hospitalBillPk(hospitalBill.getHospitalBillPk())
                 .totalPrice(hospitalBill.getTotalPrice())
                 .prescriptionId(prescriptionId)
-                .hospitalNm(hospitalNm)
-                .createYmd(createYmd)
-                .hospitalNo(hospital.getHospitalNo())
+                .hospitalNm(hospitalBill.getHospitalBillHospital().getHospitalNm())
+                .createYmd(hospitalBill.getCreateYmd())
+                .hospitalNo(hospitalBill.getHospitalBillHospital().getHospitalNo())
                 .build();
     }
+
 }

@@ -30,11 +30,7 @@ public class PharmacyBillService {
                 .findByPharmacyBillPrescriptionPrescriptionPk(prescriptionId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
-        String pharmacyNm = pharmacyBill.getPharmacyBillPharmacy().getPharmacyNm();
-        LocalDateTime createYmd = pharmacyBill.getCreateYmd();
-        Pharmacy pharmacy = pharmacyBill.getPharmacyBillPharmacy();
-
-        return PharmacyBillResponseDto.toEntity(pharmacy,pharmacyBill,prescriptionId,pharmacyNm,createYmd);
+        return PharmacyBillResponseDto.toEntity(pharmacyBill,prescriptionId);
 
     }
 
