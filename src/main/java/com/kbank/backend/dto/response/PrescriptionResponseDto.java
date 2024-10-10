@@ -57,6 +57,7 @@ public class PrescriptionResponseDto {
                 .prescriptionSt(prescription.getPrescriptionSt())
                 .insuranceSt(prescription.getInsuranceSt())
                 .hospitalNm(prescription.getPreChemist().getChemistPharmacy().getPharmacyNm())
+                .chemistId(prescription.getPreChemist().getChemistPk())
                 .build();
     }
 }
