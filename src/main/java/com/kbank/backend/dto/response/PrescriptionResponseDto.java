@@ -17,6 +17,7 @@ public class PrescriptionResponseDto {
     private Integer duration;
     private String description;
     private String hospitalNm;
+    private String pharmacyNm;
     private Boolean prescriptionSt;
     private Boolean insuranceSt;
     private Long doctorId;
@@ -48,7 +49,7 @@ public class PrescriptionResponseDto {
                 .build();
     }
 
-    public static PrescriptionResponseDto fromEntityWithHospitalNm(Prescription prescription) {
+    public static PrescriptionResponseDto fromEntityWithNm(Prescription prescription) {
         return PrescriptionResponseDto.builder()
                 .prescriptionPk(prescription.getPrescriptionPk())
                 .prescriptionNo(prescription.getPrescriptionNo())
@@ -56,7 +57,9 @@ public class PrescriptionResponseDto {
                 .description(prescription.getDescription())
                 .prescriptionSt(prescription.getPrescriptionSt())
                 .insuranceSt(prescription.getInsuranceSt())
-                .hospitalNm(prescription.getPreChemist().getChemistPharmacy().getPharmacyNm())
+                .hospitalNm(prescription.getPreDoctor().getDoctorHospital().getHospitalNm())
+                .doctorId(prescription.getPreDoctor().getDoctorPk())
+                .pharmacyNm(prescription.getPreChemist().getChemistPharmacy().getPharmacyNm())
                 .chemistId(prescription.getPreChemist().getChemistPk())
                 .build();
     }
