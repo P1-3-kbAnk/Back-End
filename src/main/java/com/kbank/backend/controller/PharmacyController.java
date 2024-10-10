@@ -31,8 +31,7 @@ public class PharmacyController {
 
     // 처방전 상세조회
     @GetMapping("/prescription/detail/{id}")
-    public ResponseDto<?> prescriptionDetail(@RequestParam(name = "chemistId") Long chemistId,
-                                                     @PathVariable("id") Long prescriptionId) {
+    public ResponseDto<?> prescriptionDetail(@PathVariable("id") Long prescriptionId) {
         return ResponseDto.ok(prescriptionService.prescriptionDetail(prescriptionId));
     }
 

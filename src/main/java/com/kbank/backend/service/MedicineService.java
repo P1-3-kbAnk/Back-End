@@ -8,8 +8,14 @@ import com.kbank.backend.repository.MedicineRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
+@Transactional
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class MedicineService {
 
@@ -21,5 +27,17 @@ public class MedicineService {
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEDICINE));
 
         return MedicineResponseDto.toEntity(medicine);
+    }
+
+    public Map<String, Object> getMedicineList() {
+        Map<String, Object> result = new HashMap<>();
+        List<Medicine> medicineList = medicineRepository.findAll();
+        List<MedicineResponseDto> medicineResponseDtoList = medicineList.stream()
+                .map(MedicineResponseDto::toEntity)
+                .toList();
+
+        result.put("medicineList", medicineResponseDtoList);
+
+        return result;
     }
 }
