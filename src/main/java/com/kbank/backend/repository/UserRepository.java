@@ -18,4 +18,30 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     Optional<User> findById(Long id);
 
+    Optional<User> findUserByUserNmAndFirstNoAndLastNo(String userNm, String firstNo, String lastNo);
+
+//    @Query("SELECT u FROM AuthUser u WHERE u.socialId = :id AND u.provider = :provider")
+//    Optional<UserRepository.UserSecurityForm> findBySocialIdAndEProvider(@Param("id") String id, @Param("provider") Provider provider);
+//
+//    interface UserSecurityForm {
+//
+//        static UserRepository.UserSecurityForm invoke(User user) {
+//
+//            return new UserRepository.UserSecurityForm() {
+//                @Override
+//                public Long getId() {
+//                    return user.getUserPk();
+//                }
+//
+//                @Override
+//                public Role getRole() {
+//                    return user.getRole();
+//                }
+//            };
+//        }
+//
+//        Long getId();
+//        Role getRole();
+//    }
+
 }

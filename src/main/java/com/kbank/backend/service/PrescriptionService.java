@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,16 +41,21 @@ public class PrescriptionService {
     public Boolean createPrescription(Long doctorId, PrescriptionRequestDto prescriptionRequestDto) {
         Doctor doctor = doctorRepository.findByIdWithHospital(doctorId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_DOCTOR));
-        User user = userRepository.findById(prescriptionRequestDto.getUserPk())
+        User user = userRepository.findUserByUserNmAndFirstNoAndLastNo(
+                    prescriptionRequestDto.getUserNm(),
+                    prescriptionRequestDto.getFirstNo(),
+                    prescriptionRequestDto.getLastNo()
+                )
                 .orElseThrow(() ->new CommonException(ErrorCode.NOT_FOUND_USER));
+        Integer prescriptionNo = prescriptionRepository.findAllByDate(LocalDate.now());
 
         // Prescription 엔티티 생성 및 저장
         Prescription prescription = Prescription.builder()
                 .preDoctor(doctor)
                 .preUser(user)
                 .preChemist(null)
-                .prescriptionNo(prescriptionRequestDto.getPrescriptionNo())
-                .duration(prescriptionRequestDto.getDuration())
+                .prescriptionNo(prescriptionNo + 1)
+                .duration(3)
                 .description(prescriptionRequestDto.getDescription())
                 .build();
         prescriptionRepository.save(prescription);
@@ -69,12 +75,13 @@ public class PrescriptionService {
         prescriptionDiseaseRepository.saveAll(newPrescriptionDiseaseList);
 
         // 주사제, 약 둘다없음 에러 반환
-        if (prescriptionRequestDto.getInjectionIntakeInfoList().isEmpty() && prescriptionRequestDto.getMedicineIntakeInfoList().isEmpty()) {
+        if ((prescriptionRequestDto.getInjectionIntakeInfoList() == null || prescriptionRequestDto.getInjectionIntakeInfoList().isEmpty())
+                && (prescriptionRequestDto.getMedicineIntakeInfoList() == null || prescriptionRequestDto.getMedicineIntakeInfoList().isEmpty())) {
             throw new CommonException(ErrorCode.MISSING_REQUEST_PARAMETER);
         }
 
         // 약 정보 저장
-        if (!prescriptionRequestDto.getMedicineIntakeInfoList().isEmpty()) {
+        if (prescriptionRequestDto.getMedicineIntakeInfoList() != null && !prescriptionRequestDto.getMedicineIntakeInfoList().isEmpty()) {
             List<PrescriptionMedicine> prescriptionMedicineList = new ArrayList<>();
 
             prescriptionRequestDto.getMedicineIntakeInfoList()
@@ -99,7 +106,7 @@ public class PrescriptionService {
         }
 
         // 주사제 저장
-        if (!prescriptionRequestDto.getInjectionIntakeInfoList().isEmpty()) {
+        if (prescriptionRequestDto.getInjectionIntakeInfoList() != null && !prescriptionRequestDto.getInjectionIntakeInfoList().isEmpty()) {
             List<PrescriptionInjection> prescriptionInjectionList = new ArrayList<>();
 
             prescriptionRequestDto.getInjectionIntakeInfoList()
@@ -163,7 +170,7 @@ public class PrescriptionService {
                     if (prescription.getPreChemist() == null) {
                         return PrescriptionResponseDto.toEntity(prescription);
                     } else {
-                        return PrescriptionResponseDto.fromEntityWithHospitalNm(prescription);
+                        return PrescriptionResponseDto.fromEntityWithNm(prescription);
                     }
                 }).toList();
 
@@ -252,48 +259,4 @@ public class PrescriptionService {
         prescription.updatePrescriptionSt(chemist);
         return Boolean.TRUE;
     }
-
-//
-//
-//    @Transactional
-//    public PrescriptionHtmlResponseDto getPrescriptionHtml(Long id) {
-//        Prescription prescription = prescriptionRepository
-//                .findById(id)
-//                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
-//
-//        User user = prescription.getPreUser();
-//
-//        Doctor doctor = prescription.getPreDoctor();
-//
-//        Hospital hospital = doctor.getDoctorHospital();
-//
-//        List<Disease> disease = diseaseRepository.findByDiseasePrescription(prescription);
-//
-//        List<Medicine> medicine = prescriptionMedicineRepository
-//                .findMedicineByPrescription(prescription);
-//
-//        List<MedicineDto> medicineList = new ArrayList<>();
-//        List<String> diseaseList = new ArrayList<>();
-//
-//        medicine.forEach(e -> medicineList.add(MedicineDto.toEntity(e)));
-//        disease.forEach(e -> diseaseList.add(e.getDiseaseCd()));
-//
-//
-//        return PrescriptionHtmlResponseDto.toEntity(prescription, user, doctor, hospital, diseaseList, medicineList);
-//    }
-//
-
-
-
-
-//    // 처방전 교부번호를 기준으로 조회 -> 처방전의 주키를 반환 (근데 처방전 교부 번호를 기준으로 조회하는 API를 만들면 되지 않나?
-//    public QrResponse getPreQRByPreNo(Long userPk, int prescriptionNo) {
-//        Prescription prescription = prescriptionRepository
-//                .findByPrescriptionNo(prescriptionNo)
-//                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
-//
-//        return QrResponse.toEntity(prescription.getPrescriptionPk());
-//    }
-
-
 }
