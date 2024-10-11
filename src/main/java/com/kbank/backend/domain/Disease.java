@@ -19,8 +19,12 @@ public class Disease {
     @Column(name="disease_cd", nullable = false)
     private String diseaseCd;
 
+    @Column(name="disease_nm", nullable = false)
+    private String diseaseNm;
+
     @Builder
-    public Disease(String diseaseCd) {
+    public Disease(String diseaseCd, String diseaseNm) {
         this.diseaseCd = diseaseCd;
+        this.diseaseNm = diseaseNm;
     }
 }
