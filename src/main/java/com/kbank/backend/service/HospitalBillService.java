@@ -1,6 +1,5 @@
 package com.kbank.backend.service;
 
-import com.kbank.backend.domain.Hospital;
 import com.kbank.backend.domain.HospitalBill;
 import com.kbank.backend.dto.response.HospitalBillResponseDto;
 import com.kbank.backend.exception.CommonException;
@@ -10,9 +9,6 @@ import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,7 +24,7 @@ public class HospitalBillService {
         HospitalBill hospitalBill = hospitalBillRepository.findByHospitalBillPrescriptionPrescriptionPk(prescriptionId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
-        return HospitalBillResponseDto.toEntity(hospitalBill, prescriptionId);
+        return HospitalBillResponseDto.fromEntity(hospitalBill, prescriptionId);
     }
 
 

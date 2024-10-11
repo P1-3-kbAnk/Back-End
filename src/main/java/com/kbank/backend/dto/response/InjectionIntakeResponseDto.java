@@ -27,7 +27,7 @@ public class InjectionIntakeResponseDto {
     private String sideEffect;
 
 
-    public static InjectionIntakeResponseDto toEntity(InjectionIntake injectionIntake) {
+    public static InjectionIntakeResponseDto fromEntity(InjectionIntake injectionIntake) {
         return InjectionIntakeResponseDto.builder()
                 .injInkPk(injectionIntake.getInjInkPk())
                 .meal(injectionIntake.getMeal())

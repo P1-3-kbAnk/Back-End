@@ -31,7 +31,7 @@ public class UserResponseDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime dinnerAlarm;
 
-    public static UserResponseDto toEntity(User user) {
+    public static UserResponseDto fromEntity(User user) {
         return UserResponseDto.builder()
                 .userNm(user.getUserNm())
                 .phoneNo(user.getPhoneNo())

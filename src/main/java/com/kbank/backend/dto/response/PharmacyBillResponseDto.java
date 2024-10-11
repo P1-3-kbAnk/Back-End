@@ -24,7 +24,7 @@ public class PharmacyBillResponseDto {
     private Long pharmacyNo;
 
 
-    public static PharmacyBillResponseDto toEntity(PharmacyBill pharmacyBill, Long prescriptionId) {
+    public static PharmacyBillResponseDto fromEntity(PharmacyBill pharmacyBill, Long prescriptionId) {
 
         return PharmacyBillResponseDto.builder()
                 .pharmacyBillPk(pharmacyBill.getPharmacyBillPk())

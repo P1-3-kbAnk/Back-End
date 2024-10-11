@@ -26,14 +26,14 @@ public class MedicineService {
         Medicine medicine = medicineRepository.findByMedicinePk(medicinePk)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEDICINE));
 
-        return MedicineResponseDto.toEntity(medicine);
+        return MedicineResponseDto.fromEntity(medicine);
     }
 
     public Map<String, Object> getMedicineList() {
         Map<String, Object> result = new HashMap<>();
         List<Medicine> medicineList = medicineRepository.findAll();
         List<MedicineResponseDto> medicineResponseDtoList = medicineList.stream()
-                .map(MedicineResponseDto::toEntity)
+                .map(MedicineResponseDto::fromEntity)
                 .toList();
 
         result.put("medicineList", medicineResponseDtoList);

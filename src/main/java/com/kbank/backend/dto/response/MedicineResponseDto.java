@@ -26,7 +26,7 @@ public class MedicineResponseDto {
     private Time time;
     private String imageUrl;
 
-    public static MedicineResponseDto toEntity(Medicine medicine) {
+    public static MedicineResponseDto fromEntity(Medicine medicine) {
         return MedicineResponseDto.builder()
                 .medicinePk(medicine.getMedicinePk())
                 .medicineNm(medicine.getMedicineNm())

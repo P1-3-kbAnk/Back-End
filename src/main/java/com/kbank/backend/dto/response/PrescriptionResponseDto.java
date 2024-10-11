@@ -29,7 +29,7 @@ public class PrescriptionResponseDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createYmd;
 
-    public static PrescriptionResponseDto toEntity(Prescription prescription) {
+    public static PrescriptionResponseDto fromEntity(Prescription prescription) {
         return PrescriptionResponseDto.builder()
                 .prescriptionPk(prescription.getPrescriptionPk())
                 .prescriptionNo(prescription.getPrescriptionNo())
@@ -41,7 +41,7 @@ public class PrescriptionResponseDto {
                 .build();
     }
 
-    public static PrescriptionResponseDto toEntity(Prescription prescription, Long userId, Long doctorId, Long chemistId) {
+    public static PrescriptionResponseDto fromEntity(Prescription prescription, Long userId, Long doctorId, Long chemistId) {
         return PrescriptionResponseDto.builder()
                 .prescriptionPk(prescription.getPrescriptionPk())
                 .prescriptionNo(prescription.getPrescriptionNo())

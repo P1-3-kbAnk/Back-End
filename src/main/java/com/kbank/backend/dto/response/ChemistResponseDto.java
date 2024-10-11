@@ -17,7 +17,7 @@ public class ChemistResponseDto {
     private Gender gender;
     private Long pharmacyId;
 
-    public static ChemistResponseDto toEntity(Chemist chemist) {
+    public static ChemistResponseDto fromEntity(Chemist chemist) {
         return ChemistResponseDto.builder()
                 .chemistPk(chemist.getChemistPk())
                 .chemistNm(chemist.getChemistNm())
@@ -27,7 +27,7 @@ public class ChemistResponseDto {
                 .build();
     }
 
-    public static ChemistResponseDto toEntity(Chemist chemist, Long pharmacyId) {
+    public static ChemistResponseDto fromEntity(Chemist chemist, Long pharmacyId) {
         return ChemistResponseDto.builder()
                 .chemistPk(chemist.getChemistPk())
                 .chemistNm(chemist.getChemistNm())

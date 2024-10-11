@@ -29,7 +29,7 @@ public class MedicineIntakeResponseDto {
 
 
 
-    public static MedicineIntakeResponseDto toEntity(MedicineIntake medicineIntake) {
+    public static MedicineIntakeResponseDto fromEntity(MedicineIntake medicineIntake) {
         return MedicineIntakeResponseDto.builder()
                 .medInkPk(medicineIntake.getMedInkPk())
                 .meal(medicineIntake.getMeal())

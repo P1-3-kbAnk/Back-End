@@ -25,7 +25,7 @@ public class InjectionResponseDto {
     private String efficacy;
     private CopaymentRateCd copaymentRateCd;
 
-    public static InjectionResponseDto toEntity(Injection injection) {
+    public static InjectionResponseDto fromEntity(Injection injection) {
         return InjectionResponseDto.builder()
                 .injectionPk(injection.getInjectionPk())
                 .injectionNm(injection.getInjectionNm())

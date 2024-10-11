@@ -1,11 +1,8 @@
 package com.kbank.backend.service;
 
-
-import com.kbank.backend.domain.Medicine;
 import com.kbank.backend.domain.MedicineIntake;
 import com.kbank.backend.domain.User;
 import com.kbank.backend.dto.response.MedicineIntakeResponseDto;
-import com.kbank.backend.dto.response.MedicineResponseDto;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.MedicineIntakeRepository;
@@ -47,7 +44,7 @@ public class MedicineIntakeService {
         medicineIntakeList.forEach(e -> {
             medicineIntakeResponseDtoList.add(
                     MedicineIntakeResponseDto
-                            .toEntity(e)
+                            .fromEntity(e)
             );
         });
 
@@ -108,7 +105,7 @@ public class MedicineIntakeService {
 //        Map<String, Object> result = new HashMap<>();
 //
 //        result.put("result", medicineIntakeList.stream()
-//                .map(MedicineIntakeResponseDto::toEntity)
+//                .map(MedicineIntakeResponseDto::fromEntity)
 //                .toList()
 //        );
 //

@@ -23,7 +23,7 @@ public class HospitalBillResponseDto {
     private LocalDateTime createYmd;
     private Long hospitalNo;
 
-    public static HospitalBillResponseDto toEntity(HospitalBill hospitalBill, Long prescriptionId) {
+    public static HospitalBillResponseDto fromEntity(HospitalBill hospitalBill, Long prescriptionId) {
 
         return HospitalBillResponseDto.builder()
                 .hospitalBillPk(hospitalBill.getHospitalBillPk())

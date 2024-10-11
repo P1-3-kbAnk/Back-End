@@ -42,7 +42,7 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(()->new CommonException(ErrorCode.NOT_FOUND_USER));
 
-        return UserResponseDto.toEntity(user);
+        return UserResponseDto.fromEntity(user);
     }
     /**계좌정보 수정**/
     public boolean  updateAccountInfo(Long userId, UserRequestDto userRequestDto) {
