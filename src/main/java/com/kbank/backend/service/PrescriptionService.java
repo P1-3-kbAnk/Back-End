@@ -197,21 +197,19 @@ public class PrescriptionService {
                 .totalItems(prescriptionList.getTotalElements())
                 .build();
 
-        List<Map<String, Object>> prescriptionDtoList = prescriptionList.stream()
+        List<PrescriptionSummarizeDto> prescriptionDtoList = prescriptionList.stream()
                 .map(prescription -> {
-                    Map<String, Object> m = new HashMap<>();
-
-                    m.put("diseaseList", prescriptionDiseaseRepository.findByPreDisPrescription(prescription)
+                      List<DiseaseResponseDto> diseaseList = prescriptionDiseaseRepository.findByPreDisPrescription(prescription)
                             .stream()
                             .map(prescriptionDisease -> DiseaseResponseDto.fromEntity(prescriptionDisease.getPreDisDisease()))
-                            .toList());
+                            .toList();
+
                     if (prescription.getPreChemist() == null) {
-                        m.put("prescriptionSummarize", PrescriptionSummarizeDto.fromEntity(prescription)) ;
+                        return PrescriptionSummarizeDto.fromEntity(prescription, diseaseList);
                     } else {
-                        m.put("prescriptionSummarize", PrescriptionSummarizeDto.fromEntityWithPharmacy(prescription));
+                        return PrescriptionSummarizeDto.fromEntityWithPharmacy(prescription, diseaseList);
                     }
 
-                    return m;
                 }).toList();
 
         result.put("pageInfo", pageInfo);
@@ -225,8 +223,13 @@ public class PrescriptionService {
         List<Prescription> prescriptionList = prescriptionRepository.findByUserFkAndPreStFalse(userId);
         Map<String, List<PrescriptionSummarizeDto>> result = new HashMap<>();
         List<PrescriptionSummarizeDto> prescriptionDtoList = prescriptionList.stream()
-                .map(PrescriptionSummarizeDto::fromEntity)
-                .toList();
+                .map(prescription -> {
+                    List<DiseaseResponseDto> diseaseList = prescriptionDiseaseRepository.findByPreDisPrescription(prescription)
+                            .stream()
+                            .map(prescriptionDisease -> DiseaseResponseDto.fromEntity(prescriptionDisease.getPreDisDisease()))
+                            .toList();
+                    return PrescriptionSummarizeDto.fromEntity(prescription, diseaseList);
+                }).toList();
 
         result.put("prescriptionList", prescriptionDtoList);
 
