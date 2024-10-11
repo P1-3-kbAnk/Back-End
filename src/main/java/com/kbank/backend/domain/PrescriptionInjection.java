@@ -40,6 +40,9 @@ public class PrescriptionInjection {
     @Column(name ="injection_nm")
     private String injectionNm;
 
+    @Column(name="day_cnt")
+    private Integer dayCnt;
+
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="pre_inj_prescription_fk")
@@ -50,7 +53,7 @@ public class PrescriptionInjection {
     private Injection preInjInjection;
 
     @Builder
-    public PrescriptionInjection(Integer totalDay, Integer dosePerMorning, Integer dosePerLunch, Integer dosePerDinner, String method, String injectionNm, Prescription preInjPrescription, Injection preInjInjection) {
+    public PrescriptionInjection(Integer totalDay, Integer dosePerMorning, Integer dosePerLunch, Integer dosePerDinner, String method, String injectionNm, Prescription preInjPrescription, Injection preInjInjection, Integer dayCnt) {
         this.totalDay = totalDay;
         this.dosePerMorning = dosePerMorning;
         this.dosePerLunch = dosePerLunch;
@@ -60,5 +63,6 @@ public class PrescriptionInjection {
         this.preInjPrescription = preInjPrescription;
         this.preInjInjection = preInjInjection;
         this.createYmd=LocalDateTime.now();
+        this.dayCnt=dayCnt;
     }
 }

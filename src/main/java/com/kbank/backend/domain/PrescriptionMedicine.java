@@ -36,6 +36,9 @@ public class PrescriptionMedicine {
     @Column(name="total_day")
     private Integer totalDay;
 
+    @Column(name="day_cnt")
+    private Integer dayCnt;
+
     @Column(name = "create_ymd", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createYmd;
@@ -50,7 +53,7 @@ public class PrescriptionMedicine {
     private Medicine preMedMedicine;
 
     @Builder
-    public PrescriptionMedicine(String medicineNm, Integer dosePerMorning, Integer dosePerLunch, Integer dosePerDinner, String method, Integer totalDay, Prescription preMedPrescription, Medicine preMedMedicine) {
+    public PrescriptionMedicine(String medicineNm, Integer dosePerMorning, Integer dosePerLunch, Integer dosePerDinner, String method, Integer totalDay, Prescription preMedPrescription, Medicine preMedMedicine,Integer dayCnt) {
         this.medicineNm = medicineNm;
         this.dosePerMorning = dosePerMorning;
         this.dosePerLunch = dosePerLunch;
@@ -60,6 +63,7 @@ public class PrescriptionMedicine {
         this.preMedPrescription = preMedPrescription;
         this.preMedMedicine = preMedMedicine;
         this.createYmd = LocalDateTime.now();
+        this.dayCnt=dayCnt;
     }
 
 }
