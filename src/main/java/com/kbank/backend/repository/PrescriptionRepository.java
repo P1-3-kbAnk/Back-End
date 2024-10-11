@@ -20,6 +20,13 @@ import java.util.Optional;
 public interface PrescriptionRepository extends JpaRepository<Prescription,Long>{
     //조제여부 false인 처방전 목록 조회
 
+    @EntityGraph(attributePaths = {
+            "preDoctor",
+            "preDoctor.doctorHospital",
+            "preDoctor.doctorHospital.hospitalDong",
+            "preDoctor.doctorHospital.hospitalDong.dong_gu_fk",
+            "preDoctor.doctorHospital.hospitalDong.dong_gu_fk.gu_si_fk"
+    })
     @Query(value = "SELECT * FROM prescription_tb p WHERE p.pre_user_fk = :userId " +
             "AND p.prescription_st IS FALSE", nativeQuery = true)
     List<Prescription> findByUserFkAndPreStFalse(@Param("userId") Long userId);
@@ -27,7 +34,17 @@ public interface PrescriptionRepository extends JpaRepository<Prescription,Long>
     @EntityGraph(attributePaths = {"preDoctor", "preDoctor.doctorHospital", "preChemist", "preChemist.chemistPharmacy", "preUser"})
     Optional<Prescription> findPrescriptionByPrescriptionPk(Long prescriptionId);
 
-    @EntityGraph(attributePaths = {"preDoctor", "preDoctor.doctorHospital", "preChemist", "preChemist.chemistPharmacy"})
+    @EntityGraph(attributePaths = "preUser")
+    Optional<Prescription> findByPrescriptionPk(Long prescriptionPk);
+    @EntityGraph(attributePaths = {
+            "preDoctor",
+            "preDoctor.doctorHospital",
+            "preDoctor.doctorHospital.hospitalDong",
+            "preDoctor.doctorHospital.hospitalDong.dong_gu_fk",
+            "preDoctor.doctorHospital.hospitalDong.dong_gu_fk.gu_si_fk",
+            "preChemist",
+            "preChemist.chemistPharmacy"
+    })
     Page<Prescription> findAllByPreUser(User user, Pageable pageable);
 
     @Query("SELECT COUNT(p) FROM Prescription p WHERE DATE(p.createYmd) = :searchDate")

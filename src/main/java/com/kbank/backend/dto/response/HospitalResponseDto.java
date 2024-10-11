@@ -19,7 +19,7 @@ public class HospitalResponseDto {
     private String faxNo;
     private Long dongId;
 
-    public static HospitalResponseDto toEntity(Hospital hospital) {
+    public static HospitalResponseDto fromEntity(Hospital hospital) {
         return HospitalResponseDto.builder()
                 .hospitalPk(hospital.getHospitalPk())
                 .hospitalNm(hospital.getHospitalNm())
@@ -29,7 +29,7 @@ public class HospitalResponseDto {
                 .build();
     }
 
-    public static HospitalResponseDto toEntity(Hospital hospital, Long dongId) {
+    public static HospitalResponseDto fromEntity(Hospital hospital, Long dongId) {
         return HospitalResponseDto.builder()
                 .hospitalPk(hospital.getHospitalPk())
                 .hospitalNm(hospital.getHospitalNm())

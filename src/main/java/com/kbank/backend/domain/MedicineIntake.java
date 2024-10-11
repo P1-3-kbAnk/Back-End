@@ -47,13 +47,14 @@ public class MedicineIntake {
     private Medicine medInkMedicine;
 
     @Builder
-    public MedicineIntake(Meal meal, Boolean eatSt, User user, Medicine medicine, LocalDate day, Integer intakeCnt) {
+    public MedicineIntake(Meal meal, LocalDate day, Integer intakeCnt, User medInkUser, Medicine medInkMedicine) {
         this.meal = meal;
         this.day = day;
-        this.eatSt = eatSt;
-        this.medInkUser = user;
-        this.medInkMedicine = medicine;
         this.intakeCnt = intakeCnt;
+        this.medInkUser = medInkUser;
+        this.medInkMedicine = medInkMedicine;
+        this.createYmd = LocalDateTime.now();
+        this.eatSt = false;
     }
 
     /* Update */

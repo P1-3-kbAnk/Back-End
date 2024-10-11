@@ -24,6 +24,9 @@ public class Prescription {
     @Column(name = "duration")
     private Integer duration;
 
+    @Column(name = "max_date")
+    private Integer maxDate;
+
     @Column(name = "description")
     private String description;
 
@@ -36,6 +39,10 @@ public class Prescription {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
     private LocalDateTime createYmd;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(name = "prescribe_ymd")
+    private LocalDateTime prescribeYmd;
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,7 +58,7 @@ public class Prescription {
     private Chemist preChemist;
 
     @Builder
-    public Prescription(Integer prescriptionNo, Integer duration, String description, Doctor preDoctor, User preUser, Chemist preChemist) {
+    public Prescription(Integer prescriptionNo, Integer duration, String description, Doctor preDoctor, User preUser, Chemist preChemist, Integer maxDate) {
         this.prescriptionNo = prescriptionNo;
         this.duration = duration;
         this.description = description;
@@ -61,6 +68,15 @@ public class Prescription {
         this.createYmd = LocalDateTime.now();
         this.prescriptionSt = Boolean.FALSE;
         this.insuranceSt = Boolean.FALSE;
+        this.maxDate = maxDate;
+    }
+
+    public void updatePrescriptionMaxDate(Integer maxDate) {
+        this.maxDate = maxDate;
+    }
+
+    public void updatePrescribeYmd() {
+        this.prescribeYmd = LocalDateTime.now();
     }
 
     public void updatePrescriptionSt(Chemist chemist) {

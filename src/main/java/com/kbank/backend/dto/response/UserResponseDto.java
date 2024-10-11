@@ -1,5 +1,6 @@
 package com.kbank.backend.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.domain.User;
 import com.kbank.backend.enumerate.Gender;
 import lombok.Builder;
@@ -23,12 +24,14 @@ public class UserResponseDto {
     private String bankNm;
     private Long account;
     private String accountNo;
-    private String accountPw;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime morningAlarm;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime lunchAlarm;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime dinnerAlarm;
 
-    public static UserResponseDto toEntity(User user) {
+    public static UserResponseDto fromEntity(User user) {
         return UserResponseDto.builder()
                 .userNm(user.getUserNm())
                 .phoneNo(user.getPhoneNo())
@@ -38,7 +41,6 @@ public class UserResponseDto {
                 .bankNm(user.getBankNm())
                 .account(user.getAccount())
                 .accountNo(user.getAccountNo())
-                .accountPw(user.getAccountPw())
                 .morningAlarm(user.getMorningAlarm())
                 .lunchAlarm(user.getLunchAlarm())
                 .dinnerAlarm(user.getDinnerAlarm())

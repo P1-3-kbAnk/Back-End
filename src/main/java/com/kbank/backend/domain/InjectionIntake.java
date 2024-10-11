@@ -27,6 +27,9 @@ public class InjectionIntake {
     @Column(name="eat_st")
     private Boolean eatSt;
 
+    @Column(name = "intake_cnt", nullable = false)
+    private Integer intakeCnt;
+
     @Column(name = "day", nullable = false)
     private LocalDate day;
 
@@ -44,17 +47,17 @@ public class InjectionIntake {
     private Injection injInkInjection;
 
     @Builder
-    public InjectionIntake(Meal meal, Boolean eatSt, User injInkUser, Injection injInkInjection, LocalDate day) {
+    public InjectionIntake(Meal meal, Integer intakeCnt, LocalDate day, User injInkUser, Injection injInkInjection) {
         this.meal = meal;
-        this.eatSt = eatSt;
+        this.intakeCnt = intakeCnt;
         this.day = day;
         this.injInkUser = injInkUser;
         this.injInkInjection = injInkInjection;
+        this.eatSt = false;
         this.createYmd = LocalDateTime.now();
     }
 
     /* update */
-
     public Boolean updateEatSt() {
         this.eatSt = !this.eatSt;
         return Boolean.TRUE;

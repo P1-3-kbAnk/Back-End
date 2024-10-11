@@ -22,7 +22,7 @@ public class DiseaseService {
         Map<String, Object> result = new HashMap<>();
 
         result.put("diseaseList", diseaseRepository.findAll().stream()
-                .map(DiseaseResponseDto::toEntity)
+                .map(DiseaseResponseDto::fromEntity)
                 .toList());
 
         return result;

@@ -14,11 +14,13 @@ public class DiseaseResponseDto {
 
     private Long diseasePk;
     private String diseaseCd;
+    private String diseaseNm;
 
-    public static DiseaseResponseDto toEntity(Disease disease) {
+    public static DiseaseResponseDto fromEntity(Disease disease) {
         return DiseaseResponseDto.builder()
                 .diseasePk(disease.getDiseasePk())
                 .diseaseCd(disease.getDiseaseCd())
+                .diseaseNm(disease.getDiseaseNm())
                 .build();
     }
 }

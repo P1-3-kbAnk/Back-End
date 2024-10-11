@@ -14,7 +14,7 @@ public class PrescriptionController {
 
     // 처방전 저장
     @PostMapping("/post")
-    public ResponseDto<Boolean> savePrescription(@RequestParam(name = "doctorId") Long doctorId,
+    public ResponseDto<Long> savePrescription(@RequestParam(name = "doctorId") Long doctorId,
                                                  @RequestBody PrescriptionRequestDto prescriptionRequestDto) {
         return ResponseDto.created(prescriptionService.createPrescription(doctorId, prescriptionRequestDto));
     }

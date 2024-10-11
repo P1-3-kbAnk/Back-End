@@ -41,7 +41,7 @@ public class DoctorService {
         Doctor doctor = doctorRepository.findDoctorByDoctorPk(doctorPk)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_DOCTOR));
 
-        return DoctorResponseDto.toEntity(doctor);
+        return DoctorResponseDto.fromEntity(doctor);
 
     }
 }

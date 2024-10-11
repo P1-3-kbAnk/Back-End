@@ -15,26 +15,14 @@ public class ChemistResponseDto {
     private String chemistNo;
     private String phoneNo;
     private Gender gender;
-    private Long pharmacyId;
 
-    public static ChemistResponseDto toEntity(Chemist chemist) {
+    public static ChemistResponseDto fromEntity(Chemist chemist) {
         return ChemistResponseDto.builder()
                 .chemistPk(chemist.getChemistPk())
                 .chemistNm(chemist.getChemistNm())
                 .chemistNo(chemist.getChemistNo())
                 .phoneNo(chemist.getPhoneNo())
                 .gender(chemist.getGender())
-                .build();
-    }
-
-    public static ChemistResponseDto toEntity(Chemist chemist, Long pharmacyId) {
-        return ChemistResponseDto.builder()
-                .chemistPk(chemist.getChemistPk())
-                .chemistNm(chemist.getChemistNm())
-                .chemistNo(chemist.getChemistNo())
-                .phoneNo(chemist.getPhoneNo())
-                .gender(chemist.getGender())
-                .pharmacyId(pharmacyId)
                 .build();
     }
 }

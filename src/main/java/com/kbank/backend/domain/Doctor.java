@@ -26,35 +26,35 @@ public class Doctor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="doctor_pk")
+    @Column(name = "doctor_pk")
     private Long doctorPk;
 
-    @Column(name="doctor_nm")
+    @Column(name = "doctor_nm")
     private String doctorNm;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="doctor_tp")
+    @Column(name = "doctor_tp")
     private Tp tp;
 
-    @Column(name="doctor_no")
+    @Column(name = "doctor_no")
     private String doctorNo;
 
-    @Column(name="phone_no")
+    @Column(name = "phone_no")
     private String phoneNo;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="gender")
+    @Column(name = "gender")
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="provider")
+    @Column(name = "provider")
     private Provider provider;
 
-    @Column(name="social_id")
+    @Column(name = "social_id")
     private String socialId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="role")
+    @Column(name = "role")
     private Role role;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")

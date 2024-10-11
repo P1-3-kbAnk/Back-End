@@ -28,8 +28,11 @@ public class Hospital {
     @Column(name = "hospital_no", nullable=false)
     private Long hospitalNo;
 
-    @Column(name="fax_no", nullable=false)
+    @Column(name = "fax_no", nullable=false)
     private String faxNo;
+
+    @Column(name = "detail_address")
+    private String detailAddress;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
@@ -40,10 +43,11 @@ public class Hospital {
     @JoinColumn(name="hospital_dong_fk")
     private Dong hospitalDong;
 
-    public Hospital(String hospitalNm, String phoneNo, Long hospitalNo, String faxNo, Dong hospitalDong) {
+    public Hospital(String hospitalNm, String phoneNo, Long hospitalNo, String faxNo, Dong hospitalDong, String detailAddress) {
         this.hospitalNm = hospitalNm;
         this.phoneNo = phoneNo;
         this.hospitalNo = hospitalNo;
+        this.detailAddress = detailAddress;
         this.faxNo = faxNo;
         this.hospitalDong = hospitalDong;
         this.createYmd = LocalDateTime.now();

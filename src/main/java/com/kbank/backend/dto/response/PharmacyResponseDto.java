@@ -19,7 +19,7 @@ public class PharmacyResponseDto {
     private Long pharmacyNo;
     private Long dongId;
 
-    public static PharmacyResponseDto toEntity(Pharmacy pharmacy, Long dongId) {
+    public static PharmacyResponseDto fromEntity(Pharmacy pharmacy, Long dongId) {
         return PharmacyResponseDto.builder()
                 .pharmacyPk(pharmacy.getPharmacyPk())
                 .pharmacyNm(pharmacy.getPharmacyNm())
@@ -30,7 +30,7 @@ public class PharmacyResponseDto {
                 .build();
     }
 
-    public static PharmacyResponseDto toEntity(Pharmacy pharmacy) {
+    public static PharmacyResponseDto fromEntity(Pharmacy pharmacy) {
         return PharmacyResponseDto.builder()
                 .pharmacyPk(pharmacy.getPharmacyPk())
                 .pharmacyNm(pharmacy.getPharmacyNm())

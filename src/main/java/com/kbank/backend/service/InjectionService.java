@@ -1,9 +1,7 @@
 package com.kbank.backend.service;
 
 import com.kbank.backend.domain.Injection;
-import com.kbank.backend.domain.Medicine;
 import com.kbank.backend.dto.response.InjectionResponseDto;
-import com.kbank.backend.dto.response.MedicineResponseDto;
 import com.kbank.backend.repository.InjectionRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +22,11 @@ public class InjectionService {
         Map<String, Object> result = new HashMap<>();
         List<Injection> injectionList = injectionRepository.findAll();
         List<InjectionResponseDto> injectionResponseDtoList = injectionList.stream()
-                .map(InjectionResponseDto::toEntity)
+                .map(InjectionResponseDto::fromEntity)
                 .toList();
+
         result.put("injectionList", injectionResponseDtoList);
+
         return result;
     }
 }

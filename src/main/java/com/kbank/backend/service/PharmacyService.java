@@ -7,10 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PharmacyService {
     private final PrescriptionRepository prescriptionRepository;
@@ -54,7 +52,7 @@ public class PharmacyService {
 //            // DTO 리스트 생성
 //            List<MedicineDto> medicineList = new ArrayList<>();
 //            for (Medicine medicine : medicines) {
-//                medicineList.add(MedicineDto.toEntity(medicine)); // DTO 변환
+//                medicineList.add(MedicineDto.fromEntity(medicine)); // DTO 변환
 //            }
 //
 //            List<String> diseaseList = new ArrayList<>();
@@ -63,7 +61,7 @@ public class PharmacyService {
 //            }
 //
 //            // 리스트에 추가
-//            prescriptionResponseList.add(PrescriptionHtmlResponseDto.toEntity(
+//            prescriptionResponseList.add(PrescriptionHtmlResponseDto.fromEntity(
 //                    prescription, user, doctor, hospital, diseaseList, medicineList
 //            ));
 //        }

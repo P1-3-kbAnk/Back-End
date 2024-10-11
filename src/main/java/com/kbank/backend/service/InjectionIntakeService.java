@@ -3,10 +3,6 @@ package com.kbank.backend.service;
 
 import com.kbank.backend.domain.*;
 import com.kbank.backend.dto.response.InjectionIntakeResponseDto;
-import com.kbank.backend.dto.response.InjectionResponseDto;
-import com.kbank.backend.dto.response.MedicineIntakeResponseDto;
-import com.kbank.backend.dto.response.MedicineResponseDto;
-import com.kbank.backend.enumerate.Meal;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.InjectionIntakeRepository;
@@ -41,7 +37,7 @@ public class InjectionIntakeService {
         List<InjectionIntakeResponseDto> injectionIntakeResponseDtoList = new ArrayList<>();
 
         injectionIntakeList.forEach(injectionIntake -> {
-            injectionIntakeResponseDtoList.add(InjectionIntakeResponseDto.toEntity(injectionIntake));
+            injectionIntakeResponseDtoList.add(InjectionIntakeResponseDto.fromEntity(injectionIntake));
         });
 
         Map<String, Object> response = new HashMap<>();
