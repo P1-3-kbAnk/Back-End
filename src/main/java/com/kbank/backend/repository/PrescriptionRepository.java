@@ -27,8 +27,9 @@ public interface PrescriptionRepository extends JpaRepository<Prescription,Long>
             "preDoctor.doctorHospital.hospitalDong.dong_gu_fk",
             "preDoctor.doctorHospital.hospitalDong.dong_gu_fk.gu_si_fk"
     })
-    @Query(value = "SELECT * FROM prescription_tb p WHERE p.pre_user_fk = :userId " +
-            "AND p.prescription_st IS FALSE", nativeQuery = true)
+    @Query("SELECT p FROM Prescription p JOIN FETCH p.preUser u " +
+            "WHERE u.userPk = :userId " +
+            "AND p.prescriptionSt = FALSE")
     List<Prescription> findByUserFkAndPreStFalse(@Param("userId") Long userId);
 
     @EntityGraph(attributePaths = {"preDoctor", "preDoctor.doctorHospital", "preChemist", "preChemist.chemistPharmacy", "preUser"})
