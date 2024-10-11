@@ -188,7 +188,6 @@ public class PrescriptionService {
                 ))
         );
         Map<String, Object> result = new HashMap<>();
-
         PageInfo pageInfo = PageInfo.builder()
                 .currentPage(prescriptionList.getNumber() + 1)
                 .totalPages(prescriptionList.getTotalPages())
@@ -287,5 +286,5 @@ public class PrescriptionService {
         prescription.updateInsuranceSt();
         return Boolean.TRUE;
     }
-
+    //졸렵다
 }
