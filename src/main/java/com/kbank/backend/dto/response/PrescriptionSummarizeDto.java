@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -26,11 +27,12 @@ public class PrescriptionSummarizeDto {
     private String hospitalDong;
     private String hospitalDetailAddress;
     private String pharmacyNm;
+    private List<DiseaseResponseDto> diseaseList;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createYmd;
 
-    public static PrescriptionSummarizeDto fromEntityWithPharmacy(Prescription prescription) {
+    public static PrescriptionSummarizeDto fromEntityWithPharmacy(Prescription prescription, List<DiseaseResponseDto> diseaseList) {
         return PrescriptionSummarizeDto.builder()
                 .prescriptionPk(prescription.getPrescriptionPk())
                 .prescriptionNo(prescription.getPrescriptionNo())
@@ -45,10 +47,11 @@ public class PrescriptionSummarizeDto {
                 .hospitalSi(prescription.getPreDoctor().getDoctorHospital().getHospitalDong().getDong_gu_fk().getGu_si_fk().getSi_nm())
                 .hospitalDetailAddress(prescription.getPreDoctor().getDoctorHospital().getDetailAddress())
                 .pharmacyNm(prescription.getPreChemist().getChemistPharmacy().getPharmacyNm())
+                .diseaseList(diseaseList)
                 .build();
     }
 
-    public static PrescriptionSummarizeDto fromEntity(Prescription prescription) {
+    public static PrescriptionSummarizeDto fromEntity(Prescription prescription, List<DiseaseResponseDto> diseaseList) {
         return PrescriptionSummarizeDto.builder()
                 .prescriptionPk(prescription.getPrescriptionPk())
                 .prescriptionNo(prescription.getPrescriptionNo())
@@ -62,6 +65,7 @@ public class PrescriptionSummarizeDto {
                 .hospitalGu(prescription.getPreDoctor().getDoctorHospital().getHospitalDong().getDong_gu_fk().getGu_nm())
                 .hospitalSi(prescription.getPreDoctor().getDoctorHospital().getHospitalDong().getDong_gu_fk().getGu_si_fk().getSi_nm())
                 .hospitalDetailAddress(prescription.getPreDoctor().getDoctorHospital().getDetailAddress())
+                .diseaseList(diseaseList)
                 .build();
     }
 }
