@@ -30,6 +30,9 @@ public class Pharmacy {
     @Column(name = "pharmacy_no")
     private Long pharmacyNo;
 
+    @Column(name = "detail_address")
+    private String detailAddress;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
     private LocalDateTime createYmd;
@@ -39,8 +42,9 @@ public class Pharmacy {
     @JoinColumn(name = "pharmacy_dong_fk", nullable = false)
     private Dong pharmacyDong;  // 동 필드에 대한 FK
 
-    public Pharmacy(String pharmacyNm, String phoneNo, String faxNo, Dong pharmacyDong, Long pharmacyNo) {
+    public Pharmacy(String pharmacyNm, String phoneNo, String faxNo, Dong pharmacyDong, Long pharmacyNo, String detailAddress) {
         this.pharmacyNo = pharmacyNo;
+        this.detailAddress = detailAddress;
         this.pharmacyNm = pharmacyNm;
         this.phoneNo = phoneNo;
         this.faxNo = faxNo;
