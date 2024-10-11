@@ -17,18 +17,6 @@ public class PharmacyResponseDto {
     private String phoneNo;
     private String faxNo;
     private Long pharmacyNo;
-    private Long dongId;
-
-    public static PharmacyResponseDto fromEntity(Pharmacy pharmacy, Long dongId) {
-        return PharmacyResponseDto.builder()
-                .pharmacyPk(pharmacy.getPharmacyPk())
-                .pharmacyNm(pharmacy.getPharmacyNm())
-                .phoneNo(pharmacy.getPhoneNo())
-                .faxNo(pharmacy.getFaxNo())
-                .pharmacyNo(pharmacy.getPharmacyNo())
-                .dongId(dongId)
-                .build();
-    }
 
     public static PharmacyResponseDto fromEntity(Pharmacy pharmacy) {
         return PharmacyResponseDto.builder()
