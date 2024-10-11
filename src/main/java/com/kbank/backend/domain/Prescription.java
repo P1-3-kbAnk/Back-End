@@ -40,6 +40,10 @@ public class Prescription {
     @Column(name = "create_ymd")
     private LocalDateTime createYmd;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(name = "prescribe_ymd")
+    private LocalDateTime prescribeYmd;
+
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pre_doctor_fk")
@@ -69,6 +73,10 @@ public class Prescription {
 
     public void updatePrescriptionMaxDate(Integer maxDate) {
         this.maxDate = maxDate;
+    }
+
+    public void updatePrescribeYmd() {
+        this.prescribeYmd = LocalDateTime.now();
     }
 
     public void updatePrescriptionSt(Chemist chemist) {

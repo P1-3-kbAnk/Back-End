@@ -16,28 +16,15 @@ public class DoctorResponseDto {
     private String doctorNo;
     private String phoneNo;
     private Gender gender;
-    private Long hospitalId;
 
     public static DoctorResponseDto fromEntity(Doctor doctor) {
         return DoctorResponseDto.builder()
                 .doctorPk(doctor.getDoctorPk())
                 .doctorNm(doctor.getDoctorNm())
-                .tp(doctor.getTp().name())
+                .tp(doctor.getTp().getDoctorTp())
                 .doctorNo(doctor.getDoctorNo())
                 .phoneNo(doctor.getPhoneNo())
                 .gender(doctor.getGender())
-                .build();
-    }
-
-    public static DoctorResponseDto fromEntity(Doctor doctor, Long hospitalId) {
-        return DoctorResponseDto.builder()
-                .doctorPk(doctor.getDoctorPk())
-                .doctorNm(doctor.getDoctorNm())
-                .tp(doctor.getTp().name())
-                .doctorNo(doctor.getDoctorNo())
-                .phoneNo(doctor.getPhoneNo())
-                .gender(doctor.getGender())
-                .hospitalId(hospitalId)
                 .build();
     }
 }

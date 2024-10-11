@@ -19,15 +19,13 @@ public class PrescriptionResponseDto {
     private Integer prescriptionNo;
     private Integer duration;
     private String description;
-    private String hospitalNm;
-    private String pharmacyNm;
     private Boolean prescriptionSt;
     private Boolean insuranceSt;
-    private Long doctorId;
-    private Long userId;
-    private Long chemistId;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createYmd;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime prescribeYmd;
 
     public static PrescriptionResponseDto fromEntity(Prescription prescription) {
         return PrescriptionResponseDto.builder()
@@ -38,37 +36,7 @@ public class PrescriptionResponseDto {
                 .prescriptionSt(prescription.getPrescriptionSt())
                 .insuranceSt(prescription.getInsuranceSt())
                 .createYmd(prescription.getCreateYmd())
-                .build();
-    }
-
-    public static PrescriptionResponseDto fromEntity(Prescription prescription, Long userId, Long doctorId, Long chemistId) {
-        return PrescriptionResponseDto.builder()
-                .prescriptionPk(prescription.getPrescriptionPk())
-                .prescriptionNo(prescription.getPrescriptionNo())
-                .duration(prescription.getDuration())
-                .description(prescription.getDescription())
-                .prescriptionSt(prescription.getPrescriptionSt())
-                .insuranceSt(prescription.getInsuranceSt())
-                .createYmd(prescription.getCreateYmd())
-                .userId(userId)
-                .doctorId(doctorId)
-                .chemistId(chemistId)
-                .build();
-    }
-
-    public static PrescriptionResponseDto fromEntityWithNm(Prescription prescription) {
-        return PrescriptionResponseDto.builder()
-                .prescriptionPk(prescription.getPrescriptionPk())
-                .prescriptionNo(prescription.getPrescriptionNo())
-                .createYmd(prescription.getCreateYmd())
-                .duration(prescription.getDuration())
-                .description(prescription.getDescription())
-                .prescriptionSt(prescription.getPrescriptionSt())
-                .insuranceSt(prescription.getInsuranceSt())
-                .hospitalNm(prescription.getPreDoctor().getDoctorHospital().getHospitalNm())
-                .doctorId(prescription.getPreDoctor().getDoctorPk())
-                .pharmacyNm(prescription.getPreChemist().getChemistPharmacy().getPharmacyNm())
-                .chemistId(prescription.getPreChemist().getChemistPk())
+                .prescribeYmd(prescription.getPrescribeYmd())
                 .build();
     }
 }

@@ -1,6 +1,8 @@
 package com.kbank.backend.service;
 
 import com.kbank.backend.domain.*;
+import com.kbank.backend.dto.request.InjectionIntakeInfoRequestDto;
+import com.kbank.backend.dto.request.MedicineIntakeInfoRequestDto;
 import com.kbank.backend.dto.request.PrescriptionRequestDto;
 import com.kbank.backend.dto.response.*;
 import com.kbank.backend.exception.CommonException;
@@ -20,11 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PrescriptionService {
 
     private final PrescriptionRepository prescriptionRepository;
-    private final ChemistRepository chemistRepository;
     private final DoctorRepository doctorRepository;
     private final UserRepository userRepository;
     private final DiseaseRepository diseaseRepository;
@@ -36,9 +38,10 @@ public class PrescriptionService {
     private final HospitalBillRepository hospitalBillRepository;
 
 
-    /** 처방전 생성 &  병원 영수증 생성 */
-    @Transactional
-    public Boolean createPrescription(Long doctorId, PrescriptionRequestDto prescriptionRequestDto) {
+    /**
+     * 처방전 생성 &  병원 영수증 생성
+     */
+    public Long createPrescription(Long doctorId, PrescriptionRequestDto prescriptionRequestDto) {
         Doctor doctor = doctorRepository.findByIdWithHospital(doctorId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_DOCTOR));
         User user = userRepository.findUserByUserNmAndFirstNoAndLastNo(
@@ -80,27 +83,30 @@ public class PrescriptionService {
             throw new CommonException(ErrorCode.MISSING_REQUEST_PARAMETER);
         }
 
+        int maxDate = 0;
+
         // 약 정보 저장
         if (prescriptionRequestDto.getMedicineIntakeInfoList() != null && !prescriptionRequestDto.getMedicineIntakeInfoList().isEmpty()) {
             List<PrescriptionMedicine> prescriptionMedicineList = new ArrayList<>();
 
-            prescriptionRequestDto.getMedicineIntakeInfoList()
-                    .forEach(medicineInfo -> {
-                        Medicine medicine = medicineRepository.findById(medicineInfo.getMedicinePk())
-                                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEDICINE));
-                        PrescriptionMedicine newPrescriptionMedicine = PrescriptionMedicine.builder()
-                                .medicineNm(medicine.getMedicineNm())
-                                .dosePerMorning(medicineInfo.getDosePerMorning())
-                                .dosePerLunch(medicineInfo.getDosePerLunch())
-                                .dosePerDinner(medicineInfo.getDosePerDinner())
-                                .method(medicineInfo.getMethod())
-                                .totalDay(medicineInfo.getTotalDay())
-                                .preMedMedicine(medicine)
-                                .preMedPrescription(prescription)
-                                .build();
+            for (MedicineIntakeInfoRequestDto medicineInfo : prescriptionRequestDto.getMedicineIntakeInfoList()) {
+                Medicine medicine = medicineRepository.findById(medicineInfo.getMedicinePk())
+                        .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEDICINE));
 
-                        prescriptionMedicineList.add(newPrescriptionMedicine);
-                    });
+                PrescriptionMedicine newPrescriptionMedicine = PrescriptionMedicine.builder()
+                        .medicineNm(medicine.getMedicineNm())
+                        .dosePerMorning(medicineInfo.getDosePerMorning())
+                        .dosePerLunch(medicineInfo.getDosePerLunch())
+                        .dosePerDinner(medicineInfo.getDosePerDinner())
+                        .method(medicineInfo.getMethod())
+                        .totalDay(medicineInfo.getTotalDay())
+                        .preMedMedicine(medicine)
+                        .preMedPrescription(prescription)
+                        .build();
+
+                maxDate = (maxDate > medicineInfo.getTotalDay()) ? maxDate : medicineInfo.getTotalDay();
+                prescriptionMedicineList.add(newPrescriptionMedicine);
+            }
 
             prescriptionMedicineRepository.saveAll(prescriptionMedicineList);
         }
@@ -109,26 +115,29 @@ public class PrescriptionService {
         if (prescriptionRequestDto.getInjectionIntakeInfoList() != null && !prescriptionRequestDto.getInjectionIntakeInfoList().isEmpty()) {
             List<PrescriptionInjection> prescriptionInjectionList = new ArrayList<>();
 
-            prescriptionRequestDto.getInjectionIntakeInfoList()
-                    .forEach(injectionInfo -> {
-                        Injection injection = injectionRepository.findById(injectionInfo.getInjectionPk())
-                                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEDICINE));
-                        PrescriptionInjection newPrescriptionInjection = PrescriptionInjection.builder()
-                                .injectionNm(injection.getInjectionNm())
-                                .dosePerMorning(injectionInfo.getDosePerMorning())
-                                .dosePerLunch(injectionInfo.getDosePerLunch())
-                                .dosePerDinner(injectionInfo.getDosePerDinner())
-                                .method(injectionInfo.getMethod())
-                                .totalDay(injectionInfo.getTotalDay())
-                                .preInjInjection(injection)
-                                .preInjPrescription(prescription)
-                                .build();
+            for (InjectionIntakeInfoRequestDto injectionInfo : prescriptionRequestDto.getInjectionIntakeInfoList()) {
+                Injection injection = injectionRepository.findById(injectionInfo.getInjectionPk())
+                        .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEDICINE));
 
-                        prescriptionInjectionList.add(newPrescriptionInjection);
-                    });
+                PrescriptionInjection newPrescriptionInjection = PrescriptionInjection.builder()
+                        .injectionNm(injection.getInjectionNm())
+                        .dosePerMorning(injectionInfo.getDosePerMorning())
+                        .dosePerLunch(injectionInfo.getDosePerLunch())
+                        .dosePerDinner(injectionInfo.getDosePerDinner())
+                        .method(injectionInfo.getMethod())
+                        .totalDay(injectionInfo.getTotalDay())
+                        .preInjInjection(injection)
+                        .preInjPrescription(prescription)
+                        .build();
+
+                maxDate = (maxDate > injectionInfo.getTotalDay()) ? maxDate : injectionInfo.getTotalDay();
+                prescriptionInjectionList.add(newPrescriptionInjection);
+            }
 
             prescriptionInjectionRepository.saveAll(prescriptionInjectionList);
         }
+
+        prescription.updatePrescriptionMaxDate(maxDate);
 
         // 병원 영수증 저장
         HospitalBill newHospitalBill = HospitalBill.builder()
@@ -139,11 +148,10 @@ public class PrescriptionService {
 
         hospitalBillRepository.save(newHospitalBill);
 
-        return Boolean.TRUE;
+        return prescription.getPrescriptionPk();
     }
 
     /** 전체 리스트 조회 */
-    @Transactional
     public Map<String, Object> getAllPrescriptionList(Long userId, Integer pageIndex, Integer pageSize) {
 
         User user = userRepository.findById(userId)
@@ -165,13 +173,21 @@ public class PrescriptionService {
                 .totalItems(prescriptionList.getTotalElements())
                 .build();
 
-        List<PrescriptionResponseDto> prescriptionDtoList = prescriptionList.stream()
+        List<Map<String, Object>> prescriptionDtoList = prescriptionList.stream()
                 .map(prescription -> {
+                    Map<String, Object> m = new HashMap<>();
+
+                    m.put("diseaseList", prescriptionDiseaseRepository.findByPreDisPrescription(prescription)
+                            .stream()
+                            .map(prescriptionDisease -> DiseaseResponseDto.fromEntity(prescriptionDisease.getPreDisDisease()))
+                            .toList());
                     if (prescription.getPreChemist() == null) {
-                        return PrescriptionResponseDto.toEntity(prescription);
+                        m.put("prescriptionSummarize", PrescriptionSummarizeDto.fromEntity(prescription)) ;
                     } else {
-                        return PrescriptionResponseDto.fromEntityWithNm(prescription);
+                        m.put("prescriptionSummarize", PrescriptionSummarizeDto.fromEntityWithPharmacy(prescription));
                     }
+
+                    return m;
                 }).toList();
 
         result.put("pageInfo", pageInfo);
@@ -181,12 +197,11 @@ public class PrescriptionService {
     }
 
     /** 처방 안 받은 리스트 조회 */
-    @Transactional
-    public Map<String, List<PrescriptionResponseDto>> notReceivedPrescriptionList(Long userId) {
+    public Map<String, List<PrescriptionSummarizeDto>> notReceivedPrescriptionList(Long userId) {
         List<Prescription> prescriptionList = prescriptionRepository.findByUserFkAndPreStFalse(userId);
-        Map<String, List<PrescriptionResponseDto>> result = new HashMap<>();
-        List<PrescriptionResponseDto> prescriptionDtoList = prescriptionList.stream()
-                .map(PrescriptionResponseDto::toEntity)
+        Map<String, List<PrescriptionSummarizeDto>> result = new HashMap<>();
+        List<PrescriptionSummarizeDto> prescriptionDtoList = prescriptionList.stream()
+                .map(PrescriptionSummarizeDto::fromEntity)
                 .toList();
 
         result.put("prescriptionList", prescriptionDtoList);
@@ -199,7 +214,6 @@ public class PrescriptionService {
      * 처방전 상세조회
      * @param prescriptionId  처방전 pk
      */
-    @Transactional
     public Map<String, Object> prescriptionDetail(Long prescriptionId) {
         Prescription prescription = prescriptionRepository.findPrescriptionByPrescriptionPk(prescriptionId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRESCRIPTION));
@@ -208,27 +222,27 @@ public class PrescriptionService {
         List<PrescriptionMedicine> prescriptionMedicineList = prescriptionMedicineRepository.findByPreMedPrescription(prescription);
         Map<String, Object> result = new HashMap<>();
 
-        PrescriptionResponseDto prescriptionResponseDto = PrescriptionResponseDto.toEntity(prescription);
+        PrescriptionResponseDto prescriptionResponseDto = PrescriptionResponseDto.fromEntity(prescription);
         List<DiseaseResponseDto> diseaseDtoList = prescriptionDiseaseList.stream()
-                .map(prescriptionDisease -> DiseaseResponseDto.toEntity(prescriptionDisease.getPreDisDisease()))
+                .map(prescriptionDisease -> DiseaseResponseDto.fromEntity(prescriptionDisease.getPreDisDisease()))
                 .toList();
         List<MedicineResponseDto> medicineDtoList = prescriptionMedicineList.stream()
-                .map(prescriptionMedicine -> MedicineResponseDto.toEntity(prescriptionMedicine.getPreMedMedicine()))
+                .map(prescriptionMedicine -> MedicineResponseDto.fromEntity(prescriptionMedicine.getPreMedMedicine()))
                 .toList();
         List<InjectionResponseDto> injectionDtoList = prescriptionInjectionList.stream()
-                .map(prescriptionInjection -> InjectionResponseDto.toEntity(prescriptionInjection.getPreInjInjection()))
+                .map(prescriptionInjection -> InjectionResponseDto.fromEntity(prescriptionInjection.getPreInjInjection()))
                 .toList();
 
         result.put("prescription", prescriptionResponseDto);
         result.put("diseaseList", diseaseDtoList);
         result.put("medicineList", medicineDtoList);
         result.put("injectionList", injectionDtoList);
-        result.put("user", UserResponseDto.toEntity(prescription.getPreUser()));
-        result.put("doctor", DoctorResponseDto.toEntity(prescription.getPreDoctor()));
-        result.put("hospital", HospitalResponseDto.toEntity(prescription.getPreDoctor().getDoctorHospital()));
+        result.put("user", UserResponseDto.fromEntity(prescription.getPreUser()));
+        result.put("doctor", DoctorResponseDto.fromEntity(prescription.getPreDoctor()));
+        result.put("hospital", HospitalResponseDto.fromEntity(prescription.getPreDoctor().getDoctorHospital()));
         if (prescription.getPreChemist() != null) {
-            result.put("chemist", ChemistResponseDto.toEntity(prescription.getPreChemist()));
-            result.put("pharmacy", PharmacyResponseDto.toEntity(prescription.getPreChemist().getChemistPharmacy()));
+            result.put("chemist", ChemistResponseDto.fromEntity(prescription.getPreChemist()));
+            result.put("pharmacy", PharmacyResponseDto.fromEntity(prescription.getPreChemist().getChemistPharmacy()));
         } else {
             result.put("chemist", null);
             result.put("pharmacy", null);
@@ -239,7 +253,6 @@ public class PrescriptionService {
 
     // 수정 요함
     /** 보험 청구 여부 수정 */
-    @Transactional
     public Boolean updateInsuranceSt(Long id) {
         Prescription prescription = prescriptionRepository.findById(id)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRESCRIPTION));
@@ -248,15 +261,4 @@ public class PrescriptionService {
         return Boolean.TRUE;
     }
 
-    /** 처방 여부 수정 */
-    @Transactional
-    public Boolean updatePrescriptionSt(Long chemistId, Long id) {
-        Chemist chemist = chemistRepository.findById(chemistId)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_CHEMIST));
-        Prescription prescription = prescriptionRepository.findById(id)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRESCRIPTION));
-
-        prescription.updatePrescriptionSt(chemist);
-        return Boolean.TRUE;
-    }
 }
