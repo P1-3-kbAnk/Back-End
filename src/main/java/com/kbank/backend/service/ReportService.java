@@ -36,8 +36,8 @@ public class ReportService {
         return res;
     }
 
-    // report 생성 -> 하나의 메소드엔 하나의 기능만 있어야 하니까 report 반환 x
-    public Boolean create(Long prescriptionId) {
+    // report 생성
+    public Report create(Long prescriptionId) {
         try {
 
             // 처방전 받아옴
@@ -57,15 +57,19 @@ public class ReportService {
             // fast api 에서 온 응답
             ReportRequestDto responseFromFa = restTemplate.getReport(query);
 
-            // 리스트로 온 응답을 하나의 문자열로 변환하여 저장
-            reportRepository.save(Report
+            Report report = Report
                     .builder()
+                    .reportPrescription(prescription)
                     .intakeMethod(String.join(",", responseFromFa.getCaution()))
                     .food(String.join(",", responseFromFa.getFood()))
                     .exercise(String.join(",", responseFromFa.getExercise()))
-                    .build());
+                    .build();
 
-            return Boolean.TRUE;
+
+            // 리스트로 온 응답을 하나의 문자열로 변환하여 저장
+            reportRepository.save(report);
+
+            return report;
 
         } catch (CommonException e) {
             throw new CommonException(ErrorCode.ERR_FAST_API);
@@ -82,8 +86,7 @@ public class ReportService {
                                 .orElseThrow(() ->
                                         new CommonException(ErrorCode.NOT_FOUND_RESOURCE))
                 )
-                .orElseThrow(() -> // 아니면 예외 던지기
-                        new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+                .orElseGet(() -> create(prescriptionId));
 
         // response
         Map<String, String> response = new HashMap<>();
