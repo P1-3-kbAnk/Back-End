@@ -1,15 +1,12 @@
 package com.kbank.backend.exception;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public class CommonException extends RuntimeException {
     private final ErrorCode errorCode;
-
-    public CommonException(final ErrorCode errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public ErrorCode getErrorCode() {
-        return errorCode;
-    }
 
     @Override
     public String getMessage() {
