@@ -1,10 +1,13 @@
 package com.kbank.backend.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.domain.Prescription;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -23,6 +26,8 @@ public class PrescriptionResponseDto {
     private Long doctorId;
     private Long userId;
     private Long chemistId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime createYmd;
 
     public static PrescriptionResponseDto toEntity(Prescription prescription) {
         return PrescriptionResponseDto.builder()
@@ -32,6 +37,7 @@ public class PrescriptionResponseDto {
                 .description(prescription.getDescription())
                 .prescriptionSt(prescription.getPrescriptionSt())
                 .insuranceSt(prescription.getInsuranceSt())
+                .createYmd(prescription.getCreateYmd())
                 .build();
     }
 
@@ -43,6 +49,7 @@ public class PrescriptionResponseDto {
                 .description(prescription.getDescription())
                 .prescriptionSt(prescription.getPrescriptionSt())
                 .insuranceSt(prescription.getInsuranceSt())
+                .createYmd(prescription.getCreateYmd())
                 .userId(userId)
                 .doctorId(doctorId)
                 .chemistId(chemistId)
@@ -53,6 +60,7 @@ public class PrescriptionResponseDto {
         return PrescriptionResponseDto.builder()
                 .prescriptionPk(prescription.getPrescriptionPk())
                 .prescriptionNo(prescription.getPrescriptionNo())
+                .createYmd(prescription.getCreateYmd())
                 .duration(prescription.getDuration())
                 .description(prescription.getDescription())
                 .prescriptionSt(prescription.getPrescriptionSt())

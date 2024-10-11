@@ -1,5 +1,6 @@
 package com.kbank.backend.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.domain.InjectionIntake;
 import com.kbank.backend.enumerate.Meal;
 import lombok.Builder;
@@ -18,6 +19,7 @@ public class InjectionIntakeResponseDto {
     private Long injInkPk;
     private Meal meal;
     private Boolean eatSt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate day;
     private Long userId;
     private Long injectionId;

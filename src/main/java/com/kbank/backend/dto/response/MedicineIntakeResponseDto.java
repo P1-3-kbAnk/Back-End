@@ -1,5 +1,6 @@
 package com.kbank.backend.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.domain.MedicineIntake;
 import com.kbank.backend.enumerate.Meal;
 import lombok.Builder;
@@ -17,6 +18,7 @@ public class MedicineIntakeResponseDto {
 
     private Long medInkPk;
     private Meal meal;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate day;
     private Boolean eatSt;
     private Long userId;

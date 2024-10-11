@@ -1,8 +1,7 @@
 package com.kbank.backend.dto.response;
 
-import com.kbank.backend.domain.Pharmacy;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.domain.PharmacyBill;
-import com.kbank.backend.domain.Prescription;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +19,7 @@ public class PharmacyBillResponseDto {
     private Long totalPrice;
     private long PrescriptionId;
     private String pharmacyNm;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createYmd;
     private Long pharmacyNo;
 
