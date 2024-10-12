@@ -3,6 +3,7 @@ package com.kbank.backend.controller;
 import com.kbank.backend.dto.ResponseDto;
 import com.kbank.backend.dto.request.UserRequestDto;
 import com.kbank.backend.dto.response.UserResponseDto;
+import com.kbank.backend.service.FcmService;
 import com.kbank.backend.service.PrescriptionService;
 import com.kbank.backend.service.UserService;
 import jakarta.validation.Valid;
@@ -19,6 +20,19 @@ public class UserController {
 
     private final PrescriptionService prescriptionService;
     private final UserService userService;
+    private final FcmService fcmService;
+
+    @PostMapping("/notification/test")
+    public String sendTestNotification(@RequestParam(name = "userId") Long userId) {
+        boolean isSent = fcmService.sendTestNotification(userId);
+
+        if (isSent) {
+            return "테스트 알림이 성공적으로 전송되었습니다.";
+        } else {
+            return "테스트 알림 전송에 실패하였습니다.";
+        }
+    }
+
 //
 //    @PostMapping("/register")
 //    public ResponseDto<Boolean> createUser(@RequestBody @Valid UserRequestDto userRequestDto) {
@@ -62,6 +76,12 @@ public class UserController {
     public ResponseDto<?> modifyAccount(@RequestParam(name = "userId") Long userId,
                                         @RequestBody UserRequestDto userRequestDto){
         return ResponseDto.ok(userService.updateAccountInfo(userId,userRequestDto));
+    }
+
+    @PatchMapping("/prescription/{id}")
+    public ResponseDto<Boolean> updatePrescriptionSt(@RequestParam(name = "chemistId") Long userId,
+                                                     @PathVariable("id") Long prescriptionId) {
+        return ResponseDto.ok(prescriptionService.setPrescriptionSt(prescriptionId));
     }
 
 }

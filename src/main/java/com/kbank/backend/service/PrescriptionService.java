@@ -286,5 +286,11 @@ public class PrescriptionService {
         prescription.updateInsuranceSt();
         return Boolean.TRUE;
     }
+    public Boolean setPrescriptionSt(Long id){
+        Prescription prescription=prescriptionRepository.findById(id)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRESCRIPTION));
+        prescription.setPrescriptionSt();
+        return Boolean.TRUE;
+    }
     //졸렵다
 }
