@@ -133,3 +133,8 @@ test {
     useJUnitPlatform()
 }
 
+war {
+    archiveBaseName = 'backend.war'
+    version = '0.1.0'
+}
+
