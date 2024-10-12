@@ -11,13 +11,24 @@ public class Constant {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final List<String> NO_NEED_AUTH_URLS = List.of(
+            "/login/oauth2/code/**",
+            "/oauth2/authorization/**",
+
+            "/api/v1/auth/register",
+            "/api/hello",
+            "/favicon.ico"
+    );
+
+    public static final List<String> PUBLIC_URLS = List.of(
             "/login/oauth2/code/kakao",
             "/oauth2/authorization/kakao",
             "/login/oauth2/code/google",
             "/oauth2/authorization/google",
             "/login/oauth2/code/naver",
             "/oauth2/authorization/naver",
-            "api/v1/auth/register",
-            "api/hello"
+
+            "/api/v1/auth/register",
+            "/api/hello",
+            "/favicon.ico"
     );
 }

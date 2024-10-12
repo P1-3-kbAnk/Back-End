@@ -1,6 +1,5 @@
 package com.kbank.backend.security.filter;
 
-import com.kbank.backend.constant.Constant;
 import com.kbank.backend.exception.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -66,12 +65,6 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         }
-    }
-
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-        return Constant.NO_NEED_AUTH_URLS.contains(request.getRequestURI())
-                || request.getRequestURI().startsWith("/guest");
     }
 }
 

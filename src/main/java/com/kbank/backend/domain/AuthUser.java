@@ -20,8 +20,8 @@ import java.time.LocalDateTime;
 public class AuthUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_pk", nullable = false, updatable = false, unique = true)
-    private Long userPk;
+    @Column(name="auth_user_pk", nullable = false, updatable = false, unique = true)
+    private Long authUserPk;
 
     @Column(name="provider", nullable = false)
     @Enumerated(EnumType.STRING)

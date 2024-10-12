@@ -1,6 +1,6 @@
 package com.kbank.backend.config;
 
-import com.kbank.backend.security.config.ECryptConfig;
+//import com.kbank.backend.security.config.ECryptConfig;
 import com.kbank.backend.security.config.OAuth2Config;
 import com.kbank.backend.security.config.SecurityConfig;
 import jakarta.validation.constraints.NotNull;
@@ -23,9 +23,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
                 AppConfig.class,
                 MyBatisConfig.class,
                 JpaConfig.class,
-//                SecurityConfig.class,
-                OAuth2Config.class,
-                ECryptConfig.class
+                SecurityConfig.class,
+                OAuth2Config.class
         }; //SecurityConfig.class
     }
 
@@ -41,15 +40,15 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new String[] { "/" };
     }
 
-//    @Override
-//    protected Filter[] getServletFilters() {
-//        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-//        characterEncodingFilter.setEncoding("UTF-8");
-//        characterEncodingFilter.setForceEncoding(true);
-//
-//        DelegatingFilterProxy securityFilterChain = new DelegatingFilterProxy("springSecurityFilterChain");
-//
-//        return new Filter[] { characterEncodingFilter, securityFilterChain };
-//    }
+    @Override
+    protected Filter[] getServletFilters() {
+        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+        characterEncodingFilter.setEncoding("UTF-8");
+        characterEncodingFilter.setForceEncoding(true);
+
+        DelegatingFilterProxy securityFilterChain = new DelegatingFilterProxy("springSecurityFilterChain");
+
+        return new Filter[] { characterEncodingFilter, securityFilterChain };
+    }
 }
 

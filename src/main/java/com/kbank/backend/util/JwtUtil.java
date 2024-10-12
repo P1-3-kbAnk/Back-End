@@ -9,7 +9,6 @@ import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -18,7 +17,7 @@ import java.util.Date;
 @Component
 @RequiredArgsConstructor
 public class JwtUtil implements InitializingBean {
-    private static final Integer ACCESS_EXPIRED_MS = 24 * 60 * 60 * 365 * 1000;
+    private static final Integer ACCESS_EXPIRED_MS = 2 * 60 * 60 * 1000;
     private static final Integer REFRESH_EXPIRED_MS = 7 * 24 * 60 * 60 * 1000;
 
     @Value("${jwt.secret}")
@@ -59,4 +58,7 @@ public class JwtUtil implements InitializingBean {
         return generateToken(claims, expirationPeriod);
     }
 
+    public int getWebRefreshTokenExpirationSecond() {
+        return (REFRESH_EXPIRED_MS / 1000);
+    }
 }
