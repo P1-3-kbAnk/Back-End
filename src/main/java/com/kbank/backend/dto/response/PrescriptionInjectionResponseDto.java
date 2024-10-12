@@ -18,8 +18,12 @@ public class PrescriptionInjectionResponseDto {
     private Integer dayCnt;  // 아침, 점심, 저녁 값이 0이 아니면 증가하는 필드
     private String method; //용법 (ex/ 식전30분)
     private Integer totalDay;
+    private Integer dosePerMorning;
+    private Integer dosePerLunch;
+    private Integer dosePerDinner;
     // Medicine에서 가져와야 하는 필드
     private String unit;
+    private long price;
 
     public static PrescriptionInjectionResponseDto fromEntity(PrescriptionInjection prescriptionInjection) {
 
@@ -29,7 +33,11 @@ public class PrescriptionInjectionResponseDto {
                 .dayCnt(prescriptionInjection.getDayCnt())
                 .method(prescriptionInjection.getMethod())
                 .totalDay(prescriptionInjection.getTotalDay())
+                .dosePerMorning(prescriptionInjection.getDosePerMorning())
+                .dosePerLunch(prescriptionInjection.getDosePerLunch())
+                .dosePerDinner(prescriptionInjection.getDosePerDinner())
                 .unit(prescriptionInjection.getPreInjInjection().getUnit())
+                .price(prescriptionInjection.getPreInjInjection().getPrice())
                 .build();
     }
 }
