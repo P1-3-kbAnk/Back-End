@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ "develop" ]
 
+env:
+  DOCKER_IMAGE_NAME: kimsungheon/backend  # 여기에 Docker 이미지 이름을 지정하세요.
+  EC2_HOST: ec2-3-34-145-147.ap-northeast-2.compute.amazonaws.com  # 여기에 EC2 호스트 주소를 입력하세요.
+  EC2_SSH_USER: ubuntu
+  PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}  # EC2에 접근하기 위한 비공개 키
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,12 +27,42 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Set up application.properties
+      run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
+      
+    - name: Set up application-datasource.properties
+      run: echo "${{ secrets.APPLICATION_DATASOURCE_PROPERTIES }}" > ./src/main/resources/application-datasource.properties
+      
+    - name: Set up application-fcm.properties
+      run: echo "${{ secrets.APPLICATION_FCM_PROPERTIES }}" > ./src/main/resources/application-fcm.properties
+      
+    - name: Set up application-jpa.properties
+      run: echo "${{ secrets.APPLICATION_JPA_PROPERTIES }}" > ./src/main/resources/application-jpa.properties
+      
+    - name: Set up application-oauth.properties
+      run: echo "${{ secrets.APPLICATION_OAUTH_PROPERTIES }}" > ./src/main/resources/application-oauth.properties
+      
+    - name: Set up fcm-service-account.json
+      run: echo "${{ secrets.FCM_JSON }}" > ./src/main/resources/fcm-service-account.json
+      
     # Gradle Wrapper에 실행 권한 부여
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
     
     - name: Build with Gradle Wrapper
       run: ./gradlew build
+      
+    # Docker 이미지 빌드
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{ env.DOCKER_IMAGE_NAME }}:latest  # Docker 이미지 빌드
+
+    # Docker Hub에 로그인
+    - name: Login to Docker Hub using Access Token
+      run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin  # Docker Hub 로그인
+
+    # Docker 이미지 푸시
+    - name: Push the Docker image
+      run: docker push ${{ env.DOCKER_IMAGE_NAME }}:latest  # Docker 이미지 푸시
 
   dependency-submission:
     runs-on: ubuntu-latest
@@ -50,3 +86,26 @@ jobs:
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
+
+  deploy-to-ec2:  # EC2에 배포하는 단계 추가
+    needs: build  # build 작업이 끝난 후에 실행
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ env.EC2_HOST }}  # EC2 호스트
+        username: ${{ env.EC2_SSH_USER }}  # SSH 사용자
+        key: ${{ env.PRIVATE_KEY }}  # 비공식 키
+        script: |
+          CONTAINER_ID=$(sudo docker ps -q --filter "publish=80-8080")
+
+          if [ ! -z "$CONTAINER_ID" ]; then
+            sudo docker stop $CONTAINER_ID
+            sudo docker rm $CONTAINER_ID
+          fi
+
+          sudo docker pull ${{ env.DOCKER_IMAGE_NAME }}:latest  # 최신 Docker 이미지 풀
+          sudo docker run --name backend -d -p 80:8080 -e TZ=Asia/Seoul ${{ env.DOCKER_IMAGE_NAME }}:latest  # Docker 컨테이너 실행
+
