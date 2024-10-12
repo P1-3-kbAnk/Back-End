@@ -93,12 +93,24 @@ public class PrescriptionService {
                 Medicine medicine = medicineRepository.findById(medicineInfo.getMedicinePk())
                         .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEDICINE));
 
+                Integer cnt= 0;
+                if (medicineInfo.getDosePerMorning() > 0) {
+                    cnt++;
+                }
+                if (medicineInfo.getDosePerLunch() > 0) {
+                    cnt++;
+                }
+                if (medicineInfo.getDosePerDinner() > 0) {
+                    cnt++;
+                }
+
                 PrescriptionMedicine newPrescriptionMedicine = PrescriptionMedicine.builder()
                         .medicineNm(medicine.getMedicineNm())
                         .dosePerMorning(medicineInfo.getDosePerMorning())
                         .dosePerLunch(medicineInfo.getDosePerLunch())
                         .dosePerDinner(medicineInfo.getDosePerDinner())
                         .method(medicineInfo.getMethod())
+                        .dayCnt(cnt)
                         .totalDay(medicineInfo.getTotalDay())
                         .preMedMedicine(medicine)
                         .preMedPrescription(prescription)
@@ -119,11 +131,23 @@ public class PrescriptionService {
                 Injection injection = injectionRepository.findById(injectionInfo.getInjectionPk())
                         .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEDICINE));
 
+                Integer cnt= 0;
+                if (injectionInfo.getDosePerMorning() > 0) {
+                    cnt++;
+                }
+                if (injectionInfo.getDosePerLunch() > 0) {
+                    cnt++;
+                }
+                if (injectionInfo.getDosePerDinner() > 0) {
+                    cnt++;
+                }
+
                 PrescriptionInjection newPrescriptionInjection = PrescriptionInjection.builder()
                         .injectionNm(injection.getInjectionNm())
                         .dosePerMorning(injectionInfo.getDosePerMorning())
                         .dosePerLunch(injectionInfo.getDosePerLunch())
                         .dosePerDinner(injectionInfo.getDosePerDinner())
+                        .dayCnt(cnt)
                         .method(injectionInfo.getMethod())
                         .totalDay(injectionInfo.getTotalDay())
                         .preInjInjection(injection)
@@ -164,7 +188,6 @@ public class PrescriptionService {
                 ))
         );
         Map<String, Object> result = new HashMap<>();
-
         PageInfo pageInfo = PageInfo.builder()
                 .currentPage(prescriptionList.getNumber() + 1)
                 .totalPages(prescriptionList.getTotalPages())
@@ -212,7 +235,7 @@ public class PrescriptionService {
         return result;
     }
 
-    // TODO: 수정요함 (용법(method) 해결 해야됨)
+
     /** 지식 + 1
      * 처방전 상세조회
      * @param prescriptionId  처방전 pk
@@ -229,17 +252,17 @@ public class PrescriptionService {
         List<DiseaseResponseDto> diseaseDtoList = prescriptionDiseaseList.stream()
                 .map(prescriptionDisease -> DiseaseResponseDto.fromEntity(prescriptionDisease.getPreDisDisease()))
                 .toList();
-        List<MedicineResponseDto> medicineDtoList = prescriptionMedicineList.stream()
-                .map(prescriptionMedicine -> MedicineResponseDto.fromEntity(prescriptionMedicine.getPreMedMedicine()))
+        List<PrescriptionMedicineResponseDto> prescriptionMedicineDtoList = prescriptionMedicineList.stream()
+                .map(PrescriptionMedicineResponseDto::fromEntity)  // PrescriptionMedicine -> PrescriptionMedicineResponseDto
                 .toList();
-        List<InjectionResponseDto> injectionDtoList = prescriptionInjectionList.stream()
-                .map(prescriptionInjection -> InjectionResponseDto.fromEntity(prescriptionInjection.getPreInjInjection()))
+        List<PrescriptionInjectionResponseDto> prescriptionInjectionDtoList=prescriptionInjectionList.stream()
+                .map(PrescriptionInjectionResponseDto::fromEntity)
                 .toList();
 
         result.put("prescription", prescriptionResponseDto);
         result.put("diseaseList", diseaseDtoList);
-        result.put("medicineList", medicineDtoList);
-        result.put("injectionList", injectionDtoList);
+        result.put("preMedicineList", prescriptionMedicineDtoList);
+        result.put("preInjectionList", prescriptionInjectionDtoList);
         result.put("user", UserResponseDto.fromEntity(prescription.getPreUser()));
         result.put("doctor", DoctorResponseDto.fromEntity(prescription.getPreDoctor()));
         result.put("hospital", HospitalResponseDto.fromEntity(prescription.getPreDoctor().getDoctorHospital()));
@@ -263,5 +286,5 @@ public class PrescriptionService {
         prescription.updateInsuranceSt();
         return Boolean.TRUE;
     }
-
+    //졸렵다
 }
