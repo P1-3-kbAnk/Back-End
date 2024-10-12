@@ -36,54 +36,84 @@ public class ReportService {
         return res;
     }
 
-    // report 생성 -> 하나의 메소드엔 하나의 기능만 있어야 하니까 report 반환 x
-    public Boolean create(Long prescriptionId) {
-        try {
+//    // report 생성 -> 하나의 메소드엔 하나의 기능만 있어야 하니까 report 반환 x
+//    public Boolean create(Long prescriptionId) {
+//        try {
+//
+//            // 처방전 받아옴
+//            Prescription prescription = prescriptionRepository
+//                    .findById(prescriptionId)
+//                    .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+//
+//            List<String> res = new ArrayList<>(); // 질병 코드 리스트
+//            Map<String, String> query = new HashMap<>(); // GPT에게 보낼 쿼리
+//
+//            prescriptionDiseaseRepository.findByPreDisPrescription(prescription)
+//                    .forEach(e -> res.add(e.getPreDisDisease().getDiseaseCd()));
+//
+//            query.put("medi", getMedicineList(prescription).toString()); // 약 리스트
+//            query.put("code", res.toString()); // 질병 코드 리스트
+//
+//            // fast api 에서 온 응답
+//            ReportRequestDto responseFromFa = restTemplate.getReport(query);
+//
+//            // 리스트로 온 응답을 하나의 문자열로 변환하여 저장
+//            reportRepository.save(Report
+//                    .builder()
+//                    .intakeMethod(String.join(",", responseFromFa.getCaution()))
+//                    .food(String.join(",", responseFromFa.getFood()))
+//                    .exercise(String.join(",", responseFromFa.getExercise()))
+//                    .build());
+//
+//            return Boolean.TRUE;
+//
+//        } catch (CommonException e) {
+//            throw new CommonException(ErrorCode.ERR_FAST_API);
+//        }
+//    }
 
-            // 처방전 받아옴
-            Prescription prescription = prescriptionRepository
-                    .findById(prescriptionId)
-                    .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
-            List<String> res = new ArrayList<>(); // 질병 코드 리스트
-            Map<String, String> query = new HashMap<>(); // GPT에게 보낼 쿼리
-
-            prescriptionDiseaseRepository.findByPreDisPrescription(prescription)
-                    .forEach(e -> res.add(e.getPreDisDisease().getDiseaseCd()));
-
-            query.put("medi", getMedicineList(prescription).toString()); // 약 리스트
-            query.put("code", res.toString()); // 질병 코드 리스트
-
-            // fast api 에서 온 응답
-            ReportRequestDto responseFromFa = restTemplate.getReport(query);
-
-            // 리스트로 온 응답을 하나의 문자열로 변환하여 저장
-            reportRepository.save(Report
-                    .builder()
-                    .intakeMethod(String.join(",", responseFromFa.getCaution()))
-                    .food(String.join(",", responseFromFa.getFood()))
-                    .exercise(String.join(",", responseFromFa.getExercise()))
-                    .build());
-
-            return Boolean.TRUE;
-
-        } catch (CommonException e) {
-            throw new CommonException(ErrorCode.ERR_FAST_API);
-        }
-    }
-
-    // 처방전을 통해서 리포트를 조회하는 메솓,
+    //TODO 메소드 최적화 처리
+    // 처방전을 통해서 리포트를 조회하는 메소드
     @Transactional // 없을떈 생성하는 메소드를 호출해야하므로 트랜잭션 처리 필수
     public Map<String, ?> getReportByPrescription(Long userId, Long prescriptionId) {
+
+        Prescription prescription = prescriptionRepository
+                .findById(prescriptionId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+
         Report report = reportRepository // 리포트 가져옴
-                .findByReportPrescription(
-                        prescriptionRepository // 처방전을 기준으로
-                                .findById(prescriptionId)
-                                .orElseThrow(() ->
-                                        new CommonException(ErrorCode.NOT_FOUND_RESOURCE))
-                )
-                .orElseThrow(() -> // 아니면 예외 던지기
-                        new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+                .findByReportPrescription(prescription)
+                .orElseGet(() -> {
+                    List<String> res = new ArrayList<>(); // 질병 코드 리스트
+                    Map<String, String> query = new HashMap<>(); // GPT에게 보낼 쿼리
+                    ReportRequestDto responseFromFa;
+                    prescriptionDiseaseRepository.findByPreDisPrescription(prescription)
+                                .forEach(e -> res.add(e.getPreDisDisease().getDiseaseCd()));
+
+                    query.put("medi", getMedicineList(prescription).toString()); // 약 리스트
+                    query.put("code", res.toString()); // 질병 코드 리스트
+
+                    try{
+                        responseFromFa = restTemplate.getReport(query);// fast api 에서 온 응답
+                    } catch (CommonException e) {
+                        throw new CommonException(ErrorCode.ERR_FAST_API);
+                    }
+
+                    Report reportResponse = Report
+                            .builder()
+                            .intakeMethod(String.join(",", responseFromFa.getCaution()))
+                            .food(String.join(",", responseFromFa.getFood()))
+                            .exercise(String.join(",", responseFromFa.getExercise()))
+                            .reportPrescription(prescription)
+                            .build();
+                        // 리스트로 온 응답을 하나의 문자열로 변환하여 저장
+
+                    log.info(reportResponse.toString());
+                    reportRepository.save(reportResponse);
+
+                    return reportResponse;
+                });
 
         // response
         Map<String, String> response = new HashMap<>();
