@@ -74,7 +74,7 @@ public class ChemistService {
         Prescription prescription = prescriptionRepository.findByPrescriptionPk(id)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRESCRIPTION));
 
-        if (prescription.getPrescriptionSt() == Boolean.FALSE) {
+        if (prescription.getPrescriptionSt() == Boolean.TRUE) {
             return false;
         } if (prescription.getCreateYmd().toLocalDate().plusDays(prescription.getDuration()).equals(LocalDate.now())) {
             throw new CommonException(ErrorCode.INVALID_PRESCRIPTION);
