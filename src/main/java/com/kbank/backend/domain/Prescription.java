@@ -87,4 +87,8 @@ public class Prescription {
     public void updateInsuranceSt() {
         this.insuranceSt = !this.insuranceSt;
     }
+
+    public void setPrescriptionSt() {
+        this.prescriptionSt=!this.prescriptionSt;
+    }
 }
