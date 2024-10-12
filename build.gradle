@@ -134,7 +134,6 @@ test {
 }
 
 war {
-    archiveBaseName = 'backend.war'
+    archiveBaseName = 'backend.war'  // 생성할 WAR 파일 이름
     version = '0.1.0'
 }
-
