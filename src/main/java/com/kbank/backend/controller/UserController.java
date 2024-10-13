@@ -79,7 +79,7 @@ public class UserController {
     }
 
     @PatchMapping("/prescription/{id}")
-    public ResponseDto<Boolean> updatePrescriptionSt(@RequestParam(name = "chemistId") Long userId,
+    public ResponseDto<Boolean> updatePrescriptionSt(@RequestParam(name = "userId") Long userId,
                                                      @PathVariable("id") Long prescriptionId) {
         return ResponseDto.ok(prescriptionService.setPrescriptionSt(prescriptionId));
     }
