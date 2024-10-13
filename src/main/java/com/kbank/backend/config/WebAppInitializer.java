@@ -24,7 +24,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
                 MyBatisConfig.class,
                 JpaConfig.class,
                 SecurityConfig.class,
-                OAuth2Config.class
+                OAuth2Config.class,
+                CorsConfig.class
         }; //SecurityConfig.class
     }
 
