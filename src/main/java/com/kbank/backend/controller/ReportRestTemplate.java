@@ -43,7 +43,7 @@ public class ReportRestTemplate {
         HttpEntity<ReportRequestDto> res;
 
         try {
-            String baseUrl = "http://localhost:8000";
+            String baseUrl = "http://43.202.43.253:8000/";
             res = restTemplate.exchange(
                     baseUrl + "/report",
                     HttpMethod.POST,

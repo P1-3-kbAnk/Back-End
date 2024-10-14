@@ -45,4 +45,9 @@ public class UserService {
 
         return Boolean.TRUE;
     }
+
+    public String getUserName(Long userId) {
+        return userRepository.findByUserWithAuthUserId(userId).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER))
+                .getUserNm();
+    }
 }

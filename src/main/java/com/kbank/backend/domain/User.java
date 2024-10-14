@@ -75,7 +75,7 @@ public class User {
     private List<MedicineIntake> medicineIntakeList;
 
     @Builder
-    public User(AuthUser authUser, String userNm, String phoneNo, Gender gender, String firstNo, String lastNo, String bankNm, String accountNo, String accountPw) {
+    public User(AuthUser authUser, String userNm, String phoneNo, Gender gender, String firstNo, String lastNo, String bankNm, String accountNo, String accountPw, String fcmNo) {
         this.authUser = authUser;
         this.userNm = userNm;
         this.phoneNo = phoneNo;
@@ -90,6 +90,7 @@ public class User {
         this.lunchAlarm = LocalTime.of(12,0);
         this.dinnerAlarm = LocalTime.of(18,0);
         this.createYmd = LocalDateTime.now();
+        this.fcmNo = fcmNo;
     }
 
     /* Update */

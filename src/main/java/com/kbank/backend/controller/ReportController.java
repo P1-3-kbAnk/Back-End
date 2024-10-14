@@ -11,7 +11,6 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-@CrossOrigin("http://localhost:5173")
 @RequestMapping("/api/patient/report")
 public class ReportController {
 

@@ -46,6 +46,7 @@ public class AuthService {
                 .accountNo(userRequestDto.getAccountNo())
                 .accountPw(userRequestDto.getAccountPw())
                 .authUser(authUser)
+                .fcmNo(userRequestDto.getFcmNo())
                 .build();
 
         userRepository.save(newUser);
