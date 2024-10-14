@@ -21,12 +21,11 @@ public class CookieUtil {
         response.addCookie(cookie);
     }
 
-    public static void addSecureCookie(HttpServletResponse response, String name, String value) {
-        Cookie cookie = new Cookie(name, value);
+    public static void addSecureCookie(HttpServletResponse response,String name, String value, Integer maxAge){
+        Cookie cookie = new Cookie(name,value);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setMaxAge(DEFAULT_MAX_AGE);
+        cookie.setMaxAge(maxAge);
         response.addCookie(cookie);
     }
 }

@@ -1,7 +1,6 @@
 package com.kbank.backend.repository;
 
 import com.kbank.backend.domain.AuthUser;
-import com.kbank.backend.domain.User;
 import com.kbank.backend.enumerate.Provider;
 import com.kbank.backend.enumerate.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,22 +19,22 @@ public interface AuthUserRepository extends JpaRepository<AuthUser, Long> {
 
     interface UserSecurityForm {
 
-        static UserSecurityForm invoke(AuthUser user) {
+        static UserSecurityForm invoke(AuthUser authUser) {
 
             return new UserSecurityForm() {
                 @Override
-                public Long getId() {
-                    return user.getUserPk();
+                public Long getAuthUserPk() {
+                    return authUser.getAuthUserPk();
                 }
 
                 @Override
                 public Role getRole() {
-                    return user.getRole();
+                    return authUser.getRole();
                 }
             };
         }
 
-        Long getId();
+        Long getAuthUserPk();
         Role getRole();
     }
 }

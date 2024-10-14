@@ -1,8 +1,8 @@
 package com.kbank.backend.security.info;
 
 import com.kbank.backend.domain.AuthUser;
-import com.kbank.backend.repository.AuthUserRepository;
 import com.kbank.backend.enumerate.Role;
+import com.kbank.backend.repository.AuthUserRepository;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +27,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 
     public static UserPrincipal create(AuthUser user) {
         return UserPrincipal.builder()
-                .id(user.getUserPk())
+                .id(user.getAuthUserPk())
                 .role(user.getRole())
                 .attributes(Collections.emptyMap())
                 .authorities(Collections.singleton(new SimpleGrantedAuthority(user.getRole().toSecurityString()))).build();
@@ -35,7 +35,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 
     public static UserPrincipal create(AuthUserRepository.UserSecurityForm form, Map<String, Object> attributes) {
         return UserPrincipal.builder()
-                .id(form.getId())
+                .id(form.getAuthUserPk())
                 .role(form.getRole())
                 .attributes(attributes)
                 .authorities(Collections.singleton(new SimpleGrantedAuthority(form.getRole().toSecurityString()))).build();

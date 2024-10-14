@@ -1,16 +1,8 @@
 package com.kbank.backend.domain;
 
-/*
-제목 : 약사 테이블 엔티티 정의
-설명 : 약사 회원에 대한 정보를 담은 엔티티로 구성 됨.
-      소속 약국, 이름, 면허종별, 면허번호, 전화번호, 성별, 주민번호, 소셜 로그인 제공자, 소셜아이디, 유저 권한, 생성 일자로 구성.
-담당자 : 한상민
-*/
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.enumerate.Gender;
-import com.kbank.backend.enumerate.Provider;
-import com.kbank.backend.enumerate.Role;
+import com.kbank.backend.enumerate.Tp;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -39,40 +31,35 @@ public class Chemist {
     private String phoneNo;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "chemist_tp")
+    private Tp tp;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "provider", nullable = false)
-    private Provider provider;
-
-    @Column(name = "social_id", nullable = false)
-    private String socialId;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
-    private Role role;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "create_ymd")
     private LocalDateTime createYmd;
 
     /* Relation */
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auth_user_fk")
+    private AuthUser authUser;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="chemist_pharmacy_fk")
+    @JoinColumn(name = "chemist_pharmacy_fk")
     private Pharmacy chemistPharmacy;
 
     @Builder
-    public Chemist(String chemistNm, String chemistNo, String phoneNo, Gender gender, Pharmacy chemistPharmacy) {
-
+    public Chemist(AuthUser authUser, String chemistNm, String chemistNo, String phoneNo, Gender gender, Pharmacy chemistPharmacy) {
+        this.authUser = authUser;
         this.chemistNm = chemistNm;
         this.chemistNo = chemistNo;
         this.phoneNo = phoneNo;
         this.gender = gender;
-        this.role = Role.USER;
-        this.socialId = "none";
-        this.provider = Provider.KAKAO;
         this.chemistPharmacy = chemistPharmacy;
         this.createYmd = LocalDateTime.now();
+        this.tp = Tp.CHEMIST;
     }
 }
