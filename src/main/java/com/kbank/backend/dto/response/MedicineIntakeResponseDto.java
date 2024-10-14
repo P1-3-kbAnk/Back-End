@@ -26,6 +26,7 @@ public class MedicineIntakeResponseDto {
     private Integer intakeCnt;
     private String medicineNm;
     private String caution;
+    private String time;
 
 
 
@@ -40,6 +41,7 @@ public class MedicineIntakeResponseDto {
                 .intakeCnt(medicineIntake.getIntakeCnt())
                 .medicineNm(medicineIntake.getMedInkMedicine().getMedicineNm())
                 .caution(medicineIntake.getMedInkMedicine().getCaution())
+                .time(medicineIntake.getMedInkMedicine().getTime().name())
                 .build();
     }
 }

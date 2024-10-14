@@ -17,8 +17,8 @@ public class UserRequestDto {
     private String userNm;
     @NotBlank
     private String phoneNo;
-    @NotNull
-    private Gender gender;
+//    @NotNull
+//    private Gender gender;
     @NotBlank
     private String firstNo;
     @NotBlank
@@ -29,12 +29,12 @@ public class UserRequestDto {
     private String accountNo;
     @NotBlank
     private String accountPw;
-    @NotBlank
+//    @NotBlank
     private String fcmNo;
-    @NotNull
+//    @NotNull
     private LocalTime morningAlarm;
-    @NotNull
+//    @NotNull
     private LocalTime lunchAlarm;
-    @NotNull
+//    @NotNull
     private LocalTime dinnerAlarm;
 }

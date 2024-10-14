@@ -6,6 +6,7 @@ import lombok.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Entity
@@ -27,7 +28,7 @@ public class Pharmacy {
     @Column(name = "fax_no")
     private String faxNo;  // 팩스번호
 
-    @Column(name = "pharmacy_no")
+    @Column(name = "pharmacy_no", unique = true)
     private Long pharmacyNo;
 
     @Column(name = "detail_address")
@@ -42,13 +43,20 @@ public class Pharmacy {
     @JoinColumn(name = "pharmacy_dong_fk", nullable = false)
     private Dong pharmacyDong;  // 동 필드에 대한 FK
 
-    public Pharmacy(String pharmacyNm, String phoneNo, String faxNo, Dong pharmacyDong, Long pharmacyNo, String detailAddress) {
-        this.pharmacyNo = pharmacyNo;
+    @Builder
+    public Pharmacy(String pharmacyNm, String phoneNo, String faxNo, Dong pharmacyDong, String detailAddress) {
+        generateUniqueRandomValue();
         this.detailAddress = detailAddress;
         this.pharmacyNm = pharmacyNm;
         this.phoneNo = phoneNo;
         this.faxNo = faxNo;
         this.pharmacyDong = pharmacyDong;
         this.createYmd = LocalDateTime.now();
+    }
+
+    @PrePersist
+    public void generateUniqueRandomValue() {
+        UUID uuid = UUID.randomUUID();
+        this.pharmacyNo = Math.abs(uuid.getMostSignificantBits());
     }
 }

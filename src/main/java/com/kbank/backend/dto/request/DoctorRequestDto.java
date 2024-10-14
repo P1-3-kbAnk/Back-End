@@ -11,17 +11,28 @@ import lombok.*;
 @NoArgsConstructor
 public class DoctorRequestDto {
 
-    @NotNull
-    private Long hospitalPk;
     @NotBlank
-    private String doctorNm;
+    private String userNm;
     @NotNull
     private Tp tp;
     @NotBlank
     private String doctorNo;
     @NotBlank
     private String phoneNo;
-    @NotNull
-    private Gender gender;
+    @NotBlank
+    private String firstNo;
+    @NotBlank
+    private String lastNo;
+    @NotBlank
+    private String licenseNo;
+    @NotBlank
+    private String hospitalDong;
+
+    @NotBlank
+    private String hospitalNm;
+    @NotBlank
+    private String hospitalPhoneNo;
+    @NotBlank
+    private String hospitalDetailAddress;
 
 }

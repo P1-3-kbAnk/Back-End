@@ -31,7 +31,7 @@ public interface PrescriptionRepository extends JpaRepository<Prescription,Long>
             "JOIN FETCH u.authUser au " +
             "WHERE au.authUserPk = :authUserId " +
             "AND p.prescriptionSt = FALSE")
-    List<Prescription> findByUserFkAndPreStFalse(@Param("userId") Long userId);
+    List<Prescription> findByUserFkAndPreStFalse(@Param("authUserId") Long userId);
 
     @EntityGraph(attributePaths = {"preDoctor", "preDoctor.doctorHospital", "preChemist", "preChemist.chemistPharmacy", "preUser"})
     Optional<Prescription> findPrescriptionByPrescriptionPk(Long prescriptionId);

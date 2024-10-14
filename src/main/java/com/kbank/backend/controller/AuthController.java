@@ -7,6 +7,11 @@ import com.kbank.backend.dto.request.ChemistRequestDto;
 import com.kbank.backend.dto.request.DoctorRequestDto;
 import com.kbank.backend.dto.request.UserRequestDto;
 import com.kbank.backend.service.AuthService;
+import com.kbank.backend.service.ChemistService;
+import com.kbank.backend.service.DoctorService;
+import com.kbank.backend.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,19 +25,20 @@ public class AuthController {
 
     private final AuthService authService;
 
+
     @PostMapping("/user")
-    public ResponseDto<JwtTokenDto> userRegister(@UserId Long userId, @RequestBody UserRequestDto userRequestDto) {
-        return ResponseDto.ok(authService.userRegister(userId, userRequestDto));
+    public ResponseDto<JwtTokenDto> userRegister(@UserId Long userId, @RequestBody UserRequestDto userRequestDto, HttpServletRequest request, HttpServletResponse response) {
+        return ResponseDto.ok(authService.createUser(userId, userRequestDto));
     }
 
     @PostMapping("/doctor")
-    public ResponseDto<JwtTokenDto> doctorRegister(@UserId Long doctorId, @RequestBody DoctorRequestDto doctorRequestDto) {
-        return ResponseDto.ok(authService.doctorRegister(doctorId, doctorRequestDto));
+    public ResponseDto<JwtTokenDto> doctorRegister(@UserId Long doctorId, @RequestBody DoctorRequestDto doctorRequestDto, HttpServletRequest request, HttpServletResponse response) {
+        return ResponseDto.ok(authService.createDoctor(doctorId, doctorRequestDto));
     }
 
     @PostMapping("/chemist")
-    public ResponseDto<JwtTokenDto> chemistRegister(@UserId Long chemistId, @RequestBody ChemistRequestDto chemistRequestDto) {
-        return ResponseDto.ok(authService.chemistRegister(chemistId, chemistRequestDto));
+    public ResponseDto<JwtTokenDto> chemistRegister(@UserId Long chemistId, @RequestBody ChemistRequestDto chemistRequestDto, HttpServletRequest request, HttpServletResponse response) {
+        return ResponseDto.ok(authService.createChemist(chemistId, chemistRequestDto));
     }
 
 }

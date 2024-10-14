@@ -22,7 +22,7 @@ import java.io.IOException;
 @Slf4j
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtUtil jwtUtil;
-    private static final String REDIRECT_URL = "http://localhost:3000";
+    private static final String REDIRECT_URL = "http://localhost:5173/redirect";
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         AuthenticationSuccessHandler.super.onAuthenticationSuccess(request, response, chain, authentication);
@@ -35,13 +35,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(userPrincipal.getId(), userPrincipal.getRole());
 
         if (userPrincipal.getRole().equals(Role.GUEST)) {
-            response.sendRedirect( REDIRECT_URL + "/register" + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole());
+            response.sendRedirect( REDIRECT_URL + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole() + "&state=register");
         } else if (userPrincipal.getRole().equals(Role.DOCTOR)) {
-            response.sendRedirect( REDIRECT_URL + "/doctor" + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole());
+            response.sendRedirect( REDIRECT_URL + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole() + "&state=doctor");
         } else if (userPrincipal.getRole().equals(Role.CHEMIST)) {
-            response.sendRedirect( REDIRECT_URL + "/chemist" + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole());
+            response.sendRedirect( REDIRECT_URL + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole() + "&state=chemist");
         } else {
-            response.sendRedirect(REDIRECT_URL + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole());
+            response.sendRedirect(REDIRECT_URL + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole() + "&state=user");
         }
 
     }
