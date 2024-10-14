@@ -8,7 +8,7 @@ on:
 
 env:
   DOCKER_IMAGE_NAME: kimsungheon/backend  # 여기에 Docker 이미지 이름을 지정하세요.
-  EC2_HOST: ec2-43-203-222-2.ap-northeast-2.compute.amazonaws.com  # 여기에 EC2 호스트 주소를 입력하세요.
+  EC2_HOST: 13.124.212.50  # 여기에 EC2 호스트 주소를 입력하세요.
   EC2_SSH_USER: ubuntu
   PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}  # EC2에 접근하기 위한 비공개 키
 
@@ -99,6 +99,7 @@ jobs:
         host: ${{ env.EC2_HOST }}  # EC2 호스트
         username: ${{ env.EC2_SSH_USER }}  # SSH 사용자
         key: ${{ env.PRIVATE_KEY }}  # 비공식 키
+        port: 22
         script: |
           CONTAINER_ID=$(sudo docker ps -q --filter "publish=80-8080")
 
