@@ -174,7 +174,7 @@ public class PrescriptionService {
     /** 전체 리스트 조회 */
     public Map<String, Object> getAllPrescriptionList(Long userId, Integer pageIndex, Integer pageSize) {
 
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByUserWithAuthUserId(userId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
         Page<Prescription> prescriptionList = prescriptionRepository.findAllByPreUser(
                 user,

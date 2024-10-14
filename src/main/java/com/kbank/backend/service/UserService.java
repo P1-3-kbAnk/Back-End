@@ -20,14 +20,14 @@ public class UserService {
 
     /**userId로 정보얻기**/
     public UserResponseDto getUserById(Long userId) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByUserWithAuthUserId(userId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
         return UserResponseDto.fromEntity(user);
     }
     /**계좌정보 수정**/
     public Boolean updateAccountInfo(Long userId, UserRequestDto userRequestDto) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByUserWithAuthUserId(userId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
         user.updateBankNm(userRequestDto.getBankNm());
@@ -38,7 +38,7 @@ public class UserService {
 
     /**알람시간 변경**/
     public Boolean updateAlarm(Long userId,UserRequestDto userRequestDto){
-        User user = userRepository.findByUserPk(userId)
+        User user = userRepository.findByUserWithAuthUserId(userId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
         user.updateAlarm(userRequestDto);

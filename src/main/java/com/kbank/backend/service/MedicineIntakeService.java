@@ -34,7 +34,7 @@ public class MedicineIntakeService {
 
         List<MedicineIntake> medicineIntakeList = medicineIntakeRepository
                 .findByMedInkUserAndDay(
-                        userRepository.findById(userPk).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER)),
+                        userRepository.findByUserWithAuthUserId(userPk).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER)),
                         date
                 );
 
@@ -54,9 +54,7 @@ public class MedicineIntakeService {
     }
 
     // 복용 여부(EatSt)만 업데이트
-    public Boolean updateEatSt(Long userPk, Long medInkPk) {
-        User user = userRepository.findById(userPk).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
-
+    public Boolean updateEatSt(Long medInkPk) {
         MedicineIntake medicineIntake = medicineIntakeRepository.findById(medInkPk)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 

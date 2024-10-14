@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/patient/prescription")
 @RequiredArgsConstructor
 public class PharmacyBillController {
-    private final PharmacyBillService pharmacyBillService;
 
+    private final PharmacyBillService pharmacyBillService;
 
     //특정 처방전 id로 조회
     @GetMapping("/pharmacyBill/{prescriptionId}")

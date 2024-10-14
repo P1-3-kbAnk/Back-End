@@ -76,7 +76,7 @@ public class ReportService {
     //TODO 메소드 최적화 처리
     // 처방전을 통해서 리포트를 조회하는 메소드
     @Transactional // 없을떈 생성하는 메소드를 호출해야하므로 트랜잭션 처리 필수
-    public Map<String, ?> getReportByPrescription(Long userId, Long prescriptionId) {
+    public Map<String, String> getReportByPrescription(Long prescriptionId) {
 
         Prescription prescription = prescriptionRepository
                 .findById(prescriptionId)
