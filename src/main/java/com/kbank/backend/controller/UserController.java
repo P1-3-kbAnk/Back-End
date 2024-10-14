@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/patient")
 @RequiredArgsConstructor
-@CrossOrigin(value = "*")
 public class UserController {
 
     private final PrescriptionService prescriptionService;
@@ -34,6 +33,11 @@ public class UserController {
         }
     }
 
+    @GetMapping("/name")
+    public ResponseDto<?> getUserName(@UserId Long userId) {
+        System.out.println("****************************");
+        return ResponseDto.ok(userService.getUserName(userId));
+    }
 
 //
 //    // 수정요함

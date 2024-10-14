@@ -15,6 +15,7 @@ public class CorsConfig {
 
         configuration.setAllowCredentials(true);
         configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedOriginPattern("https://www.bangapda.com/");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
 
