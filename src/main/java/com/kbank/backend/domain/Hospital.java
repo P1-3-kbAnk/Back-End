@@ -7,6 +7,7 @@ import lombok.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Entity
@@ -25,10 +26,10 @@ public class Hospital {
     @Column(name="phone_no", nullable=false)
     private String phoneNo;
 
-    @Column(name = "hospital_no", nullable=false)
+    @Column(name = "hospital_no", nullable=false, unique = true)
     private Long hospitalNo;
 
-    @Column(name = "fax_no", nullable=false)
+    @Column(name = "fax_no")
     private String faxNo;
 
     @Column(name = "detail_address")
@@ -43,6 +44,7 @@ public class Hospital {
     @JoinColumn(name="hospital_dong_fk")
     private Dong hospitalDong;
 
+    @Builder
     public Hospital(String hospitalNm, String phoneNo, Long hospitalNo, String faxNo, Dong hospitalDong, String detailAddress) {
         this.hospitalNm = hospitalNm;
         this.phoneNo = phoneNo;
@@ -52,4 +54,11 @@ public class Hospital {
         this.hospitalDong = hospitalDong;
         this.createYmd = LocalDateTime.now();
     }
+
+    @PrePersist
+    public void generateUniqueRandomValue() {
+        UUID uuid = UUID.randomUUID();
+        this.hospitalNo = Math.abs(uuid.getMostSignificantBits());
+    }
+
 }

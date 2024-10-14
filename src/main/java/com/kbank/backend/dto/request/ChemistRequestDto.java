@@ -11,13 +11,25 @@ import lombok.*;
 public class ChemistRequestDto {
 
     @NotBlank
-    private String chemistNm;
-    @NotBlank
-    private String chemistNo;
+    private String userNm;
     @NotBlank
     private String phoneNo;
-    @NotNull
-    private Gender gender;
-    @NotNull
-    private Long pharmacyPk;
+    //    @NotNull
+//    private Gender gender;
+    @NotBlank
+    private String firstNo;
+    @NotBlank
+    private String lastNo;
+    @NotBlank
+    private String chemistNo;
+//    @NotNull
+//    private Gender gender;
+    @NotBlank
+    private String pharmacyDong;
+    @NotBlank
+    private String pharmacyNm;
+    @NotBlank
+    private String pharmacyPhoneNo;
+    @NotBlank
+    private String pharmacyDetailAddress;
 }
