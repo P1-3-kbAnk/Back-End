@@ -1,16 +1,8 @@
 package com.kbank.backend.domain;
 
-/*
-제목 : 회원 정보 엔티티 정의
-설명 :
-담당자 : 한상민
-*/
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kbank.backend.dto.request.UserRequestDto;
 import com.kbank.backend.enumerate.Gender;
-import com.kbank.backend.enumerate.Provider;
-import com.kbank.backend.enumerate.Role;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -27,35 +19,23 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_pk", nullable = false, updatable = false, unique = true)
+    @Column(name = "user_pk", nullable = false, updatable = false, unique = true)
     private Long userPk;
 
-    @Column(name="provider", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Provider provider;
-
-    @Column(name="social_id", nullable = false)
-    private String socialId;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name="role", nullable = false)
-    private Role role;
-
-    /* User Info */
-    @Column(name="user_nm")
+    @Column(name = "user_nm")
     private String userNm;
 
-    @Column(name="phone_no")
+    @Column(name = "phone_no")
     private String phoneNo;
 
-    @Column(name="gender")
+    @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(name="first_no")
+    @Column(name = "first_no")
     private String firstNo;
 
-    @Column(name="last_no")
+    @Column(name = "last_no")
     private String lastNo;
 
     @Column(name = "bank_nm")
@@ -83,24 +63,20 @@ public class User {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createYmd;
 
-    @Column(name="fcm_no")
+    @Column(name = "fcm_no")
     private String fcmNo;
 
     /* Relation */
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auth_user_fk")
+    private AuthUser authUser;
+
     @OneToMany(mappedBy = "medInkUser", fetch = FetchType.LAZY)
     private List<MedicineIntake> medicineIntakeList;
 
-//    @Builder
-//    public User(Provider provider, String socialId, Role role, LocalDate createYmd) {
-//        this.provider = provider;
-//        this.socialId = socialId;
-//        this.role = role;
-//        this.createYmd = createYmd;
-//    }
-
-    // 시큐리티 후 수정
     @Builder
-    public User(String userNm, String phoneNo, Gender gender, String firstNo, String lastNo, String bankNm, String accountNo, String accountPw,String fcmNo, Provider provider, String socialId, Role role) {
+    public User(AuthUser authUser, String userNm, String phoneNo, Gender gender, String firstNo, String lastNo, String bankNm, String accountNo, String accountPw) {
+        this.authUser = authUser;
         this.userNm = userNm;
         this.phoneNo = phoneNo;
         this.gender = gender;
@@ -110,32 +86,36 @@ public class User {
         this.account = 1000000000;
         this.accountNo = accountNo;
         this.accountPw = accountPw;
-        this.role = Role.USER;
-        this.socialId = "none";
-        this.provider = Provider.KAKAO;
         this.morningAlarm = LocalTime.of(9,0);
         this.lunchAlarm = LocalTime.of(12,0);
         this.dinnerAlarm = LocalTime.of(18,0);
         this.createYmd = LocalDateTime.now();
-        this.fcmNo=fcmNo;
     }
 
     /* Update */
 
     //계좌 잔액 변경
-    public void setAccount(long newAccount) {
+    public void updateAccount(long newAccount) {
         this.account = newAccount;
     }
-    /**계좌정보수정**/
-    public void setBankNm(String bankNm){this.bankNm=bankNm;}
-    public void setAccountNo(String accountNo){this.accountNo=accountNo;}
 
+    /**계좌정보수정**/
+    public void updateBankNm(String bankNm){
+        this.bankNm=bankNm;
+    }
+
+    public void updateAccountNo(String accountNo){
+        this.accountNo=accountNo;
+    }
 
     /**알림시간변경**/
-    public void setAlarm(UserRequestDto userRequestDto){
+    public void updateAlarm(UserRequestDto userRequestDto){
         this.morningAlarm=userRequestDto.getMorningAlarm();
         this.lunchAlarm=userRequestDto.getLunchAlarm();
         this.dinnerAlarm=userRequestDto.getDinnerAlarm();
     }
 
+    public void updateFcmNo(String fcmNo) {
+        this.fcmNo = fcmNo;
+    }
 }

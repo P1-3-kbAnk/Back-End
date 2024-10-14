@@ -22,7 +22,7 @@ public enum Tp {
     ENT_SPECIALIST("이비인후과 의사"),         // 이비인후과 의사
     DENTIST("치과 의사"),                // 치과 의사
     VETERINARIAN("수의사"),           // 수의사
-    PHARMACIST("약사"),             // 약사
+    CHEMIST("약사"),             // 약사
     UNLICENSED("무면허");              // 무면허
 
     private final String doctorTp;

@@ -36,6 +36,10 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         if (userPrincipal.getRole().equals(Role.GUEST)) {
             response.sendRedirect( REDIRECT_URL + "/register" + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole());
+        } else if (userPrincipal.getRole().equals(Role.DOCTOR)) {
+            response.sendRedirect( REDIRECT_URL + "/doctor" + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole());
+        } else if (userPrincipal.getRole().equals(Role.CHEMIST)) {
+            response.sendRedirect( REDIRECT_URL + "/chemist" + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole());
         } else {
             response.sendRedirect(REDIRECT_URL + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole());
         }
