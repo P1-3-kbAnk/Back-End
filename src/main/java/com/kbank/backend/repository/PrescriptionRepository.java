@@ -28,7 +28,8 @@ public interface PrescriptionRepository extends JpaRepository<Prescription,Long>
             "preDoctor.doctorHospital.hospitalDong.dong_gu_fk.gu_si_fk"
     })
     @Query("SELECT p FROM Prescription p JOIN FETCH p.preUser u " +
-            "WHERE u.userPk = :userId " +
+            "JOIN FETCH u.authUser au " +
+            "WHERE au.authUserPk = :authUserId " +
             "AND p.prescriptionSt = FALSE")
     List<Prescription> findByUserFkAndPreStFalse(@Param("userId") Long userId);
 

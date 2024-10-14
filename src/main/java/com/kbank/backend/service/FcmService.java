@@ -106,7 +106,7 @@ public class FcmService {
 
     // 테스트용 메서드: 현재 시간 상관없이 즉시 알림 전송
     public boolean sendTestNotification(Long userId) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByUserWithAuthUserId(userId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
         System.out.println("service_success");
 

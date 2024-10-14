@@ -21,16 +21,13 @@ public class InjectionIntakeService {
     private final UserRepository userRepository;
     private final InjectionIntakeRepository injectionIntakeRepository;
 
-
-
-
     // 날짜(2024-10-5)를 받아서 조회
     @Transactional
     public Map<String, Object> getInjectionIntakeByDate(Long userPk, LocalDate date) {
 
         List<InjectionIntake> injectionIntakeList = injectionIntakeRepository
                 .findByInjInkUserAndDay(
-                        userRepository.findById(userPk).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER)),
+                        userRepository.findByUserWithAuthUserId(userPk).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER)),
                         date
                 );
 
@@ -48,14 +45,11 @@ public class InjectionIntakeService {
     }
 
     // 복용 여부(EatSt)만 업데이트
-    public Boolean updateEatSt(Long userPk, Long injInkPk) {
-        User user = userRepository.findById(userPk).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
-
+    public Boolean updateEatSt(Long injInkPk) {
         InjectionIntake injectionIntake = injectionIntakeRepository.findById(injInkPk)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
         injectionIntake.updateEatSt();
-        injectionIntakeRepository.save(injectionIntake);
 
         return Boolean.TRUE;
     }

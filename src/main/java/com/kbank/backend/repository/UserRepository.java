@@ -16,7 +16,9 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findByUserPk(Long userPk);
 
-    Optional<User> findById(Long id);
+    @Query("SELECT u FROM User u JOIN FETCH u.authUser au " +
+            "WHERE au.authUserPk = :authUserId")
+    Optional<User> findByUserWithAuthUserId(@Param("authUserId") Long authUserId);
 
     Optional<User> findUserByUserNmAndFirstNoAndLastNo(String userNm, String firstNo, String lastNo);
 

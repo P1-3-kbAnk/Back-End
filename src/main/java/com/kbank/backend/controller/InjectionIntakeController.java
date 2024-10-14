@@ -23,8 +23,8 @@ public class InjectionIntakeController {
     }
 
     @PatchMapping("/taking/comp/{id}")
-    public ResponseDto<Boolean> updateInjectionIntake(@UserId Long userId, @PathVariable("id") Long id) {
-        return ResponseDto.ok(injectionIntakeService.updateEatSt(userId, id));
+    public ResponseDto<Boolean> updateInjectionIntake(@PathVariable("id") Long id) {
+        return ResponseDto.ok(injectionIntakeService.updateEatSt(id));
     }
 
 }

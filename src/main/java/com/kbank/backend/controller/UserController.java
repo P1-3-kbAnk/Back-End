@@ -24,7 +24,7 @@ public class UserController {
     private final FcmService fcmService;
 
     @PostMapping("/notification/test")
-    public String sendTestNotification(@RequestParam(name = "userId") Long userId) {
+    public String sendTestNotification(@UserId Long userId) {
         boolean isSent = fcmService.sendTestNotification(userId);
 
         if (isSent) {

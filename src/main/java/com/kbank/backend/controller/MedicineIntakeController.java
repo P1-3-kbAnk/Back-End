@@ -25,8 +25,8 @@ public class MedicineIntakeController {
     }
 
     @PatchMapping("/taking/comp/{id}")
-    public ResponseDto<Boolean> updateEatSt(@UserId Long userId, @PathVariable("id") Long medInkPk) {
-        return ResponseDto.ok(medicineIntakeService.updateEatSt(userId, medInkPk));
+    public ResponseDto<Boolean> updateEatSt(@PathVariable("id") Long medInkPk) {
+        return ResponseDto.ok(medicineIntakeService.updateEatSt(medInkPk));
     }
 
 
