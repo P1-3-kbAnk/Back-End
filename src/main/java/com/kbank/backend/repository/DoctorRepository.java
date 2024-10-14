@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,8 +14,9 @@ public interface DoctorRepository extends JpaRepository<Doctor,Long>{
 
 
     @EntityGraph(attributePaths = "doctorHospital")
-    @Query("SELECT d FROM Doctor d WHERE d.doctorPk = :doctorPk")
-    Optional<Doctor> findByIdWithHospital(@Param("doctorPk") Long doctorPk);
+    @Query("SELECT d FROM Doctor d JOIN FETCH d.authUser au " +
+            "WHERE au.authUserPk = :authUserId")
+    Optional<Doctor> findByIdWithHospital(@Param("authUserId") Long authUserId);
 
     Optional<Doctor> findDoctorByDoctorPk(Long doctorPk);
 }
