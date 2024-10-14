@@ -99,6 +99,7 @@ jobs:
         host: ${{ env.EC2_HOST }}  # EC2 호스트
         username: ${{ env.EC2_SSH_USER }}  # SSH 사용자
         key: ${{ env.PRIVATE_KEY }}  # 비공식 키
+        port: 22
         script: |
           CONTAINER_ID=$(sudo docker ps -q --filter "publish=80-8080")
 
