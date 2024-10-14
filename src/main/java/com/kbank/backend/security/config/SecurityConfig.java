@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
-//                        .requestMatchers("api/v1/auth/**").permitAll()
+                        .requestMatchers("api/auth/**").permitAll()
                         .requestMatchers(Constant.NO_NEED_AUTH_URLS.toArray(String[]::new)).permitAll()
                         .requestMatchers("api/v1/users/**").hasAnyRole((Role.USER.toString()), Role.ADMIN.toString())
                         .requestMatchers("api/v1/admin/**").hasRole(Role.ADMIN.toString())
@@ -85,4 +85,5 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class)
                 .getOrBuild();
     }
+
 }

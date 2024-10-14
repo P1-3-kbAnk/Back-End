@@ -37,7 +37,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User process(OAuth2UserRequest userRequest, OAuth2User oAuth2User){
         Provider provider = ProviderFactory.of(userRequest.getClientRegistration().getRegistrationId().toUpperCase(Locale.ROOT));
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(provider,oAuth2User.getAttributes());
-        System.out.println("tlqkf******************************");
         AuthUserRepository.UserSecurityForm userSecurityForm = authUserRepository.findBySocialIdAndEProvider(userInfo.getId(),provider)
                 .orElseGet(()->
                 {
@@ -51,8 +50,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     return AuthUserRepository.UserSecurityForm.invoke(user);
                 });
 
-        //fuck
-        System.out.println("*****************************" + userSecurityForm.getAuthUserPk());
         return UserPrincipal.create(userSecurityForm,oAuth2User.getAttributes());
     }
 }

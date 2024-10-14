@@ -14,8 +14,6 @@ public class Constant {
             "/login/oauth2/code/**",
             "/oauth2/authorization/**",
 
-            "/api/v1/auth/register",
-            "/api/hello",
             "/favicon.ico"
     );
 
@@ -27,8 +25,6 @@ public class Constant {
             "/login/oauth2/code/naver",
             "/oauth2/authorization/naver",
 
-            "/api/v1/auth/register",
-            "/api/hello",
             "/favicon.ico"
     );
 }

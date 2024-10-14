@@ -1,6 +1,7 @@
 package com.kbank.backend.security.handler;
 
 import com.kbank.backend.dto.JwtTokenDto;
+import com.kbank.backend.enumerate.Role;
 import com.kbank.backend.security.info.UserPrincipal;
 import com.kbank.backend.util.JwtUtil;
 import jakarta.servlet.FilterChain;
@@ -21,7 +22,7 @@ import java.io.IOException;
 @Slf4j
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtUtil jwtUtil;
-    private static final String REDIRECT_URL = "http://localhost:3000/redirect";
+    private static final String REDIRECT_URL = "http://localhost:3000";
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         AuthenticationSuccessHandler.super.onAuthenticationSuccess(request, response, chain, authentication);
@@ -31,14 +32,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-
         JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(userPrincipal.getId(), userPrincipal.getRole());
 
-        String redirectUrl = REDIRECT_URL;
+        if (userPrincipal.getRole().equals(Role.GUEST)) {
+            response.sendRedirect( REDIRECT_URL + "/register" + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole());
+        } else {
+            response.sendRedirect(REDIRECT_URL + "?accessToken=" + jwtTokenDto.getAccessToken() + "&role=" + userPrincipal.getRole());
+        }
 
-        // 쿼리 문자열을 추가
-        redirectUrl += "?accessToken="+jwtTokenDto.getAccessToken()+"&role="+userPrincipal.getRole();
-
-        response.sendRedirect(redirectUrl);
     }
 }

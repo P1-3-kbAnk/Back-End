@@ -37,6 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String token = HeaderUtil.refineHeader(request, Constant.AUTHORIZATION_HEADER,Constant.BEARER_PREFIX)
                 .orElseThrow(() -> new CommonException(ErrorCode.INVALID_TOKEN_ERROR));
 
+
         final Claims claims = jwtUtil.validateToken(token);
         JwtUserInfo userInfo = new JwtUserInfo(
                 Long.valueOf(claims.get(Constant.USER_ID_CLAIM_NAME,String.class)),
@@ -64,6 +65,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         log.info(request.getRequestURI());
         log.info(String.valueOf(Constant.PUBLIC_URLS.contains(request.getRequestURI())));
+        System.out.println("**********************************************");
         return Constant.PUBLIC_URLS.contains(request.getRequestURI())
                 || request.getRequestURI().startsWith("/guest");
     }
