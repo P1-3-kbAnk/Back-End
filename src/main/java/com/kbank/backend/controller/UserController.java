@@ -33,11 +33,7 @@ public class UserController {
         }
     }
 
-//
-//    @PostMapping("/register")
-//    public ResponseDto<Boolean> createUser(@RequestBody @Valid UserRequestDto userRequestDto) {
-//        return ResponseDto.created(userService.createUser(userRequestDto));
-//    }
+
 //
 //    // 수정요함
 //    //사용자 계좌정보 조회
