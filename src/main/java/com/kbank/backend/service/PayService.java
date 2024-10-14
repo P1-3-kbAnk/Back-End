@@ -13,11 +13,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class PayService {
@@ -45,7 +40,7 @@ public class PayService {
         }
 
         // 사용자 계좌 업데이트
-        user.setAccount(newAccount); // dynamic update
+        user.updateAccount(newAccount); // dynamic update
 
         // 약국 영수증 생성
         PharmacyBill pharmacyBill = PharmacyBill.builder()

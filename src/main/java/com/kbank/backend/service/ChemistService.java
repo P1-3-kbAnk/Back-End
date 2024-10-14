@@ -1,7 +1,6 @@
 package com.kbank.backend.service;
 
 import com.kbank.backend.domain.*;
-import com.kbank.backend.dto.request.ChemistRequestDto;
 import com.kbank.backend.enumerate.Meal;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
@@ -26,24 +25,6 @@ public class ChemistService {
     private final InjectionIntakeRepository injectionIntakeRepository;
     private final PrescriptionInjectionRepository prescriptionInjectionRepository;
     private final PrescriptionMedicineRepository prescriptionMedicineRepository;
-
-    public Boolean createChemist(ChemistRequestDto chemistRequestDto) {
-
-        // 시큐리티 후 수정
-        Pharmacy pharmacy = pharmacyRepository.findByPharmacyPk(chemistRequestDto.getPharmacyPk())
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PHARMACY));
-        Chemist newChemist = Chemist.builder()
-                .chemistNm(chemistRequestDto.getChemistNm())
-                .chemistNo(chemistRequestDto.getChemistNo())
-                .phoneNo(chemistRequestDto.getPhoneNo())
-                .gender(chemistRequestDto.getGender())
-                .chemistPharmacy(pharmacy)
-                .build();
-
-        chemistRepository.save(newChemist);
-
-        return Boolean.TRUE;
-    }
 
     private void createAndSaveMedicineIntake(Medicine medicine, Meal meal, User user, LocalDate day, Integer intakeCnt) {
         MedicineIntake newMedicineIntake = MedicineIntake.builder()

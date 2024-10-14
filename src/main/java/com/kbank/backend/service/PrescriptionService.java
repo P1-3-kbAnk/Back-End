@@ -96,11 +96,9 @@ public class PrescriptionService {
                 Integer cnt= 0;
                 if (medicineInfo.getDosePerMorning() > 0) {
                     cnt++;
-                }
-                if (medicineInfo.getDosePerLunch() > 0) {
+                } if (medicineInfo.getDosePerLunch() > 0) {
                     cnt++;
-                }
-                if (medicineInfo.getDosePerDinner() > 0) {
+                } if (medicineInfo.getDosePerDinner() > 0) {
                     cnt++;
                 }
 
@@ -134,11 +132,9 @@ public class PrescriptionService {
                 Integer cnt= 0;
                 if (injectionInfo.getDosePerMorning() > 0) {
                     cnt++;
-                }
-                if (injectionInfo.getDosePerLunch() > 0) {
+                } if (injectionInfo.getDosePerLunch() > 0) {
                     cnt++;
-                }
-                if (injectionInfo.getDosePerDinner() > 0) {
+                } if (injectionInfo.getDosePerDinner() > 0) {
                     cnt++;
                 }
 
@@ -238,6 +234,7 @@ public class PrescriptionService {
 
     /** 지식 + 1
      * 처방전 상세조회
+     * 대대적 수정 요함
      * @param prescriptionId  처방전 pk
      */
     public Map<String, Object> prescriptionDetail(Long prescriptionId) {
@@ -277,20 +274,21 @@ public class PrescriptionService {
         return result;
     }
 
-    // 수정 요함
     /** 보험 청구 여부 수정 */
     public Boolean updateInsuranceSt(Long id) {
         Prescription prescription = prescriptionRepository.findById(id)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRESCRIPTION));
 
         prescription.updateInsuranceSt();
+
         return Boolean.TRUE;
     }
     public Boolean setPrescriptionSt(Long id){
         Prescription prescription=prescriptionRepository.findById(id)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRESCRIPTION));
+
         prescription.setPrescriptionSt();
+
         return Boolean.TRUE;
     }
-    //졸렵다
 }

@@ -1,5 +1,6 @@
 package com.kbank.backend.controller;
 
+import com.kbank.backend.annotation.UserId;
 import com.kbank.backend.dto.ResponseDto;
 import com.kbank.backend.dto.request.PrescriptionRequestDto;
 import com.kbank.backend.service.PrescriptionService;
@@ -14,16 +15,15 @@ public class PrescriptionController {
 
     // 처방전 저장
     @PostMapping("/post")
-    public ResponseDto<Long> savePrescription(@RequestParam(name = "doctorId") Long doctorId,
-                                                 @RequestBody PrescriptionRequestDto prescriptionRequestDto) {
+    public ResponseDto<Long> savePrescription(@UserId Long doctorId,
+                                              @RequestBody PrescriptionRequestDto prescriptionRequestDto) {
         return ResponseDto.created(prescriptionService.createPrescription(doctorId, prescriptionRequestDto));
     }
 
     // 수정 요함
     // 처방 받아야 할 처방전 조회
     @GetMapping("/new/list")
-    public ResponseDto<?> notReceivedPrescriptionList(@RequestParam(name = "userId") Long userId) {
-
+    public ResponseDto<?> notReceivedPrescriptionList(@UserId Long userId) {
         return ResponseDto.ok(prescriptionService.notReceivedPrescriptionList(userId));
     }
 //

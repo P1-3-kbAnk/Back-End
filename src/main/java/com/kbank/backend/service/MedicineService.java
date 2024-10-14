@@ -21,7 +21,7 @@ public class MedicineService {
 
     private final MedicineRepository medicineRepository;
 
-    public MedicineResponseDto medicineDetail(Long userPk, Long medicinePk) {
+    public MedicineResponseDto medicineDetail(Long medicinePk) {
 
         Medicine medicine = medicineRepository.findByMedicinePk(medicinePk)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEDICINE));

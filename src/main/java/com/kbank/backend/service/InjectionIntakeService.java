@@ -54,9 +54,6 @@ public class InjectionIntakeService {
         InjectionIntake injectionIntake = injectionIntakeRepository.findById(injInkPk)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
-        // 해당 유저의 접근이 아닐경우 예외 던지기
-        if(!Objects.equals(injectionIntake.getInjInkUser().getUserPk(), user.getUserPk())) {throw new CommonException(ErrorCode.ACCESS_DENIED_ERROR);}
-
         injectionIntake.updateEatSt();
         injectionIntakeRepository.save(injectionIntake);
 

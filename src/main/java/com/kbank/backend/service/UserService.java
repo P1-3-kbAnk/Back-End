@@ -18,52 +18,31 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public Boolean createUser(UserRequestDto userRequestDto) {
-
-        // 시큐리티 후 수정
-        User newUser = User.builder()
-                .userNm(userRequestDto.getUserNm())
-                .phoneNo(userRequestDto.getPhoneNo())
-                .gender(userRequestDto.getGender())
-                .firstNo(userRequestDto.getFirstNo())
-                .lastNo(userRequestDto.getLastNo())
-                .bankNm(userRequestDto.getBankNm())
-                .accountNo(userRequestDto.getAccountNo())
-                .accountPw(userRequestDto.getAccountPw())
-                .fcmNo(userRequestDto.getFcmNo())
-                .build();
-
-        userRepository.save(newUser);
-
-        return Boolean.TRUE;
-    }
     /**userId로 정보얻기**/
     public UserResponseDto getUserById(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(()->new CommonException(ErrorCode.NOT_FOUND_USER));
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
         return UserResponseDto.fromEntity(user);
     }
     /**계좌정보 수정**/
-    public boolean  updateAccountInfo(Long userId, UserRequestDto userRequestDto) {
+    public Boolean updateAccountInfo(Long userId, UserRequestDto userRequestDto) {
         User user = userRepository.findById(userId)
-                .orElseThrow(()->new CommonException(ErrorCode.NOT_FOUND_USER));
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
-        if(!userRequestDto.getAccountPw().equals(user.getAccountPw())) return Boolean.FALSE;
+        user.updateBankNm(userRequestDto.getBankNm());
+        user.updateAccountNo(userRequestDto.getAccountNo());
 
-        user.setBankNm(userRequestDto.getBankNm());
-        user.setAccountNo(userRequestDto.getAccountNo());
-        userRepository.save(user);
         return Boolean.TRUE;
     }
 
     /**알람시간 변경**/
-    public boolean updateAlarm(Long userId,UserRequestDto userRequestDto){
-        User user=userRepository.findByUserPk(userId)
-                .orElseThrow(()->new CommonException(ErrorCode.NOT_FOUND_USER));
-        // 시큐리티 후 수정
-        user.setAlarm(userRequestDto);
-        userRepository.save(user);
+    public Boolean updateAlarm(Long userId,UserRequestDto userRequestDto){
+        User user = userRepository.findByUserPk(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        user.updateAlarm(userRequestDto);
+
         return Boolean.TRUE;
     }
 }

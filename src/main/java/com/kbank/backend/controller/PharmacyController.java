@@ -1,11 +1,9 @@
 package com.kbank.backend.controller;
 
+import com.kbank.backend.annotation.UserId;
 import com.kbank.backend.dto.ResponseDto;
-import com.kbank.backend.dto.request.ChemistRequestDto;
 import com.kbank.backend.service.ChemistService;
-import com.kbank.backend.service.PharmacyService;
 import com.kbank.backend.service.PrescriptionService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +14,9 @@ public class PharmacyController {
 
     private final ChemistService chemistService;
     private final PrescriptionService prescriptionService;
-    private final PharmacyService pharmacyService;
-
-    @PostMapping("/register")
-    public ResponseDto<Boolean> createChemist(@RequestBody @Valid ChemistRequestDto chemistRequestDto) {
-        return ResponseDto.created(chemistService.createChemist(chemistRequestDto));
-    }
 
     @PatchMapping("/prescription/{id}")
-    public ResponseDto<Boolean> updatePrescriptionSt(@RequestParam(name = "chemistId") Long chemistId,
+    public ResponseDto<Boolean> updatePrescriptionSt(@UserId Long chemistId,
                                                      @PathVariable("id") Long prescriptionId) {
         return ResponseDto.ok(chemistService.updatePrescriptionSt(chemistId, prescriptionId));
     }

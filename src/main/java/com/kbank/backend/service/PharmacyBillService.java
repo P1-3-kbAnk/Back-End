@@ -20,7 +20,7 @@ public class PharmacyBillService {
 
     // 처방전 ID로  pharmacyBill 조회
     @Transactional
-    public PharmacyBillResponseDto getBillByPrescription(Long userId,Long prescriptionId) {
+    public PharmacyBillResponseDto getBillByPrescription(Long prescriptionId) {
 
         PharmacyBill pharmacyBill = pharmacyBillRepository
                 .findByPharmacyBillPrescriptionPrescriptionPk(prescriptionId)

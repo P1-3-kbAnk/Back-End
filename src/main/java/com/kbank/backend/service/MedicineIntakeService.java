@@ -60,9 +60,6 @@ public class MedicineIntakeService {
         MedicineIntake medicineIntake = medicineIntakeRepository.findById(medInkPk)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
-        // 해당 유저가 아닌경우 예외 던지기
-        if(!Objects.equals(medicineIntake.getMedInkUser().getUserPk(), user.getUserPk())) {throw new CommonException(ErrorCode.ACCESS_DENIED_ERROR);}
-
         medicineIntake.updateEatSt();
         medicineIntakeRepository.save(medicineIntake);
 
