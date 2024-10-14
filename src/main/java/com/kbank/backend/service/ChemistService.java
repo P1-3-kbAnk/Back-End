@@ -50,7 +50,7 @@ public class ChemistService {
 
     /** 처방 여부 수정 */
     public Boolean updatePrescriptionSt(Long chemistId, Long id) {
-        Chemist chemist = chemistRepository.findById(chemistId)
+        Chemist chemist = chemistRepository.findByChemistWithAuthUserId(chemistId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_CHEMIST));
         Prescription prescription = prescriptionRepository.findByPrescriptionPk(id)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRESCRIPTION));
