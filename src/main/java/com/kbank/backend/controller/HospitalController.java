@@ -1,5 +1,6 @@
 package com.kbank.backend.controller;
 
+import com.kbank.backend.annotation.UserId;
 import com.kbank.backend.dto.ResponseDto;
 import com.kbank.backend.service.DiseaseService;
 import com.kbank.backend.service.DoctorService;
@@ -24,10 +25,12 @@ public class HospitalController {
     }
 
     @GetMapping("doctor/get")
-    public ResponseDto<DoctorResponseDto> getDoctor(@RequestParam(name = "doctorPk") Long doctorPk) {
+    public ResponseDto<DoctorResponseDto> getDoctor(@UserId Long doctorPk) {
         return ResponseDto.ok(doctorService.doctorInfo(doctorPk));
     }
 
     @GetMapping("/injection")
-    public ResponseDto<?> getinjectionList(){return ResponseDto.ok(injectionService.getInjectionList());}
+    public ResponseDto<?> getInjectionList(){
+        return ResponseDto.ok(injectionService.getInjectionList());
+    }
 }

@@ -12,8 +12,7 @@ public class InsuranceController {
     private final PrescriptionService prescriptionService;
 
     @PatchMapping("/update/{id}")
-    public ResponseDto<Boolean> updatePrescriptionSt(@RequestParam(name = "userId") Long userId,
-                                                    @PathVariable("id") Long prescriptionId) {
+    public ResponseDto<Boolean> updatePrescriptionSt(@PathVariable("id") Long prescriptionId) {
         return ResponseDto.ok(prescriptionService.updateInsuranceSt(prescriptionId));
     }
 

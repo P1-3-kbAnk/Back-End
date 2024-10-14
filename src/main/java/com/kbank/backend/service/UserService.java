@@ -21,30 +21,28 @@ public class UserService {
     /**userId로 정보얻기**/
     public UserResponseDto getUserById(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(()->new CommonException(ErrorCode.NOT_FOUND_USER));
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
         return UserResponseDto.fromEntity(user);
     }
     /**계좌정보 수정**/
-    public boolean  updateAccountInfo(Long userId, UserRequestDto userRequestDto) {
+    public Boolean updateAccountInfo(Long userId, UserRequestDto userRequestDto) {
         User user = userRepository.findById(userId)
-                .orElseThrow(()->new CommonException(ErrorCode.NOT_FOUND_USER));
-
-        if(!userRequestDto.getAccountPw().equals(user.getAccountPw())) return Boolean.FALSE;
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
         user.updateBankNm(userRequestDto.getBankNm());
         user.updateAccountNo(userRequestDto.getAccountNo());
-        userRepository.save(user);
+
         return Boolean.TRUE;
     }
 
     /**알람시간 변경**/
-    public boolean updateAlarm(Long userId,UserRequestDto userRequestDto){
-        User user=userRepository.findByUserPk(userId)
-                .orElseThrow(()->new CommonException(ErrorCode.NOT_FOUND_USER));
-        // 시큐리티 후 수정
+    public Boolean updateAlarm(Long userId,UserRequestDto userRequestDto){
+        User user = userRepository.findByUserPk(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+
         user.updateAlarm(userRequestDto);
-        userRepository.save(user);
+
         return Boolean.TRUE;
     }
 }

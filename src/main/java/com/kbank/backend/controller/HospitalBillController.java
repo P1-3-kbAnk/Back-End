@@ -17,8 +17,8 @@ public class HospitalBillController {
 
     //특정 처방전 id로 조회
     @GetMapping("/hospitalBill/{prescriptionId}")
-    public ResponseDto<HospitalBillResponseDto> detailHospitalBill(@RequestParam(name = "userId") Long userId, @PathVariable("prescriptionId") Long PrescriptionId){
-        return ResponseDto.ok(hospitalBillService.getBillByPrescriptionFk(userId, PrescriptionId));
+    public ResponseDto<HospitalBillResponseDto> detailHospitalBill(@PathVariable("prescriptionId") Long PrescriptionId){
+        return ResponseDto.ok(hospitalBillService.getBillByPrescriptionFk(PrescriptionId));
     }
 
 }

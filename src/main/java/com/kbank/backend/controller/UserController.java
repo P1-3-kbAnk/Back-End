@@ -1,5 +1,6 @@
 package com.kbank.backend.controller;
 
+import com.kbank.backend.annotation.UserId;
 import com.kbank.backend.dto.ResponseDto;
 import com.kbank.backend.dto.request.UserRequestDto;
 import com.kbank.backend.dto.response.UserResponseDto;
@@ -43,7 +44,7 @@ public class UserController {
 //    }
 
     @GetMapping("/prescription/list")
-    public ResponseDto<?> getAllPrescriptionList(@RequestParam(name = "userId") Long userId,
+    public ResponseDto<?> getAllPrescriptionList(@UserId Long userId,
                                                  @RequestParam(name = "pageIndex") @Valid @NotNull @Min(0) Integer pageIndex,
                                                  @RequestParam(name = "pageSize") @Valid @NotNull @Min(1) Integer pageSize) {
         return ResponseDto.ok(prescriptionService.getAllPrescriptionList(userId, pageIndex, pageSize));
@@ -56,27 +57,26 @@ public class UserController {
     }
 
     @PatchMapping("/modify/medicineTime")
-    public ResponseDto<Boolean> updateAlarm(@RequestParam(name = "userId") Long userId,
-                                           @RequestBody UserRequestDto userRequestDto){
+    public ResponseDto<Boolean> updateAlarm(@UserId Long userId,
+                                            @RequestBody UserRequestDto userRequestDto) {
         return ResponseDto.created(userService.updateAlarm(userId,userRequestDto));
     }
 
     //사용자 계좌정보 조회
     @GetMapping("/account")
-    public ResponseDto<UserResponseDto> detailAccount(@RequestParam(name = "userId") Long userId){
+    public ResponseDto<UserResponseDto> detailAccount(@UserId Long userId) {
         return ResponseDto.ok(userService.getUserById(userId));
     }
 
     //사용자 계좌 정보 수정
     @PatchMapping("/modify/account")
-    public ResponseDto<?> modifyAccount(@RequestParam(name = "userId") Long userId,
+    public ResponseDto<?> modifyAccount(@UserId Long userId,
                                         @RequestBody UserRequestDto userRequestDto){
         return ResponseDto.ok(userService.updateAccountInfo(userId,userRequestDto));
     }
 
     @PatchMapping("/prescription/{id}")
-    public ResponseDto<Boolean> updatePrescriptionSt(@RequestParam(name = "userId") Long userId,
-                                                     @PathVariable("id") Long prescriptionId) {
+    public ResponseDto<Boolean> updatePrescriptionSt(@PathVariable("id") Long prescriptionId) {
         return ResponseDto.ok(prescriptionService.setPrescriptionSt(prescriptionId));
     }
 

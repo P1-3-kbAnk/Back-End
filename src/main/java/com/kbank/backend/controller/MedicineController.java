@@ -17,9 +17,8 @@ public class MedicineController {
 
     // 복용중인 약 상세 정보 조회
     @GetMapping("/detail/{medicineId}")
-    public ResponseDto<MedicineResponseDto> medicineDetail(@RequestParam(name = "userId") Long userId,
-                                                           @PathVariable("medicineId") Long medicineFk) {
-        return ResponseDto.ok(medicineService.medicineDetail(userId, medicineFk));
+    public ResponseDto<MedicineResponseDto> medicineDetail(@PathVariable("medicineId") Long medicineFk) {
+        return ResponseDto.ok(medicineService.medicineDetail(medicineFk));
     }
 
     @GetMapping("/list")

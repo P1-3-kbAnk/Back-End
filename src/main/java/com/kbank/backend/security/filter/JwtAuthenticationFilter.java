@@ -65,7 +65,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         log.info(request.getRequestURI());
         log.info(String.valueOf(Constant.PUBLIC_URLS.contains(request.getRequestURI())));
-        System.out.println("**********************************************");
         return Constant.PUBLIC_URLS.contains(request.getRequestURI())
                 || request.getRequestURI().startsWith("/guest");
     }
