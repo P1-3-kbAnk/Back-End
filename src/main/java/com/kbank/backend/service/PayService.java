@@ -66,16 +66,54 @@ public class PayService {
 
         return Boolean.TRUE;
     }
+
+    @Transactional
+    public Boolean doctorPayment(Long prescriptionId) {
+
+        // 처방전 ID로 처방전 찾기
+        Prescription prescription = prescriptionRepository.findById(prescriptionId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+        User user=userRepository.findByUserPk(prescription.getPreUser().getUserPk())
+                .orElseThrow(()->new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        // 프론트엔드에서 받은 차감 금액으로 계좌 업데이트
+        Long newAccount = user.getAccount() - 8600L;
+
+        // 계좌가 부족한 경우 예외 발생
+        if (newAccount < 0) {
+            throw new CommonException(ErrorCode.INSUFFICIENT_FUNDS); // 새로운 에러코드 정의 필요
+        }
+
+        // 사용자 계좌 업데이트
+        user.updateAccount(newAccount); // dynamic update
+
+
+        // Firebase 알림 전송
+        String fcmToken = user.getFcmNo();  // 사용자 FCM 토큰
+        String title = "결제가 완료되었습니다";
+        String body = "총 8600원이 결제되었습니다.\n계좌 잔액: " + newAccount + "원";  // 남은 잔액을 엔터로 한 줄 내림
+
+        boolean isNotificationSent = sendFcmMessage(fcmToken, title, body);
+
+
+        // 알림 전송 실패 처리 (원하는 방식으로 처리 가능)
+        if (!isNotificationSent) {
+            System.out.println("알림 전송 실패");
+        }
+
+        return Boolean.TRUE;
+    }
     /**파이어베이스 통신**/
     private boolean sendFcmMessage(String fcmToken, String title, String body) {
         Message message = Message.builder()
                 .setToken(fcmToken)
                 .setNotification(Notification.builder()
-                        .setTitle(title)  // 알림 제목 설정
-                        .setBody(body)    // 알림 내용 설정
+                        .setTitle("방갑다: " + title)  // 알림 제목에 서비스명 포함
+                        .setBody(body)  // 알림 내용 설정
                         .build())
-                .putData("sender", "방갑다")  // 서비스명을 방갑다로 설정
+                .putData("sender", "방갑다")  // 추가 데이터 (앱 내부에서 사용 가능)
                 .build();
+
 
         // 제대로 된 토큰이 아니면 메세지 전송 실패할 수 있음
         try {

@@ -76,9 +76,10 @@ public class FcmService {
         Message message = Message.builder()
                 .setToken(fcmToken)
                 .setNotification(Notification.builder()
-                        .setTitle(title)  // 알림 제목 설정
-                        .setBody(body)    // 알림 내용 설정
+                        .setTitle("방갑다: " + title)  // 알림 제목에 서비스명 포함
+                        .setBody(body)  // 알림 내용 설정
                         .build())
+                .putData("sender", "방갑다")  // 추가 데이터 (앱 내부에서 사용 가능)
                 .build();
         //제대로 된 토큰이 아니면 메세지 전송 실패할 수 있음
         try {
@@ -93,13 +94,13 @@ public class FcmService {
     }
     //5분마다 알람체크
     //로그인 되어 있는 유저id 들어가야 하는데 일단 임시로 넣음
-    @Scheduled(cron = "0 */1 * * * *")  // 매 5분마다 실행
+    @Scheduled(cron = "0 */5 * * * *")  // 매 5분마다 실행
     @Transactional
     public void checkUserAlarms(){
-        synchronized (lock) {
-            System.out.println("schedule run*******");
-            sendNotificationForAllUsers();
-        }
+
+        System.out.println("schedule run*******");
+        sendNotificationForAllUsers();
+
     }
 
 
