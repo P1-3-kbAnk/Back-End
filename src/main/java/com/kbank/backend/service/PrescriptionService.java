@@ -163,7 +163,7 @@ public class PrescriptionService {
         HospitalBill newHospitalBill = HospitalBill.builder()
                 .hospitalBillHospital(doctor.getDoctorHospital())
                 .hospitalBillPrescription(prescription)
-                .totalPrice(10000L)
+                .totalPrice(8600L)
                 .build();
 
         hospitalBillRepository.save(newHospitalBill);

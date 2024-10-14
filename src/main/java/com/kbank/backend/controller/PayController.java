@@ -23,4 +23,12 @@ public class PayController {
         return ResponseDto.ok(payService.payment(prescriptionId,deductedAmount));
     }
 
+    //의사 결제 요청 결제
+    @PatchMapping("/doctor/{prescriptionId}")
+    public ResponseDto<Boolean> doctoerPayment(// 추가된 요청 파라미터
+            @PathVariable(name = "prescriptionId") Long prescriptionId) {
+        return ResponseDto.ok(payService.doctorPayment(prescriptionId));
+    }
+
+
 }
