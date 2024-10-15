@@ -13,6 +13,7 @@ public class Constant {
     public static final List<String> NO_NEED_AUTH_URLS = List.of(
             "/login/oauth2/code/**",
             "/oauth2/authorization/**",
+            "/api/address/**",
 
             "/favicon.ico"
     );

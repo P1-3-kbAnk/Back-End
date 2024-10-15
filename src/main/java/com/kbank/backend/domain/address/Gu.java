@@ -23,13 +23,13 @@ public class Gu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="gu_pk")
-    private long gu_pk;
+    private Long gu_pk;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="gu_si_fk")
     private Si gu_si_fk;
 
-    @Column(name="gu_nm", unique=true, nullable=false)
+    @Column(name="gu_nm", nullable=false)
     private String gu_nm;
 
     @Builder
