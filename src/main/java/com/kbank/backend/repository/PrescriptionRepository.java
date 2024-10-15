@@ -1,6 +1,7 @@
 package com.kbank.backend.repository;
 
 
+import com.kbank.backend.domain.Chemist;
 import com.kbank.backend.domain.Prescription;
 import com.kbank.backend.domain.User;
 import org.springframework.data.domain.Page;
@@ -48,6 +49,17 @@ public interface PrescriptionRepository extends JpaRepository<Prescription,Long>
             "preChemist.chemistPharmacy"
     })
     Page<Prescription> findAllByPreUser(User user, Pageable pageable);
+
+    @EntityGraph(attributePaths = {
+            "preDoctor",
+            "preDoctor.doctorHospital",
+            "preDoctor.doctorHospital.hospitalDong",
+            "preDoctor.doctorHospital.hospitalDong.dong_gu_fk",
+            "preDoctor.doctorHospital.hospitalDong.dong_gu_fk.gu_si_fk",
+            "preChemist",
+            "preChemist.chemistPharmacy"
+    })
+    Page<Prescription> findAllByPreChemist(Chemist chemist, Pageable pageable);
 
     @Query("SELECT COUNT(p) FROM Prescription p WHERE DATE(p.createYmd) = :searchDate")
     Integer findAllByDate(@Param("searchDate") LocalDate searchDate);

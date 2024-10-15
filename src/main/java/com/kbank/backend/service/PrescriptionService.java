@@ -283,6 +283,8 @@ public class PrescriptionService {
 
         return Boolean.TRUE;
     }
+
+    // TODO
     public Boolean setPrescriptionSt(Long id){
         Prescription prescription=prescriptionRepository.findById(id)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRESCRIPTION));
