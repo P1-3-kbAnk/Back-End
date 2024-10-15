@@ -3,7 +3,11 @@ package com.kbank.backend.controller;
 import com.kbank.backend.annotation.UserId;
 import com.kbank.backend.dto.ResponseDto;
 import com.kbank.backend.service.ChemistService;
+import com.kbank.backend.service.PharmacyService;
 import com.kbank.backend.service.PrescriptionService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class PharmacyController {
 
     private final ChemistService chemistService;
+    private final PharmacyService pharmacyService;
     private final PrescriptionService prescriptionService;
 
     @PatchMapping("/prescription/{id}")
@@ -35,11 +40,11 @@ public class PharmacyController {
 //        pharmacyService.updatePrescriptionSt(id);
 //        return ResponseDto.ok("success");
 //    }
-//    @GetMapping("/list/{id}")
-//    public ResponseDto<List<PrescriptionHtmlResponseDto>> receivedPrescription(@RequestParam(name = "userId") Long userId,
-//                                                                               @PathVariable("id") Long id){
-//        List<PrescriptionHtmlResponseDto> prescriptionList = pharmacyService.receivedPrescription(id);
-//        return ResponseDto.ok(prescriptionList);
-//    }
+    @GetMapping("/list")
+    public ResponseDto<?> receivedPrescription(@UserId Long userId,
+                                               @RequestParam(name = "pageIndex") @Valid @NotNull @Min(0) Integer pageIndex,
+                                               @RequestParam(name = "pageSize") @Valid @NotNull @Min(1) Integer pageSize) {
+        return ResponseDto.ok(pharmacyService.getAllPrescriptionList(userId, pageIndex, pageSize));
+    }
 
 }
