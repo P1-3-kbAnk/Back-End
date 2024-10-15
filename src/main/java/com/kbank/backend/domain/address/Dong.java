@@ -22,13 +22,13 @@ public class Dong {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="dong_pk")
-    private long dong_pk;
+    private Long dong_pk;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="dong_gu_fk")
     private Gu dong_gu_fk;
 
-    @Column(name="dong_nm", nullable=false, unique = true)
+    @Column(name="dong_nm", unique = true)
     private String dong_nm;
 
     @Builder
