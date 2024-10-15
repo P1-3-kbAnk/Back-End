@@ -7,6 +7,7 @@ import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.util.List;
 
 
 @Service
+@EnableScheduling
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class FcmService {
 
@@ -48,38 +50,16 @@ public class FcmService {
     }
 
 
-//    /**시간 체크**/
-//    public Boolean sendNotification(Long userId){
-//
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
-//
-//        LocalTime currentTime = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
-//        Boolean timeCheck = false;
-//
-//        if (currentTime.equals(user.getMorningAlarm())) {
-//            sendFcmMessage(user.getFcmNo(), "아침 약 알림", "아침 약 먹을 시간입니다.");
-//            timeCheck = true;
-//        }
-//        if (currentTime.equals(user.getLunchAlarm())) {
-//            sendFcmMessage(user.getFcmNo(), "점심 약 알림", "점심 약 먹을 시간입니다.");
-//            timeCheck = true;
-//        }
-//        if (currentTime.equals(user.getDinnerAlarm())) {
-//            sendFcmMessage(user.getFcmNo(), "저녁 약 알림", "저녁 약 먹을 시간입니다.");
-//            timeCheck = true;
-//        }
-//        return timeCheck;
-//    }
     /**파이어베이스 통신**/
     private boolean sendFcmMessage(String fcmToken,String title,String body){
         Message message = Message.builder()
                 .setToken(fcmToken)
                 .setNotification(Notification.builder()
-                        .setTitle("방갑다: " + title)  // 알림 제목에 서비스명 포함
+                        .setTitle(title)  // 알림 제목 설정
                         .setBody(body)  // 알림 내용 설정
                         .build())
                 .putData("sender", "방갑다")  // 추가 데이터 (앱 내부에서 사용 가능)
+                .putData("service_name", title)  // 서비스명을 추가
                 .build();
         //제대로 된 토큰이 아니면 메세지 전송 실패할 수 있음
         try {

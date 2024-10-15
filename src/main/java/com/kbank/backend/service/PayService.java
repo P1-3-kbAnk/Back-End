@@ -108,10 +108,11 @@ public class PayService {
         Message message = Message.builder()
                 .setToken(fcmToken)
                 .setNotification(Notification.builder()
-                        .setTitle("방갑다: " + title)  // 알림 제목에 서비스명 포함
+                        .setTitle(title)  // 알림 제목 설정
                         .setBody(body)  // 알림 내용 설정
                         .build())
                 .putData("sender", "방갑다")  // 추가 데이터 (앱 내부에서 사용 가능)
+                .putData("service_name", title)  // 서비스명을 추가
                 .build();
 
 
