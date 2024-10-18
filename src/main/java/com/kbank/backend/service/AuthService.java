@@ -50,7 +50,7 @@ public class AuthService {
                 .build();
 
         userRepository.save(newUser);
-        authUser.setRole(Role.USER);
+        authUser.updateRole(Role.USER);
 
         return jwtUtil.generateTokens(authUser.getAuthUserPk(), Role.USER);
     }
@@ -89,7 +89,7 @@ public class AuthService {
                 .build();
 
         doctorRepository.save(newDoctor);
-        authUser.setRole(Role.DOCTOR);
+        authUser.updateRole(Role.DOCTOR);
 
         return jwtUtil.generateTokens(authUser.getAuthUserPk(), Role.DOCTOR);
     }
@@ -126,7 +126,7 @@ public class AuthService {
 
 
         chemistRepository.save(newChemist);
-        authUser.setRole(Role.CHEMIST);
+        authUser.updateRole(Role.CHEMIST);
 
         return jwtUtil.generateTokens(authUser.getAuthUserPk(), Role.CHEMIST);
     }
