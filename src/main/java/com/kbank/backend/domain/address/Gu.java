@@ -13,14 +13,14 @@ public class Gu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "gu_pk")
+    @Column(name = "gu_pk", nullable = false, updatable = false, unique = true)
     private long gu_pk;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gu_si_fk")
     private Si gu_si_fk;
 
-    @Column(name = "gu_nm", unique = true, nullable = false)
+    @Column(name = "gu_nm", unique = true)
     private String gu_nm;
 
     @Builder

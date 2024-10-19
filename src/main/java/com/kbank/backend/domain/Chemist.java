@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 public class Chemist {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // auto_increment 설정
-    @Column(name = "chemist_pk")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "chemist_pk", nullable = false, updatable = false, unique = true)
     private Long chemistPk;
 
     @Column(name = "chemist_nm", nullable = false)
@@ -27,19 +27,19 @@ public class Chemist {
     @Column(name = "chemist_no", nullable = false)
     private String chemistNo;
 
-    @Column(name = "phone_no")
+    @Column(name = "phone_no", nullable = false)
     private String phoneNo;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "chemist_tp")
+    @Column(name = "chemist_tp", nullable = false)
     private Tp tp;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender")
+    @Column(name = "gender", nullable = false)
     private Gender gender;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @Column(name = "create_ymd")
+    @Column(name = "create_ymd", nullable = false)
     private LocalDateTime createYmd;
 
     /* Relation */
@@ -62,4 +62,5 @@ public class Chemist {
         this.createYmd = LocalDateTime.now();
         this.tp = Tp.CHEMIST;
     }
+
 }

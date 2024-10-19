@@ -8,27 +8,27 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="hospital_bill_tb")
+@Table(name = "hospital_bill_tb")
 public class HospitalBill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="hospital_bill_pk")
+    @Column(name = "hospital_bill_pk")
     private Long hospitalBillPk;
 
-    @Column(name="total_price", nullable = false)
+    @Column(name = "total_price", nullable = false)
     private Long totalPrice;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @Column(name = "create_ymd")
+    @Column(name = "create_ymd", nullable = false)
     private LocalDateTime createYmd;
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="hospital_bill_prescription_fk", nullable = false)
+    @JoinColumn(name = "hospital_bill_prescription_fk", nullable = false)
     private Prescription hospitalBillPrescription;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="hospital_bill_hospital_fk", nullable = false)
+    @JoinColumn(name = "hospital_bill_hospital_fk", nullable = false)
     private Hospital hospitalBillHospital;
 
     @Builder
@@ -38,4 +38,5 @@ public class HospitalBill {
         this.hospitalBillHospital = hospitalBillHospital;
         this.createYmd = LocalDateTime.now();
     }
+
 }
