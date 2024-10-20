@@ -12,19 +12,19 @@ import java.time.LocalDateTime;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="injection_intake_tb")
+@Table(name = "injection_intake_tb")
 public class InjectionIntake {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="inj_ink_pk")
-    private long injInkPk;
+    @Column(name = "inj_ink_pk", nullable = false, updatable = false, unique = true)
+    private Long injInkPk;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="meal")
+    @Column(name = "meal", nullable = false)
     private Meal meal;
 
-    @Column(name="eat_st")
+    @Column(name = "eat_st", nullable = false)
     private Boolean eatSt;
 
     @Column(name = "intake_cnt", nullable = false)
@@ -39,11 +39,11 @@ public class InjectionIntake {
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="inj_ink_user_fk")
+    @JoinColumn(name = "inj_ink_user_fk")
     private User injInkUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="inj_ink_injection_fk")
+    @JoinColumn(name = "inj_ink_injection_fk")
     private Injection injInkInjection;
 
     @Builder

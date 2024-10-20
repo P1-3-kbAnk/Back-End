@@ -12,44 +12,44 @@ import java.util.List;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="medicine_tb")
+@Table(name = "medicine_tb")
 public class Medicine {
 
     @Id
-    @Column(name = "medicine_pk")
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가 설정
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "medicine_pk", nullable = false, updatable = false, unique = true)
     private Long medicinePk;
 
-    @Column(name="medicine_nm")
+    @Column(name = "medicine_nm", nullable = false)
     private String medicineNm;
 
-    @Column(name="medicine_cd")
+    @Column(name = "medicine_cd", nullable = false)
     private Long medicineCd;
 
-    @Column(name="price")
+    @Column(name = "price", nullable = false)
     private Long price;
 
-    @Column(name="caution")
+    @Column(name = "caution", nullable = false)
     private String caution;
 
-    @Column(name="side_effect")
+    @Column(name = "side_effect", nullable = false)
     private String sideEffect;
 
-    @Column(name="efficacy")
+    @Column(name = "efficacy", nullable = false)
     private String efficacy;
 
-    @Column(name="unit")
+    @Column(name = "unit", nullable = false)
     private String unit; //용량 단위
 
-    @Enumerated(EnumType.STRING) // EnumType.STRING을 사용하면 문자열로 저장
-    @Column(name="copayment_rate_cd")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "copayment_rate_cd", nullable = false)
     private CopaymentRateCd copaymentRateCd;
 
-    @Enumerated(EnumType.STRING) // EnumType.STRING을 사용하면 문자열로 저장
-    @Column(name = "time")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "time", nullable = false)
     private Time time;
 
-    @Column(name="image_url")
+    @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
     /* Relation */

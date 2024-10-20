@@ -13,21 +13,21 @@ import java.time.LocalDateTime;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="medicine_intake_tb")
+@Table(name = "medicine_intake_tb")
 public class MedicineIntake {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="med_ink_pk")
+    @Column(name = "med_ink_pk", nullable = false, updatable = false, unique = true)
     private Long medInkPk;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="meal", nullable=false)
+    @Column(name = "meal", nullable = false)
     private Meal meal;
 
     @Column(name = "day", nullable = false)
     private LocalDate day;
 
-    @Column(name="eat_st", nullable=false)
+    @Column(name = "eat_st", nullable = false)
     private Boolean eatSt;
 
     @Column(name = "intake_cnt", nullable = false)
@@ -39,11 +39,11 @@ public class MedicineIntake {
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="med_ink_user_fk")
+    @JoinColumn(name = "med_ink_user_fk")
     private User medInkUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="med_ink_medicine_fk")
+    @JoinColumn(name = "med_ink_medicine_fk")
     private Medicine medInkMedicine;
 
     @Builder

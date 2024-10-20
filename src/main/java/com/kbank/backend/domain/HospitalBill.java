@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class HospitalBill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "hospital_bill_pk")
+    @Column(name = "hospital_bill_pk", nullable = false, updatable = false, unique = true)
     private Long hospitalBillPk;
 
     @Column(name = "total_price", nullable = false)
