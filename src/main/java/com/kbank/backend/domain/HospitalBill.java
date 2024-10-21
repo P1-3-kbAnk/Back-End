@@ -3,10 +3,13 @@ package com.kbank.backend.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "hospital_bill_tb")
 public class HospitalBill {
