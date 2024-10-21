@@ -14,7 +14,7 @@ public class Gu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "gu_pk", nullable = false, updatable = false, unique = true)
-    private long gu_pk;
+    private Long gu_pk;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gu_si_fk")

@@ -14,7 +14,7 @@ public class Si {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "si_pk", nullable = false, updatable = false, unique = true) // 마이바티스에선 이게 불필요?
-    private long si_pk; // si_pk 이런식으로 정의 해야함 (마이바티스)
+    private Long si_pk; // si_pk 이런식으로 정의 해야함 (마이바티스)
 
     @Column(name = "si_nm", nullable = false)
     private String si_nm;

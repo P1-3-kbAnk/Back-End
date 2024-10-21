@@ -3,6 +3,7 @@ package com.kbank.backend.controller;
 
 import com.kbank.backend.domain.address.Dong;
 import com.kbank.backend.domain.address.Gu;
+import com.kbank.backend.domain.address.Si;
 import com.kbank.backend.dto.ResponseDto;
 import com.kbank.backend.service.AddressService;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,10 @@ public class AddressController {
     @GetMapping("/get/dong/{name}")
     public ResponseDto<List<Dong>> getDongByGu(@PathVariable("name") String name) {
         return ResponseDto.ok(addressService.getAllDongByGuName(name));
+    }
+
+    @GetMapping("/get/si")
+    public ResponseDto<List<Si>> getAllSi() {
+        return ResponseDto.ok(addressService.getAllSi());
     }
 }
