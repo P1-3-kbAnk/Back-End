@@ -11,37 +11,37 @@ import java.time.LocalDateTime;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="prescription_tb")
+@Table(name = "prescription_tb")
 public class Prescription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "prescription_pk")
+    @Column(name = "prescription_pk", nullable = false, updatable = false, unique = true)
     private Long prescriptionPk;
 
-    @Column(name = "prescription_no")
+    @Column(name = "prescription_no", nullable = false)
     private Integer prescriptionNo;
 
-    @Column(name = "duration")
+    @Column(name = "duration", nullable = false)
     private Integer duration;
 
-    @Column(name = "max_date")
+    @Column(name = "max_date", nullable = false)
     private Integer maxDate;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "prescription_st")
+    @Column(name = "prescription_st", nullable = false)
     private Boolean prescriptionSt;
 
-    @Column(name = "insurance_st")
+    @Column(name = "insurance_st", nullable = false)
     private Boolean insuranceSt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @Column(name = "create_ymd")
+    @Column(name = "create_ymd", nullable = false)
     private LocalDateTime createYmd;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @Column(name = "prescribe_ymd")
+    @Column(name = "prescribe_ymd", nullable = false)
     private LocalDateTime prescribeYmd;
 
     /* Relation */
@@ -71,17 +71,15 @@ public class Prescription {
         this.maxDate = maxDate;
     }
 
+    /* Update */
     public void updatePrescriptionMaxDate(Integer maxDate) {
         this.maxDate = maxDate;
-    }
-
-    public void updatePrescribeYmd() {
-        this.prescribeYmd = LocalDateTime.now();
     }
 
     public void updatePrescriptionSt(Chemist chemist) {
         this.preChemist = chemist;
         this.prescriptionSt = !this.prescriptionSt;
+        this.prescribeYmd = LocalDateTime.now();
     }
 
     public void updateInsuranceSt() {

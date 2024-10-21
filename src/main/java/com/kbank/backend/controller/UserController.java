@@ -5,11 +5,8 @@ import com.kbank.backend.dto.ResponseDto;
 import com.kbank.backend.dto.request.UserRequestDto;
 import com.kbank.backend.dto.response.UserResponseDto;
 import com.kbank.backend.service.FcmService;
-import com.kbank.backend.service.PrescriptionService;
 import com.kbank.backend.service.UserService;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import com.kbank.backend.service.prescription.UserPrescriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final PrescriptionService prescriptionService;
+    private final UserPrescriptionService userPrescriptionService;
     private final UserService userService;
     private final FcmService fcmService;
 
@@ -47,18 +44,6 @@ public class UserController {
 //        return ResponseDto.ok(userService.getUserById(userId));
 //    }
 
-    @GetMapping("/prescription/list")
-    public ResponseDto<?> getAllPrescriptionList(@UserId Long userId,
-                                                 @RequestParam(name = "pageIndex") @Valid @NotNull @Min(0) Integer pageIndex,
-                                                 @RequestParam(name = "pageSize") @Valid @NotNull @Min(1) Integer pageSize) {
-        return ResponseDto.ok(prescriptionService.getAllPrescriptionList(userId, pageIndex, pageSize));
-    }
-
-    // 처방전 상세 조회
-    @GetMapping("/prescription/detail/{id}")
-    public ResponseDto<?> prescriptionDetail(@PathVariable("id") Long prescriptionId) {
-        return ResponseDto.ok(prescriptionService.prescriptionDetail(prescriptionId));
-    }
 
     @PatchMapping("/modify/medicineTime")
     public ResponseDto<Boolean> updateAlarm(@UserId Long userId,
@@ -81,7 +66,7 @@ public class UserController {
 
     @PatchMapping("/prescription/{id}")
     public ResponseDto<Boolean> updatePrescriptionSt(@PathVariable("id") Long prescriptionId) {
-        return ResponseDto.ok(prescriptionService.setPrescriptionSt(prescriptionId));
+        return ResponseDto.ok(userPrescriptionService.setPrescriptionSt(prescriptionId));
     }
 
 }

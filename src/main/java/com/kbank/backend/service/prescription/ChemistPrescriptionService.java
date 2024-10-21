@@ -1,30 +1,35 @@
-package com.kbank.backend.service;
+package com.kbank.backend.service.prescription;
 
 import com.kbank.backend.domain.*;
+import com.kbank.backend.dto.response.*;
 import com.kbank.backend.enumerate.Meal;
 import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.*;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChemistService {
+@RequiredArgsConstructor
+public class ChemistPrescriptionService {
 
-    private final PharmacyRepository pharmacyRepository;
     private final ChemistRepository chemistRepository;
     private final PrescriptionRepository prescriptionRepository;
-    private final MedicineIntakeRepository medicineIntakeRepository;
-    private final InjectionIntakeRepository injectionIntakeRepository;
     private final PrescriptionInjectionRepository prescriptionInjectionRepository;
     private final PrescriptionMedicineRepository prescriptionMedicineRepository;
+    private final PrescriptionDiseaseRepository prescriptionDiseaseRepository;
+    private final MedicineIntakeRepository medicineIntakeRepository;
+    private final InjectionIntakeRepository injectionIntakeRepository;
 
     private void createAndSaveMedicineIntake(Medicine medicine, Meal meal, User user, LocalDate day, Integer intakeCnt) {
         MedicineIntake newMedicineIntake = MedicineIntake.builder()
@@ -48,7 +53,6 @@ public class ChemistService {
         injectionIntakeRepository.save(newInjectionIntake);
     }
 
-    /** 처방 여부 수정 */
     public Boolean updatePrescriptionSt(Long chemistId, Long id) {
         Chemist chemist = chemistRepository.findByChemistWithAuthUserId(chemistId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_CHEMIST));
@@ -126,8 +130,91 @@ public class ChemistService {
         }
 
         prescription.updatePrescriptionSt(chemist);
-        prescription.updatePrescribeYmd();
-
         return Boolean.TRUE;
     }
+
+    /** 전체 리스트 조회 */
+    public Map<String, Object> getAllPrescriptionList(Long userId, Integer pageIndex, Integer pageSize) {
+
+        Chemist chemist = chemistRepository.findByChemistWithAuthUserId(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_CHEMIST));
+
+        Page<Prescription> prescriptionList = prescriptionRepository.findAllByPreChemist(
+                chemist,
+                PageRequest.of(pageIndex, pageSize, Sort.by(
+                        Sort.Order.desc("createYmd")
+                ))
+        );
+        Map<String, Object> result = new HashMap<>();
+        PageInfo pageInfo = PageInfo.builder()
+                .currentPage(prescriptionList.getNumber() + 1)
+                .totalPages(prescriptionList.getTotalPages())
+                .pageSize(prescriptionList.getSize())
+                .currentItems(prescriptionList.getNumberOfElements())
+                .totalItems(prescriptionList.getTotalElements())
+                .build();
+
+        List<PrescriptionSummarizeDto> prescriptionDtoList = prescriptionList.stream()
+                .map(prescription -> {
+                    List<DiseaseResponseDto> diseaseList = prescriptionDiseaseRepository.findByPreDisPrescription(prescription)
+                            .stream()
+                            .map(prescriptionDisease -> DiseaseResponseDto.fromEntity(prescriptionDisease.getPreDisDisease()))
+                            .toList();
+
+                    if (prescription.getPreChemist() == null) {
+                        return PrescriptionSummarizeDto.fromEntity(prescription, diseaseList);
+                    } else {
+                        return PrescriptionSummarizeDto.fromEntityWithPharmacy(prescription, diseaseList);
+                    }
+
+                }).toList();
+
+        result.put("pageInfo", pageInfo);
+        result.put("prescriptionList", prescriptionDtoList);
+
+        return result;
+    }
+
+    /** 지식 + 1
+     * 처방전 상세조회
+     * 대대적 수정 요함
+     * @param prescriptionId  처방전 pk
+     */
+    public Map<String, Object> prescriptionDetail(Long prescriptionId) {
+        Prescription prescription = prescriptionRepository.findPrescriptionByPrescriptionPk(prescriptionId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRESCRIPTION));
+        List<PrescriptionDisease> prescriptionDiseaseList = prescriptionDiseaseRepository.findByPreDisPrescription(prescription);
+        List<PrescriptionInjection> prescriptionInjectionList = prescriptionInjectionRepository.findByPreInjPrescription(prescription);
+        List<PrescriptionMedicine> prescriptionMedicineList = prescriptionMedicineRepository.findByPreMedPrescription(prescription);
+        Map<String, Object> result = new HashMap<>();
+
+        PrescriptionResponseDto prescriptionResponseDto = PrescriptionResponseDto.fromEntity(prescription);
+        List<DiseaseResponseDto> diseaseDtoList = prescriptionDiseaseList.stream()
+                .map(prescriptionDisease -> DiseaseResponseDto.fromEntity(prescriptionDisease.getPreDisDisease()))
+                .toList();
+        List<PrescriptionMedicineResponseDto> prescriptionMedicineDtoList = prescriptionMedicineList.stream()
+                .map(PrescriptionMedicineResponseDto::fromEntity)  // PrescriptionMedicine -> PrescriptionMedicineResponseDto
+                .toList();
+        List<PrescriptionInjectionResponseDto> prescriptionInjectionDtoList=prescriptionInjectionList.stream()
+                .map(PrescriptionInjectionResponseDto::fromEntity)
+                .toList();
+
+        result.put("prescription", prescriptionResponseDto);
+        result.put("diseaseList", diseaseDtoList);
+        result.put("preMedicineList", prescriptionMedicineDtoList);
+        result.put("preInjectionList", prescriptionInjectionDtoList);
+        result.put("user", UserResponseDto.fromEntity(prescription.getPreUser()));
+        result.put("doctor", DoctorResponseDto.fromEntity(prescription.getPreDoctor()));
+        result.put("hospital", HospitalResponseDto.fromEntity(prescription.getPreDoctor().getDoctorHospital()));
+        if (prescription.getPreChemist() != null) {
+            result.put("chemist", ChemistResponseDto.fromEntity(prescription.getPreChemist()));
+            result.put("pharmacy", PharmacyResponseDto.fromEntity(prescription.getPreChemist().getChemistPharmacy()));
+        } else {
+            result.put("chemist", null);
+            result.put("pharmacy", null);
+        }
+
+        return result;
+    }
+
 }

@@ -8,18 +8,18 @@ import org.hibernate.annotations.DynamicUpdate;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="disease_tb")
+@Table(name = "disease_tb")
 public class Disease {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="disease_pk")
+    @Column(name = "disease_pk", nullable = false, updatable = false, unique = true)
     private Long diseasePk;
 
-    @Column(name="disease_cd", nullable = false)
+    @Column(name = "disease_cd", nullable = false)
     private String diseaseCd;
 
-    @Column(name="disease_nm", nullable = false)
+    @Column(name = "disease_nm", nullable = false)
     private String diseaseNm;
 
     @Builder
@@ -27,4 +27,5 @@ public class Disease {
         this.diseaseCd = diseaseCd;
         this.diseaseNm = diseaseNm;
     }
+
 }

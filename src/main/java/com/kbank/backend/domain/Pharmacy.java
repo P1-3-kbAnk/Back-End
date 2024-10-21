@@ -12,11 +12,11 @@ import java.util.UUID;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="pharmacy_tb")
+@Table(name = "pharmacy_tb")
 public class Pharmacy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pharmacy_pk")
+    @Column(name = "pharmacy_pk", nullable = false, updatable = false, unique = true)
     private Long pharmacyPk;
 
     @Column(name = "pharmacy_nm", nullable = false)
@@ -25,17 +25,17 @@ public class Pharmacy {
     @Column(name = "phone_no", nullable = false)
     private String phoneNo;  // 전화번호
 
-    @Column(name = "fax_no")
+    @Column(name = "fax_no", nullable = false)
     private String faxNo;  // 팩스번호
 
     @Column(name = "pharmacy_no", unique = true)
     private Long pharmacyNo;
 
-    @Column(name = "detail_address")
+    @Column(name = "detail_address", nullable = false)
     private String detailAddress;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @Column(name = "create_ymd")
+    @Column(name = "create_ymd", nullable = false)
     private LocalDateTime createYmd;
 
     /* Relation */

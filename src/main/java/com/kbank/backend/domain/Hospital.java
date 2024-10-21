@@ -13,35 +13,35 @@ import java.util.UUID;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="hospital_tb")
+@Table(name = "hospital_tb")
 public class Hospital {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="hospital_pk")
+    @Column(name = "hospital_pk", nullable = false, updatable = false, unique = true)
     private Long hospitalPk;
 
-    @Column(name="hospital_nm", nullable=false)
+    @Column(name = "hospital_nm", nullable = false)
     private String hospitalNm;
 
-    @Column(name="phone_no", nullable=false)
+    @Column(name = "phone_no", nullable = false)
     private String phoneNo;
 
-    @Column(name = "hospital_no", nullable=false, unique = true)
+    @Column(name = "hospital_no", nullable = false, unique = true)
     private Long hospitalNo;
 
-    @Column(name = "fax_no")
+    @Column(name = "fax_no", nullable = false)
     private String faxNo;
 
-    @Column(name = "detail_address")
+    @Column(name = "detail_address", nullable = false)
     private String detailAddress;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @Column(name = "create_ymd")
+    @Column(name = "create_ymd", nullable = false)
     private LocalDateTime createYmd;
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="hospital_dong_fk")
+    @JoinColumn(name = "hospital_dong_fk")
     private Dong hospitalDong;
 
     @Builder

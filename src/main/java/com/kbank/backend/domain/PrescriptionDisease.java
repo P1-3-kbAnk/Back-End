@@ -11,25 +11,25 @@ import java.time.LocalDateTime;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="prescription_disease_tb")
+@Table(name = "prescription_disease_tb")
 public class PrescriptionDisease {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="pre_dis_pk")
+    @Column(name = "pre_dis_pk", nullable = false, updatable = false, unique = true)
     private Long preDisPk;
 
-    @Column(name = "create_ymd", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(name = "create_ymd", nullable = false)
     private LocalDateTime createYmd;
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="pre_dis_prescription_fk")
+    @JoinColumn(name = "pre_dis_prescription_fk")
     private Prescription preDisPrescription;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="pre_dis_disease_fk")
+    @JoinColumn(name = "pre_dis_disease_fk")
     private Disease preDisDisease;
 
     @Builder

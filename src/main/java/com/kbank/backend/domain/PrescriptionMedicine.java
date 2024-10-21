@@ -10,33 +10,33 @@ import java.time.LocalDateTime;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="prescription_medicine_tb")
+@Table(name = "prescription_medicine_tb")
 public class PrescriptionMedicine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="pre_med_pk")
+    @Column(name = "pre_med_pk", nullable = false, updatable = false, unique = true)
     private Long preMedPk;
 
-    @Column(name ="medicine_nm")
+    @Column(name = "medicine_nm", nullable = false)
     private String medicineNm;
 
-    @Column(name="dose_per_morning")
+    @Column(name = "dose_per_morning", nullable = false)
     private Integer dosePerMorning;
 
-    @Column(name="dose_per_lunch")
+    @Column(name = "dose_per_lunch", nullable = false)
     private Integer dosePerLunch;
 
-    @Column(name="dose_pre_dinner")
+    @Column(name = "dose_pre_dinner", nullable = false)
     private Integer dosePerDinner;
 
-    @Column(name="method")
+    @Column(name = "method", nullable = false)
     private String method;
 
-    @Column(name="total_day")
+    @Column(name = "total_day", nullable = false)
     private Integer totalDay;
 
-    @Column(name="day_cnt")
+    @Column(name = "day_cnt", nullable = false)
     private Integer dayCnt;
 
     @Column(name = "create_ymd", nullable = false)
@@ -63,7 +63,7 @@ public class PrescriptionMedicine {
         this.preMedPrescription = preMedPrescription;
         this.preMedMedicine = preMedMedicine;
         this.createYmd = LocalDateTime.now();
-        this.dayCnt=dayCnt;
+        this.dayCnt = dayCnt;
     }
 
 }

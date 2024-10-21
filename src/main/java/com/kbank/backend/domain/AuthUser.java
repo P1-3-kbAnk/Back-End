@@ -16,22 +16,23 @@ import java.time.LocalDateTime;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="auth_user_tb")
+@Table(name = "auth_user_tb")
 public class AuthUser {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="auth_user_pk", nullable = false, updatable = false, unique = true)
+    @Column(name = "auth_user_pk", nullable = false, updatable = false, unique = true)
     private Long authUserPk;
 
-    @Column(name="provider", nullable = false)
+    @Column(name = "provider", nullable = false)
     @Enumerated(EnumType.STRING)
     private Provider provider;
 
-    @Column(name="social_id", nullable = false)
+    @Column(name = "social_id", nullable = false)
     private String socialId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="role", nullable = false)
+    @Column(name = "role", nullable = false)
     private Role role;
 
     @Column(name = "create_ymd", nullable = false)
@@ -46,7 +47,8 @@ public class AuthUser {
         this.createYmd = LocalDateTime.now();
     }
 
-    public void setRole(Role role) {
+    public void updateRole(Role role) {
         this.role = role;
     }
+
 }

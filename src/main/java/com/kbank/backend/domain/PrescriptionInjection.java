@@ -11,45 +11,45 @@ import java.time.LocalDateTime;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="prescription_injection_tb")
+@Table(name = "prescription_injection_tb")
 public class PrescriptionInjection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="pre_inj_pk")
+    @Column(name = "pre_inj_pk", nullable = false, updatable = false, unique = true)
     private Long preInjPk;
 
-    @Column(name="total_days")
+    @Column(name = "total_days", nullable = false)
     private Integer totalDay;
 
     @Column(name = "create_ymd", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createYmd;
 
-    @Column(name="dose_per_morning")
+    @Column(name = "dose_per_morning", nullable = false)
     private Integer dosePerMorning;
 
-    @Column(name="dose_per_lunch")
+    @Column(name = "dose_per_lunch", nullable = false)
     private Integer dosePerLunch;
 
-    @Column(name="dose_per_dinner")
+    @Column(name = "dose_per_dinner", nullable = false)
     private Integer dosePerDinner;
 
-    @Column(name="method")
+    @Column(name = "method", nullable = false)
     private String method;
 
-    @Column(name ="injection_nm")
+    @Column(name = "injection_nm", nullable = false)
     private String injectionNm;
 
-    @Column(name="day_cnt")
+    @Column(name = "day_cnt", nullable = false)
     private Integer dayCnt;
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="pre_inj_prescription_fk")
+    @JoinColumn(name = "pre_inj_prescription_fk")
     private Prescription preInjPrescription;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="pre_inj_injection_fk")
+    @JoinColumn(name = "pre_inj_injection_fk")
     private Injection preInjInjection;
 
     @Builder
@@ -62,7 +62,7 @@ public class PrescriptionInjection {
         this.injectionNm = injectionNm;
         this.preInjPrescription = preInjPrescription;
         this.preInjInjection = preInjInjection;
-        this.createYmd=LocalDateTime.now();
-        this.dayCnt=dayCnt;
+        this.createYmd = LocalDateTime.now();
+        this.dayCnt = dayCnt;
     }
 }

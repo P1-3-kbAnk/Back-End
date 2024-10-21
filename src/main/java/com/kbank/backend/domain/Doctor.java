@@ -12,33 +12,33 @@ import java.time.LocalDateTime;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="doctor_tb")
+@Table(name = "doctor_tb")
 public class Doctor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "doctor_pk")
+    @Column(name = "doctor_pk", nullable = false, updatable = false, unique = true)
     private Long doctorPk;
 
-    @Column(name = "doctor_nm")
+    @Column(name = "doctor_nm", nullable = false)
     private String doctorNm;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "doctor_tp")
+    @Column(name = "doctor_tp", nullable = false)
     private Tp tp;
 
-    @Column(name = "doctor_no")
+    @Column(name = "doctor_no", nullable = false)
     private String doctorNo;
 
-    @Column(name = "phone_no")
+    @Column(name = "phone_no", nullable = false)
     private String phoneNo;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender")
+    @Column(name = "gender", nullable = false)
     private Gender gender;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @Column(name = "create_ymd")
+    @Column(name = "create_ymd", nullable = false)
     private LocalDateTime createYmd;
 
     /* Relation */
@@ -61,4 +61,5 @@ public class Doctor {
         this.doctorHospital = doctorHospital;
         this.createYmd = LocalDateTime.now();
     }
+
 }

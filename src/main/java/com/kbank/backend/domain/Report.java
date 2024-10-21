@@ -12,31 +12,31 @@ import java.time.LocalDateTime;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="report_tb")
+@Table(name = "report_tb")
 public class Report {
 
     /* Field */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="report_pk")
+    @Column(name = "report_pk", nullable = false, updatable = false, unique = true)
     private Long reportPk;
 
-    @Column(name="intake_method", nullable = false)
+    @Column(name = "intake_method", nullable = false)
     private String intakeMethod;
 
-    @Column(name="exercise", nullable = false)
+    @Column(name = "exercise", nullable = false)
     private String exercise;
 
-    @Column(name="food", nullable = false)
+    @Column(name = "food", nullable = false)
     private String food;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @Column(name = "create_ymd")
+    @Column(name = "create_ymd", nullable = false)
     private LocalDateTime createYmd;
 
     /* Relation */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="report_prescription_fk")
+    @JoinColumn(name = "report_prescription_fk", nullable = false)
     private Prescription reportPrescription;
 
     @Builder

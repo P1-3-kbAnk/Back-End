@@ -15,55 +15,55 @@ import java.util.List;
 @Entity
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="user_tb")
+@Table(name = "user_tb")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_pk", nullable = false, updatable = false, unique = true)
     private Long userPk;
 
-    @Column(name = "user_nm")
+    @Column(name = "user_nm", nullable = false)
     private String userNm;
 
-    @Column(name = "phone_no")
+    @Column(name = "phone_no", nullable = false)
     private String phoneNo;
 
-    @Column(name = "gender")
+    @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(name = "first_no")
+    @Column(name = "first_no", nullable = false)
     private String firstNo;
 
-    @Column(name = "last_no")
+    @Column(name = "last_no", nullable = false)
     private String lastNo;
 
-    @Column(name = "bank_nm")
+    @Column(name = "bank_nm", nullable = false)
     private String bankNm;
 
-    @Column(name = "account")
+    @Column(name = "account", nullable = false)
     private long account;
 
-    @Column(name = "account_no")
+    @Column(name = "account_no", nullable = false)
     private String accountNo;
 
-    @Column(name = "account_pw")
+    @Column(name = "account_pw", nullable = false)
     private String accountPw;
 
-    @Column(name = "morning_alarm")
+    @Column(name = "morning_alarm", nullable = false)
     private LocalTime morningAlarm;
 
-    @Column(name = "lunch_alarm")
+    @Column(name = "lunch_alarm", nullable = false)
     private LocalTime lunchAlarm;
 
-    @Column(name = "dinner_alarm")
+    @Column(name = "dinner_alarm", nullable = false)
     private LocalTime dinnerAlarm;
 
     @Column(name = "create_ymd", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createYmd;
 
-    @Column(name = "fcm_no")
+    @Column(name = "fcm_no", nullable = false)
     private String fcmNo;
 
     /* Relation */

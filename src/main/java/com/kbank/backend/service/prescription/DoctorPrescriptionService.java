@@ -1,4 +1,4 @@
-package com.kbank.backend.service;
+package com.kbank.backend.service.prescription;
 
 import com.kbank.backend.domain.*;
 import com.kbank.backend.dto.request.InjectionIntakeInfoRequestDto;
@@ -9,9 +9,6 @@ import com.kbank.backend.exception.CommonException;
 import com.kbank.backend.exception.ErrorCode;
 import com.kbank.backend.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,14 +21,14 @@ import java.util.Map;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class PrescriptionService {
+public class DoctorPrescriptionService {
 
-    private final PrescriptionRepository prescriptionRepository;
     private final DoctorRepository doctorRepository;
     private final UserRepository userRepository;
     private final DiseaseRepository diseaseRepository;
     private final InjectionRepository injectionRepository;
     private final MedicineRepository medicineRepository;
+    private final PrescriptionRepository prescriptionRepository;
     private final PrescriptionInjectionRepository prescriptionInjectionRepository;
     private final PrescriptionMedicineRepository prescriptionMedicineRepository;
     private final PrescriptionDiseaseRepository prescriptionDiseaseRepository;
@@ -45,9 +42,9 @@ public class PrescriptionService {
         Doctor doctor = doctorRepository.findByIdWithHospital(doctorId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_DOCTOR));
         User user = userRepository.findUserByUserNmAndFirstNoAndLastNo(
-                    prescriptionRequestDto.getUserNm(),
-                    prescriptionRequestDto.getFirstNo(),
-                    prescriptionRequestDto.getLastNo()
+                        prescriptionRequestDto.getUserNm(),
+                        prescriptionRequestDto.getFirstNo(),
+                        prescriptionRequestDto.getLastNo()
                 )
                 .orElseThrow(() ->new CommonException(ErrorCode.NOT_FOUND_USER));
         Integer prescriptionNo = prescriptionRepository.findAllByDate(LocalDate.now());
@@ -169,48 +166,6 @@ public class PrescriptionService {
         hospitalBillRepository.save(newHospitalBill);
 
         return prescription.getPrescriptionPk();
-    }
-
-    /** 전체 리스트 조회 */
-    public Map<String, Object> getAllPrescriptionList(Long userId, Integer pageIndex, Integer pageSize) {
-
-        User user = userRepository.findByUserWithAuthUserId(userId)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
-        Page<Prescription> prescriptionList = prescriptionRepository.findAllByPreUser(
-                user,
-                PageRequest.of(pageIndex, pageSize, Sort.by(
-                        Sort.Order.asc("prescriptionSt"),
-                        Sort.Order.desc("createYmd")
-                ))
-        );
-        Map<String, Object> result = new HashMap<>();
-        PageInfo pageInfo = PageInfo.builder()
-                .currentPage(prescriptionList.getNumber() + 1)
-                .totalPages(prescriptionList.getTotalPages())
-                .pageSize(prescriptionList.getSize())
-                .currentItems(prescriptionList.getNumberOfElements())
-                .totalItems(prescriptionList.getTotalElements())
-                .build();
-
-        List<PrescriptionSummarizeDto> prescriptionDtoList = prescriptionList.stream()
-                .map(prescription -> {
-                      List<DiseaseResponseDto> diseaseList = prescriptionDiseaseRepository.findByPreDisPrescription(prescription)
-                            .stream()
-                            .map(prescriptionDisease -> DiseaseResponseDto.fromEntity(prescriptionDisease.getPreDisDisease()))
-                            .toList();
-
-                    if (prescription.getPreChemist() == null) {
-                        return PrescriptionSummarizeDto.fromEntity(prescription, diseaseList);
-                    } else {
-                        return PrescriptionSummarizeDto.fromEntityWithPharmacy(prescription, diseaseList);
-                    }
-
-                }).toList();
-
-        result.put("pageInfo", pageInfo);
-        result.put("prescriptionList", prescriptionDtoList);
-
-        return result;
     }
 
     /** 처방 안 받은 리스트 조회 */
