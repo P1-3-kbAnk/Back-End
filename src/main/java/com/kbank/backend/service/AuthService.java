@@ -55,7 +55,6 @@ public class AuthService {
         return jwtUtil.generateTokens(authUser.getAuthUserPk(), Role.USER);
     }
 
-    @Transactional
     public JwtTokenDto createDoctor(Long userId, DoctorRequestDto doctorRequestDto) {
 
         AuthUser authUser = authUserRepository.findById(userId).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
@@ -94,7 +93,6 @@ public class AuthService {
         return jwtUtil.generateTokens(authUser.getAuthUserPk(), Role.DOCTOR);
     }
 
-    @Transactional
     public JwtTokenDto createChemist(Long userId, ChemistRequestDto chemistRequestDto) {
 
         AuthUser authUser = authUserRepository.findById(userId).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));

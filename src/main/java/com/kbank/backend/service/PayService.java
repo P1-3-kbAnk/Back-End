@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class PayService {
 
@@ -22,7 +23,6 @@ public class PayService {
     private final PrescriptionMedicineRepository prescriptionMedicineRepository;
     private final PharmacyBillRepository pharmacyBillRepository;
 
-    @Transactional
     public Boolean payment(Long prescriptionId, Long deductedAmount) {
 
         // 처방전 ID로 처방전 찾기
@@ -67,7 +67,6 @@ public class PayService {
         return Boolean.TRUE;
     }
 
-    @Transactional
     public Boolean doctorPayment(Long prescriptionId) {
 
         // 처방전 ID로 처방전 찾기
@@ -127,9 +126,5 @@ public class PayService {
             return Boolean.FALSE;
         }
     }
-
-
-
-
 
 }
