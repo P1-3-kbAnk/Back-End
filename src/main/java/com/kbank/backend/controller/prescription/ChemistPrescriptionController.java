@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/chemists/prescription")
+@RequestMapping("/api/v1/chemists/prescriptions")
 @RequiredArgsConstructor
 public class ChemistPrescriptionController {
 
@@ -21,7 +21,7 @@ public class ChemistPrescriptionController {
         return ResponseDto.ok(chemistPrescriptionService.prescriptionDetail(prescriptionId));
     }
 
-    @GetMapping("/list")
+    @GetMapping("")
     public ResponseDto<?> receivedPrescription(@UserId Long userId,
                                                @RequestParam(name = "pageIndex") @Valid @NotNull @Min(0) Integer pageIndex,
                                                @RequestParam(name = "pageSize") @Valid @NotNull @Min(1) Integer pageSize) {

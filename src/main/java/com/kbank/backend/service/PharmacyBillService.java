@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class PharmacyBillService {
 
@@ -19,7 +20,6 @@ public class PharmacyBillService {
     //생성 생략 -> 처방전에서 생성
 
     // 처방전 ID로  pharmacyBill 조회
-    @Transactional
     public PharmacyBillResponseDto getBillByPrescription(Long prescriptionId) {
 
         PharmacyBill pharmacyBill = pharmacyBillRepository

@@ -15,36 +15,31 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class InjectionIntakeService {
 
     private final UserRepository userRepository;
     private final InjectionIntakeRepository injectionIntakeRepository;
 
-    // 날짜(2024-10-5)를 받아서 조회
-    @Transactional
     public Map<String, Object> getInjectionIntakeByDate(Long userPk, LocalDate date) {
 
         List<InjectionIntake> injectionIntakeList = injectionIntakeRepository
                 .findByInjInkUserAndDay(
-                        userRepository.findByUserWithAuthUserId(userPk).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER)),
+                        userRepository.findByUserWithAuthUserId(userPk)
+                                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER)),
                         date
                 );
-
-        List<InjectionIntakeResponseDto> injectionIntakeResponseDtoList = new ArrayList<>();
-
-        injectionIntakeList.forEach(injectionIntake -> {
-            injectionIntakeResponseDtoList.add(InjectionIntakeResponseDto.fromEntity(injectionIntake));
-        });
+        List<InjectionIntakeResponseDto> injectionIntakeResponseDtoList = injectionIntakeList.stream()
+                .map(InjectionIntakeResponseDto::fromEntity)
+                .toList();
 
         Map<String, Object> response = new HashMap<>();
-
         response.put("injectionIntakeList", injectionIntakeResponseDtoList);
 
         return response;
     }
 
-    // 복용 여부(EatSt)만 업데이트
     public Boolean updateEatSt(Long injInkPk) {
         InjectionIntake injectionIntake = injectionIntakeRepository.findById(injInkPk)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
@@ -55,16 +50,3 @@ public class InjectionIntakeService {
     }
 
 }
-//    public List<InjectionIntake> getAllByUser(User user) {
-//        return InjectionIntakeRepository.findByInjInkUser(user);
-//    }
-//
-//    public void create(User user, Injection injection, Meal meal) {
-//
-//        repository.save(InjectionIntake
-//                .builder()
-//                        .injInkUser(user)
-//                        .injInkInjection(injection)
-//                        .meal(meal)
-//                .build());
-//    }

@@ -12,12 +12,12 @@ import java.util.*;
 
 // 수정 요함
 @Service
+@Transactional
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class DiseaseService {
 
     private final DiseaseRepository diseaseRepository;
 
-    @Transactional
     public Map<String, Object> getDiseaseList() {
         Map<String, Object> result = new HashMap<>();
 
