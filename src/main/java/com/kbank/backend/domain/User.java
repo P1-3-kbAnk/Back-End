@@ -42,7 +42,7 @@ public class User {
     private String bankNm;
 
     @Column(name = "account", nullable = false)
-    private long account;
+    private Long account;
 
     @Column(name = "account_no", nullable = false)
     private String accountNo;
@@ -83,7 +83,7 @@ public class User {
         this.firstNo = firstNo;
         this.lastNo = lastNo;
         this.bankNm = bankNm;
-        this.account = 1000000000;
+        this.account = 1000000000L;
         this.accountNo = accountNo;
         this.accountPw = accountPw;
         this.morningAlarm = LocalTime.of(9,0);

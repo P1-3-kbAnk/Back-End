@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/patient/prescription")
+@RequestMapping("/api/patient/prescriptions")
 @RequiredArgsConstructor
 public class PharmacyBillController {
 

@@ -57,8 +57,11 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
                         .requestMatchers("api/auth/**").permitAll()
+                        .requestMatchers("api/address/**").permitAll()
                         .requestMatchers(Constant.NO_NEED_AUTH_URLS.toArray(String[]::new)).permitAll()
                         .requestMatchers("api/v1/users/**").hasAnyRole((Role.USER.toString()), Role.ADMIN.toString())
+                        .requestMatchers("api/v1/doctors/**").hasAnyRole((Role.DOCTOR.toString()), Role.ADMIN.toString())
+                        .requestMatchers("api/v1/chemists/**").hasAnyRole((Role.CHEMIST.toString()), Role.ADMIN.toString())
                         .requestMatchers("api/v1/admin/**").hasRole(Role.ADMIN.toString())
                         .anyRequest().authenticated())
                 .oauth2Login(

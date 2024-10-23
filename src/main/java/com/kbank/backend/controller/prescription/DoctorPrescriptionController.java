@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/doctors/prescription")
+@RequestMapping("/api/v1/doctors/prescriptions")
 @RequiredArgsConstructor
 public class DoctorPrescriptionController {
 
